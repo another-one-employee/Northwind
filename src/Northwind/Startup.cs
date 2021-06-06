@@ -19,7 +19,7 @@ namespace Northwind
 
         public void ConfigureServices(IServiceCollection services)
         {
-            string connection = "Server=(localdb)\\mssqllocaldb;Database=Northwind;Trusted_Connection=True;";
+            string connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<NorthwindDataContext>(options =>
                 options.UseSqlServer(connection));
             services.AddControllersWithViews();
