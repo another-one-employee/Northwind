@@ -1,0 +1,13 @@
+﻿@model IEnumerable<Category>
+@{
+    ViewData["Title"] = "Categories list:";
+}
+<h2>@ViewData["Title"]</h2>
+
+@foreach (var category in Model)
+{
+    <dl>
+        <dt>@category.CategoryName</dt>
+        <dd>• @category.Description</dd>
+    </dl>
+}
