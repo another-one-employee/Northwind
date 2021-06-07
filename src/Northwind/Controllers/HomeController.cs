@@ -28,17 +28,19 @@ namespace Northwind.Controllers
             return View(categories);
         }
 
-        public IActionResult Products()
+        public async Task<IActionResult> Products()
         {
             int amount = _configuration.GetValue<int>("MaximumAmmountOfProducts");
-
-            var products =  _db.Products
+            var products = _db.Products
                 .Include(s => s.Supplier)
-                .Include(c => c.Category)
-                .ToList()
-                .TakeWhile((p, i) => i < amount || amount == 0);
+                .Include(c => c.Category);
 
-            return View(products);
+            if (amount == 0)
+            {
+                return View(await products.ToListAsync());
+            }
+
+            return View(await products.Take(amount).ToListAsync());
         }
     }
 }
