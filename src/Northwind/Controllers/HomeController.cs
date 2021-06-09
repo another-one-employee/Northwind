@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Northwind.Models;
@@ -41,6 +42,63 @@ namespace Northwind.Controllers
             }
 
             return View(await products.Take(amount).ToListAsync());
+        }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            ViewBag.Suppliers = new SelectList(_db.Suppliers, "SupplierID", "CompanyName");
+            ViewBag.Categories = new SelectList(_db.Categories, "CategoryID", "CategoryName");
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(Product product)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.Add(product);
+                await _db.SaveChangesAsync();
+
+                return RedirectToAction("Products");
+            }
+            else
+            {
+                return View(product);
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id != null)
+            {
+                Product product = await _db.Products.FirstOrDefaultAsync(p => p.ProductID == id);
+                if (product != null)
+                {
+                    ViewBag.Suppliers = new SelectList(_db.Suppliers, "SupplierID", "CompanyName");
+                    ViewBag.Categories = new SelectList(_db.Categories, "CategoryID", "CategoryName");
+                    return View(product);
+                }
+            }
+
+            return NotFound();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(Product product)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.Products.Update(product);
+                await _db.SaveChangesAsync();
+
+                return RedirectToAction("Products");
+            }
+            else
+            {
+                return View(product);
+            }
         }
     }
 }
