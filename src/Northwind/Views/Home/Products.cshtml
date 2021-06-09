@@ -1,11 +1,10 @@
 ﻿@model IEnumerable<Product>
-@{
-    ViewData["Title"] = "Products table:";
-}
-<h2>@ViewData["Title"]</h2>
+
+<a asp-action="Create" asp-controller="Home" class="btn btn-primary">Create new product</a>
 
 <table>
     <tr>
+        <td/>
         <th>Name</th>
         <th>Supplier</th>
         <th>Category</th>
@@ -19,6 +18,9 @@
 @foreach (var product in Model)
 {
     <tr>
+        <td>
+            <a asp-action="Edit" asp-controller="Home" asp-route-id="@product.ProductID" class="btn btn-outline-secondary">Edit</a>
+        </td>
         <td>@product.ProductName</td>
         <td>@product.Supplier.CompanyName</td>
         <td>@product.Category.CategoryName</td>
