@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Northwind.Models;
 
 namespace Northwind
@@ -25,8 +26,13 @@ namespace Northwind
             services.AddControllersWithViews();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(
+            IApplicationBuilder app, 
+            IWebHostEnvironment env,
+            ILoggerFactory loggerFactory)
         {
+            LoggingSetup(loggerFactory, Configuration);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -47,6 +53,18 @@ namespace Northwind
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+        }
+
+        private static void LoggingSetup(ILoggerFactory loggerFactory, IConfiguration configuration)
+        {
+            loggerFactory.AddFile(configuration.GetSection("Logging"));
+
+            var logger = loggerFactory.CreateLogger<Startup>();
+
+            foreach (var config in configuration.GetChildren())
+            {
+                logger.LogInformation($"{config.Key, -35} : {config.Value}");
+            }
         }
     }
 }
