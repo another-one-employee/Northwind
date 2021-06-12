@@ -27,7 +27,7 @@ namespace Northwind
         }
 
         public void Configure(
-            IApplicationBuilder app, 
+            IApplicationBuilder app,
             IWebHostEnvironment env,
             ILoggerFactory loggerFactory)
         {
@@ -39,6 +39,7 @@ namespace Northwind
             }
             else
             {
+                app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
 

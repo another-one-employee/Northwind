@@ -1,8 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Northwind.Models;
+using Northwind.Models.HomeViewModels;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,11 +17,16 @@ namespace Northwind.Controllers
     {
         private readonly NorthwindDataContext _db;
         private readonly IConfiguration _configuration;
+        private readonly ILogger<ErrorViewModel> _loggerOfErrors;
 
-        public HomeController(NorthwindDataContext db, IConfiguration configuration)
+        public HomeController(
+            NorthwindDataContext db,
+            IConfiguration configuration,
+            ILogger<ErrorViewModel> loggerOfErrors)
         {
             _db = db;
             _configuration = configuration;
+            _loggerOfErrors = loggerOfErrors;
         }
         public IActionResult Index()
         {
@@ -99,6 +109,22 @@ namespace Northwind.Controllers
             {
                 return View(product);
             }
+        }
+
+        public IActionResult Error()
+        {
+            var errorModel = new ErrorViewModel()
+            { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier };
+
+            var error = HttpContext.Features.Get<IExceptionHandlerFeature>().Error;
+
+            if (error != null)
+            {
+                errorModel.ExceptionMessage = error.Message;
+                _loggerOfErrors.LogError(errorModel.ExceptionMessage);
+            }
+
+            return View(errorModel);
         }
     }
 }
