@@ -116,7 +116,7 @@ namespace Northwind.Controllers
             var errorModel = new ErrorViewModel()
             { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier };
 
-            var error = HttpContext.Features.Get<IExceptionHandlerFeature>().Error;
+            Exception? error = HttpContext.Features.Get<IExceptionHandlerFeature>()?.Error;
 
             if (error != null)
             {
