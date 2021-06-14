@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Northwind.Models;
+using Northwind.Data.Models;
 
 namespace Northwind
 {
@@ -64,7 +64,7 @@ namespace Northwind
 
             foreach (var config in configuration.GetChildren())
             {
-                logger.LogInformation($"{config.Key, -35} : {config.Value}");
+                logger.LogInformation($"{config.Key,-35} : {config.Value}");
             }
         }
     }

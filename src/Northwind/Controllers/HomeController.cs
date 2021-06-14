@@ -1,12 +1,13 @@
-﻿using System;
-using Microsoft.AspNetCore.Diagnostics;
+﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Northwind.Data.Models;
 using Northwind.Models;
 using Northwind.Models.HomeViewModels;
+using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -116,8 +117,9 @@ namespace Northwind.Controllers
             var errorModel = new ErrorViewModel()
             { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier };
 
+#nullable enable
             Exception? error = HttpContext.Features.Get<IExceptionHandlerFeature>()?.Error;
-
+#nullable disable
             if (error != null)
             {
                 errorModel.ExceptionMessage = error.Message;

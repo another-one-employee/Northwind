@@ -4,7 +4,7 @@
 
 <table>
     <tr>
-        <td/>
+        <td />
         <th>Name</th>
         <th>Supplier</th>
         <th>Category</th>
@@ -15,21 +15,21 @@
         <th>Reorder level</th>
         <th>Discontinued</th>
     </tr>
-@foreach (var product in Model)
-{
-    <tr>
-        <td>
-            <a asp-action="Edit" asp-controller="Home" asp-route-id="@product.ProductID" class="btn btn-outline-secondary">Edit</a>
-        </td>
-        <td>@product.ProductName</td>
-        <td>@product.Supplier.CompanyName</td>
-        <td>@product.Category.CategoryName</td>
-        <td>@product.QuantityPerUnit</td>
-        <td>@product.UnitPrice</td>
-        <td>@product.UnitsInStock</td>
-        <td>@product.UnitsOnOrder</td>
-        <td>@product.ReorderLevel</td>
-        <td>@product.Discontinued</td>
-    </tr>
-}
+    @foreach (var product in Model)
+    {
+        <tr>
+            <td>
+                <a asp-action="Edit" asp-controller="Home" asp-route-id="@product.ProductID" class="btn btn-outline-secondary">Edit</a>
+            </td>
+            <td>@product.ProductName</td>
+            <td>@product.Supplier.CompanyName</td>
+            <td>@product.Category.CategoryName</td>
+            <td>@product.QuantityPerUnit</td>
+            <td>@product.UnitPrice</td>
+            <td>@product.UnitsInStock</td>
+            <td>@product.UnitsOnOrder</td>
+            <td>@product.ReorderLevel</td>
+            <td>@product.Discontinued</td>
+        </tr>
+    }
 </table>
