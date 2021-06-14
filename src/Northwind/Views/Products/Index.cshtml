@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<Product>
 
-<a asp-action="Create" asp-controller="Home" class="btn btn-primary">Create new product</a>
+<a asp-action="Create" class="btn btn-primary">Create new product</a>
 
 <table>
     <tr>
@@ -19,7 +19,7 @@
     {
         <tr>
             <td>
-                <a asp-action="Edit" asp-controller="Home" asp-route-id="@product.ProductID" class="btn btn-outline-secondary">Edit</a>
+                <a asp-action="Edit" asp-route-id="@product.ProductID" class="btn btn-outline-secondary">Edit</a>
             </td>
             <td>@product.ProductName</td>
             <td>@product.Supplier.CompanyName</td>
