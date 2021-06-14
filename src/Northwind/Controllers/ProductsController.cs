@@ -40,8 +40,7 @@ namespace Northwind.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            ViewBag.Suppliers = new SelectList(_db.Suppliers, "SupplierID", "CompanyName");
-            ViewBag.Categories = new SelectList(_db.Categories, "CategoryID", "CategoryName");
+            PopulateProductsDropDownLists();
             return View();
         }
 
@@ -57,6 +56,7 @@ namespace Northwind.Controllers
             }
             else
             {
+                PopulateProductsDropDownLists();
                 return View(product);
             }
         }
@@ -69,8 +69,7 @@ namespace Northwind.Controllers
                 Product product = await _db.Products.FirstOrDefaultAsync(p => p.ProductID == id);
                 if (product != null)
                 {
-                    ViewBag.Suppliers = new SelectList(_db.Suppliers, "SupplierID", "CompanyName");
-                    ViewBag.Categories = new SelectList(_db.Categories, "CategoryID", "CategoryName");
+                    PopulateProductsDropDownLists();
                     return View(product);
                 }
             }
@@ -90,8 +89,15 @@ namespace Northwind.Controllers
             }
             else
             {
+                PopulateProductsDropDownLists();
                 return View(product);
             }
+        }
+
+        private void PopulateProductsDropDownLists()
+        {
+            ViewBag.Suppliers = new SelectList(_db.Suppliers, "SupplierID", "CompanyName");
+            ViewBag.Categories = new SelectList(_db.Categories, "CategoryID", "CategoryName");
         }
     }
 }
