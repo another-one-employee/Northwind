@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace Northwind.Controllers
 {
-    public class ProductsController : Controller
+    public class ProductController : Controller
     {
         private readonly NorthwindDataContext _db;
         private readonly int _maximumAmmountOfProducts;
 
-        public ProductsController(
+        public ProductController(
             NorthwindDataContext db,
             IConfiguration configuration)
         {
