@@ -20,6 +20,9 @@ namespace Northwind.Controllers
             var categories = await _db.Categories.ToListAsync();
             return View(categories);
         }
+
+        [Route("images/{id}")]
+        [Route("[controller]/[action]/{id}")]
         public async Task<IActionResult> GetImage(int? id)
         {
             var category = await _db.Categories.FirstOrDefaultAsync(x => x.CategoryID == id);
