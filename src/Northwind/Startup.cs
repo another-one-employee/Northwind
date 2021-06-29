@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Northwind.Data.Models;
+using Northwind.Middleware;
 
 namespace Northwind
 {
@@ -47,6 +48,8 @@ namespace Northwind
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseMiddleware<ImageCachingMiddleware>(Configuration);
 
             app.UseEndpoints(endpoints =>
             {
