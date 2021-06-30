@@ -3,12 +3,14 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Northwind.Data.Models;
+using Northwind.Filter;
 using Northwind.Models;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Northwind.Controllers
 {
+    [LogAction(true)]
     public class ProductController : Controller
     {
         private readonly NorthwindDataContext _db;

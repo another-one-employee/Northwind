@@ -1,12 +1,14 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Northwind.Filter;
 using Northwind.Models.HomeViewModels;
 using System;
 using System.Diagnostics;
 
 namespace Northwind.Controllers
 {
+    [LogAction]
     public class HomeController : Controller
     {
         private readonly ILogger<ErrorViewModel> _loggerOfErrors;
