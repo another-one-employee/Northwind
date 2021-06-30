@@ -2,12 +2,14 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Northwind.Data.Models;
+using Northwind.Filter;
 using Northwind.Models;
 using System.IO;
 using System.Threading.Tasks;
 
 namespace Northwind.Controllers
 {
+    [LogAction(true)]
     public class CategoryController : Controller
     {
         private readonly NorthwindDataContext _db;
