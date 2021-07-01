@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Northwind.Data.Models;
 using Northwind.Filter;
 using Northwind.Models;
+using Northwind.Repositories;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -12,14 +11,14 @@ namespace Northwind.Controllers
     [LogAction(true)]
     public class CategoryController : Controller
     {
-        private readonly NorthwindDataContext _db;
-        public CategoryController(NorthwindDataContext db)
+        private readonly IRepository<Category> _db;
+        public CategoryController(IRepository<Category> db)
         {
             _db = db;
         }
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var categories = await _db.Categories.ToListAsync();
+            var categories = _db.FindAll();
             return View(categories);
         }
 
@@ -27,7 +26,7 @@ namespace Northwind.Controllers
         [Route("[controller]/[action]/{id}")]
         public async Task<IActionResult> GetImage(int? id)
         {
-            var category = await _db.Categories.FirstOrDefaultAsync(x => x.CategoryID == id);
+            var category = await _db.FindAsync(id);
 
             if (category == null)
             {
@@ -41,7 +40,7 @@ namespace Northwind.Controllers
         [HttpGet]
         public async Task<IActionResult> EditImage(int? id)
         {
-            var category = await _db.Categories.FirstOrDefaultAsync(x => x.CategoryID == id);
+            var category = await _db.FindAsync(id);
 
             if (category == null)
             {
@@ -56,14 +55,12 @@ namespace Northwind.Controllers
         {
             if (ModelState.IsValid)
             {
-                using (var memoryStream = new MemoryStream())
-                {
-                    await uploadedFile.CopyToAsync(memoryStream);
-                    category.Picture = memoryStream.ToArray();
-                }
+                await using var memoryStream = new MemoryStream();
+                await uploadedFile.CopyToAsync(memoryStream);
+                category.Picture = memoryStream.ToArray();
 
-                _db.Categories.Update(category);
-                await _db.SaveChangesAsync();
+                _db.Update(category);
+                _db.SaveChanges();
             }
 
             return RedirectToAction("Index");

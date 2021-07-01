@@ -7,6 +7,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Northwind.Data.Models;
 using Northwind.Middleware;
+using Northwind.Models;
+using Northwind.Repositories;
 
 namespace Northwind
 {
@@ -25,6 +27,12 @@ namespace Northwind
             services.AddDbContext<NorthwindDataContext>(options =>
                 options.UseSqlServer(connection));
             services.AddControllersWithViews();
+
+            services.AddScoped<IRepository<Category>, EntityRepository<Category>>();
+            services.AddScoped<IRepository<Product>, EntityRepository<Product>>();
+            services.AddScoped<IRepository<Supplier>, EntityRepository<Supplier>>();
+
+            services.AddScoped<DbContext, NorthwindDataContext>();
         }
 
         public void Configure(
