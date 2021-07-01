@@ -5,10 +5,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="cache\**" />
+    <Compile Remove="logs\**" />
+    <Content Remove="cache\**" />
+    <Content Remove="logs\**" />
+    <EmbeddedResource Remove="cache\**" />
+    <EmbeddedResource Remove="logs\**" />
+    <None Remove="cache\**" />
+    <None Remove="logs\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.6" />
     <PackageReference Include="Serilog.Extensions.Logging.File" Version="2.0.0" />
   </ItemGroup>
 
-  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="https://json.schemastore.org/global.json" /></VisualStudio></ProjectExtensions>
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>

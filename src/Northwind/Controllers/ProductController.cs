@@ -16,7 +16,8 @@ namespace Northwind.Controllers
         private readonly IRepository<Product> _db;
         private readonly IRepository<Supplier> _dbSupplier;
         private readonly IRepository<Category> _dbCategory;
-        private readonly int _maximumAmmountOfProducts;
+        private readonly int _maximumAmountOfProducts;
+        private readonly string _maximumAmountOfProductsKey = "MaximumAmountOfProducts";
 
         public ProductController(
             IRepository<Product> db,
@@ -27,8 +28,8 @@ namespace Northwind.Controllers
             _db = db;
             _dbSupplier = dbSupplier;
             _dbCategory = dbCategory;
-            _maximumAmmountOfProducts =
-                configuration.GetValue<int>("MaximumAmmountOfProducts");
+            _maximumAmountOfProducts =
+                configuration.GetValue<int>(_maximumAmountOfProductsKey);
         }
 
         public async Task<IActionResult> Index()
@@ -37,12 +38,12 @@ namespace Northwind.Controllers
                 .Include(s => s.Supplier)
                 .Include(c => c.Category);
 
-            if (_maximumAmmountOfProducts == 0)
+            if (_maximumAmountOfProducts == 0)
             {
                 return View(await products.ToListAsync());
             }
 
-            return View(await products.Take(_maximumAmmountOfProducts).ToListAsync());
+            return View(await products.Take(_maximumAmountOfProducts).ToListAsync());
         }
 
         [HttpGet]
