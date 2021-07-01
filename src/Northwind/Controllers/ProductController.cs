@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Northwind.Data.Models;
 using Northwind.Filter;
 using Northwind.Models;
+using Northwind.Repositories;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,21 +13,27 @@ namespace Northwind.Controllers
     [LogAction(true)]
     public class ProductController : Controller
     {
-        private readonly NorthwindDataContext _db;
+        private readonly IRepository<Product> _db;
+        private readonly IRepository<Supplier> _dbSupplier;
+        private readonly IRepository<Category> _dbCategory;
         private readonly int _maximumAmmountOfProducts;
 
         public ProductController(
-            NorthwindDataContext db,
+            IRepository<Product> db,
+            IRepository<Supplier> dbSupplier,
+            IRepository<Category> dbCategory,
             IConfiguration configuration)
         {
             _db = db;
+            _dbSupplier = dbSupplier;
+            _dbCategory = dbCategory;
             _maximumAmmountOfProducts =
                 configuration.GetValue<int>("MaximumAmmountOfProducts");
         }
 
         public async Task<IActionResult> Index()
         {
-            var products = _db.Products
+            var products = _db.FindAll()
                 .Include(s => s.Supplier)
                 .Include(c => c.Category);
 
@@ -51,8 +57,8 @@ namespace Northwind.Controllers
         {
             if (ModelState.IsValid)
             {
-                _db.Add(product);
-                await _db.SaveChangesAsync();
+                await _db.InsertAsync(product);
+                _db.SaveChanges();
 
                 return RedirectToAction("Index");
             }
@@ -68,7 +74,7 @@ namespace Northwind.Controllers
         {
             if (id != null)
             {
-                Product product = await _db.Products.FirstOrDefaultAsync(p => p.ProductID == id);
+                Product product = await _db.FindAsync(id);
                 if (product != null)
                 {
                     PopulateProductsDropDownLists();
@@ -80,12 +86,12 @@ namespace Northwind.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(Product product)
+        public IActionResult Edit(Product product)
         {
             if (ModelState.IsValid)
             {
-                _db.Products.Update(product);
-                await _db.SaveChangesAsync();
+                _db.Update(product);
+                _db.SaveChanges();
 
                 return RedirectToAction("Index");
             }
@@ -98,8 +104,8 @@ namespace Northwind.Controllers
 
         private void PopulateProductsDropDownLists()
         {
-            ViewBag.Suppliers = new SelectList(_db.Suppliers, "SupplierID", "CompanyName");
-            ViewBag.Categories = new SelectList(_db.Categories, "CategoryID", "CategoryName");
+            ViewBag.Suppliers = new SelectList(_dbSupplier.FindAll(), "SupplierID", "CompanyName");
+            ViewBag.Categories = new SelectList(_dbCategory.FindAll(), "CategoryID", "CategoryName");
         }
     }
 }
