@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Northwind.Core.Interfaces;
 using Northwind.Core.Models;
-using Northwind.Infrastructure.Repositories;
 using Northwind.Web.Filters;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,16 +12,16 @@ namespace Northwind.Web.Controllers
     [LogAction(true)]
     public class ProductController : Controller
     {
-        private readonly IRepository<Product> _db;
-        private readonly IRepository<Supplier> _dbSupplier;
-        private readonly IRepository<Category> _dbCategory;
+        private readonly IRepository<ProductDTO> _db;
+        private readonly IRepository<SupplierDTO> _dbSupplier;
+        private readonly IRepository<CategoryDTO> _dbCategory;
         private readonly int _maximumAmountOfProducts;
         private readonly string _maximumAmountOfProductsKey = "MaximumAmountOfProducts";
 
         public ProductController(
-            IRepository<Product> db,
-            IRepository<Supplier> dbSupplier,
-            IRepository<Category> dbCategory,
+            IRepository<ProductDTO> db,
+            IRepository<SupplierDTO> dbSupplier,
+            IRepository<CategoryDTO> dbCategory,
             IConfiguration configuration)
         {
             _db = db;
@@ -34,38 +33,36 @@ namespace Northwind.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var products = _db.FindAll()
-                .Include(s => s.Supplier)
-                .Include(c => c.Category);
+            var products = await _db.FindAllAync();
 
             if (_maximumAmountOfProducts == 0)
             {
-                return View(await products.ToListAsync());
+                return View(products);
             }
 
-            return View(await products.Take(_maximumAmountOfProducts).ToListAsync());
+            return View(products.Take(_maximumAmountOfProducts));
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            PopulateProductsDropDownLists();
+            await PopulateProductsDropDownLists();
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Product product)
+        public async Task<IActionResult> Create(ProductDTO product)
         {
             if (ModelState.IsValid)
             {
                 await _db.InsertAsync(product);
-                _db.SaveChanges();
+                await _db.SaveChangesAsync();
 
                 return RedirectToAction("Index");
             }
             else
             {
-                PopulateProductsDropDownLists();
+                await PopulateProductsDropDownLists();
                 return View(product);
             }
         }
@@ -75,10 +72,10 @@ namespace Northwind.Web.Controllers
         {
             if (id != null)
             {
-                Product product = await _db.FindAsync(id);
+                ProductDTO product = await _db.FindAync(id);
                 if (product != null)
                 {
-                    PopulateProductsDropDownLists();
+                    await PopulateProductsDropDownLists();
                     return View(product);
                 }
             }
@@ -87,26 +84,26 @@ namespace Northwind.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(Product product)
+        public async Task<IActionResult> Edit(ProductDTO product)
         {
             if (ModelState.IsValid)
             {
                 _db.Update(product);
-                _db.SaveChanges();
+                await _db.SaveChangesAsync();
 
                 return RedirectToAction("Index");
             }
             else
             {
-                PopulateProductsDropDownLists();
+                await PopulateProductsDropDownLists();
                 return View(product);
             }
         }
 
-        private void PopulateProductsDropDownLists()
+        private async Task PopulateProductsDropDownLists()
         {
-            ViewBag.Suppliers = new SelectList(_dbSupplier.FindAll(), "SupplierID", "CompanyName");
-            ViewBag.Categories = new SelectList(_dbCategory.FindAll(), "CategoryID", "CategoryName");
+            ViewBag.Suppliers = new SelectList(await _dbSupplier.FindAllAync(), "SupplierID", "CompanyName");
+            ViewBag.Categories = new SelectList(await _dbCategory.FindAllAync(), "CategoryID", "CategoryName");
         }
     }
 }

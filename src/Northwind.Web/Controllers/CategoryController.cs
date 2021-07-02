@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Northwind.Core.Interfaces;
 using Northwind.Core.Models;
-using Northwind.Infrastructure.Repositories;
 using Northwind.Web.Filters;
 using System.IO;
 using System.Threading.Tasks;
@@ -11,14 +11,14 @@ namespace Northwind.Web.Controllers
     [LogAction(true)]
     public class CategoryController : Controller
     {
-        private readonly IRepository<Category> _db;
-        public CategoryController(IRepository<Category> db)
+        private readonly IRepository<CategoryDTO> _db;
+        public CategoryController(IRepository<CategoryDTO> db)
         {
             _db = db;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var categories = _db.FindAll();
+            var categories = await _db.FindAllAync();
             return View(categories);
         }
 
@@ -26,7 +26,7 @@ namespace Northwind.Web.Controllers
         [Route("[controller]/[action]/{id}")]
         public async Task<IActionResult> GetImage(int? id)
         {
-            var category = await _db.FindAsync(id);
+            var category = await _db.FindAync(id);
 
             if (category == null)
             {
@@ -40,7 +40,7 @@ namespace Northwind.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> EditImage(int? id)
         {
-            var category = await _db.FindAsync(id);
+            var category = await _db.FindAync(id);
 
             if (category == null)
             {
@@ -51,7 +51,7 @@ namespace Northwind.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditImage(Category category, IFormFile uploadedFile)
+        public async Task<IActionResult> EditImage(CategoryDTO category, IFormFile uploadedFile)
         {
             if (ModelState.IsValid)
             {
@@ -60,7 +60,7 @@ namespace Northwind.Web.Controllers
                 category.Picture = memoryStream.ToArray();
 
                 _db.Update(category);
-                _db.SaveChanges();
+                await _db.SaveChangesAsync();
             }
 
             return RedirectToAction("Index");
