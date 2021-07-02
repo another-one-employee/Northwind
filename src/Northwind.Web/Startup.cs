@@ -46,7 +46,7 @@ namespace Northwind.Web
                 mc.AddProfile(new SupplierProfile());
             });
 
-            AutoMapper.IMapper mapper = mapperConfig.CreateMapper();
+            IMapper mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper);
         }
 
