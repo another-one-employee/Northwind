@@ -81,8 +81,10 @@ namespace Northwind.Web.Middlewares
                     context.Response.Body = originalBody;
                 }
             }
-
-            await _next(context);
+            else
+            {
+                await _next(context);
+            }
         }
 
         private int GetCurrentImagesCount()
