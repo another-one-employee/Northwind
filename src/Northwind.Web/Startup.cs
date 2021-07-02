@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -5,8 +6,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Northwind.Core.Interfaces;
 using Northwind.Core.Models;
 using Northwind.Infrastructure.Data;
+using Northwind.Infrastructure.Mapping;
+using Northwind.Infrastructure.Models;
 using Northwind.Infrastructure.Repositories;
 using Northwind.Web.Middlewares;
 
@@ -28,11 +32,22 @@ namespace Northwind.Web
                 options.UseSqlServer(connection));
             services.AddControllersWithViews();
 
-            services.AddScoped<IRepository<Category>, EntityRepository<Category>>();
-            services.AddScoped<IRepository<Product>, EntityRepository<Product>>();
-            services.AddScoped<IRepository<Supplier>, EntityRepository<Supplier>>();
+            services.AddScoped<IRepository<CategoryDTO>, EntityRepository<Category, CategoryDTO>>();
+            services.AddScoped<IRepository<ProductDTO>, ProductRepository>();
+            services.AddScoped<IRepository<SupplierDTO>, EntityRepository<Supplier, SupplierDTO>>();
 
             services.AddScoped<DbContext, NorthwindDbContext>();
+
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.ShouldUseConstructor = mc => !mc.IsPrivate;
+                mc.AddProfile(new CategoryProfile());
+                mc.AddProfile(new ProductProfile());
+                mc.AddProfile(new SupplierProfile());
+            });
+
+            AutoMapper.IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
         }
 
         public void Configure(
