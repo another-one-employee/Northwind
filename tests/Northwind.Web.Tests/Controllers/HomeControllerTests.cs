@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Northwind.Web.Controllers;
-using Northwind.Web.ViewModels.HomeViewModels;
+using Northwind.Web.ViewModels.Home;
 using NUnit.Framework;
 using System;
 

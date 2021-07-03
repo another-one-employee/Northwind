@@ -1,4 +1,4 @@
-﻿namespace Northwind.Web.ViewModels.HomeViewModels
+﻿namespace Northwind.Web.ViewModels.Home
 {
     public class ErrorViewModel
     {
