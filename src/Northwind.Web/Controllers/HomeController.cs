@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Northwind.Web.Filters;
-using Northwind.Web.ViewModels.HomeViewModels;
+using Northwind.Web.ViewModels.Home;
 using System;
 using System.Diagnostics;
 
