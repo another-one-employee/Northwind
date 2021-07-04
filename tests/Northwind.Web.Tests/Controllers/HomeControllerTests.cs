@@ -8,7 +8,7 @@ using Northwind.Web.ViewModels.Home;
 using NUnit.Framework;
 using System;
 
-namespace Northwind.Tests.Controllers
+namespace Northwind.Web.UnitTests.Controllers
 {
     public class HomeControllerTests
     {
