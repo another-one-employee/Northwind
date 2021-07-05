@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31129.286
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Web", "src\Northwind.Web\Northwind.Web.csproj", "{F86837EA-04E5-4BB8-A155-9DE324397ADD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Web.UnitTests", "tests\Northwind.Web.Tests\Northwind.Web.UnitTests.csproj", "{443AA533-6E7F-4D91-A668-CE694C571D4D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Web.UnitTests", "tests\Northwind.Web.UnitTests\Northwind.Web.UnitTests.csproj", "{443AA533-6E7F-4D91-A668-CE694C571D4D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F8BD8A72-EB63-4623-ADDF-26283F096539}"
 EndProject
