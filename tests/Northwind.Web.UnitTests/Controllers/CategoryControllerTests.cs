@@ -12,11 +12,18 @@ namespace Northwind.Web.UnitTests.Controllers
 {
     public class CategoryControllerTests
     {
+        private Mock<IRepository<CategoryDTO>> mockRepo;
+
+        [SetUp]
+        public void Setup()
+        {
+            mockRepo = new Mock<IRepository<CategoryDTO>>();
+        }
+
         [Test]
         public void Index_GetView_ReturnsViewResult()
         {
             // Arrange
-            var mockRepo = new Mock<IRepository<CategoryDTO>>();
             var controller = new CategoryController(mockRepo.Object);
 
             // Act
@@ -30,7 +37,6 @@ namespace Northwind.Web.UnitTests.Controllers
         public void Index_GetAllItems_ReturnsAllItems()
         {
             // Arrange
-            var mockRepo = new Mock<IRepository<CategoryDTO>>();
             mockRepo.Setup(repo => repo.FindAllAync())
                 .ReturnsAsync(GetFakeItems());
             var controller = new CategoryController(mockRepo.Object);
@@ -45,12 +51,10 @@ namespace Northwind.Web.UnitTests.Controllers
 
         }
 
-        [Test]
-        public void GetImage_GetItem_ReturnsFileContentResult()
+        [TestCase(1)]
+        public void GetImage_GetItem_ReturnsFileContentResult(int testId)
         {
             // Arrange
-            var testId = 1;
-            var mockRepo = new Mock<IRepository<CategoryDTO>>();
             mockRepo.Setup(repo => repo.FindAync(testId))
                 .ReturnsAsync(GetFakeItems()
                 .FirstOrDefault(c => c.CategoryID == testId));
@@ -67,7 +71,6 @@ namespace Northwind.Web.UnitTests.Controllers
         public void GetImage_GetUnexistedItem_ReturnsNotFoundResult()
         {
             // Arrange
-            var mockRepo = new Mock<IRepository<CategoryDTO>>();
             var controller = new CategoryController(mockRepo.Object);
 
             // Act
@@ -77,12 +80,10 @@ namespace Northwind.Web.UnitTests.Controllers
             Assert.IsInstanceOf<NotFoundResult>(result);
         }
 
-        [Test]
-        public void EditImage_GetItem_ReturnsViewResult()
+        [TestCase(1)]
+        public void EditImage_GetItem_ReturnsViewResult(int testId)
         {
             // Arrange
-            var testId = 1;
-            var mockRepo = new Mock<IRepository<CategoryDTO>>();
             mockRepo.Setup(repo => repo.FindAync(testId))
                 .ReturnsAsync(GetFakeItems()
                 .FirstOrDefault(c => c.CategoryID == testId));
@@ -99,7 +100,6 @@ namespace Northwind.Web.UnitTests.Controllers
         public void EditImage_GetUnexistedItem_ReturnsNotFoundResult()
         {
             // Arrange
-            var mockRepo = new Mock<IRepository<CategoryDTO>>();
             var controller = new CategoryController(mockRepo.Object);
 
             // Act
@@ -116,7 +116,6 @@ namespace Northwind.Web.UnitTests.Controllers
             var testItem = new Mock<CategoryDTO>();
             var testFile = new Mock<IFormFile>();
 
-            var mockRepo = new Mock<IRepository<CategoryDTO>>();
             mockRepo.Setup(repo => repo.Update(testItem.Object));
             var controller = new CategoryController(mockRepo.Object);
 
