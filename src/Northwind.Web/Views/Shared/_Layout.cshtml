@@ -8,30 +8,24 @@
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-light">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+    <div id="mySidebar" class="sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+        <a class="nav-link text-dark" asp-controller="Category" asp-action="Index"><h5>Categories</h5></a>
+        <a class="nav-link text-dark" asp-controller="Product" asp-action="Index"><h5>Products</h5></a>
+    </div>
+
+    <div id="sidebarInvoker">
+        <nav class="navbar navbar-light bg-light" onclick="openNav()">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <a class="navbar-brand mr-auto p-3" asp-controller="Home" asp-action="Index">Home</a>
         </nav>
-        <div class="collapse" id="navbarToggleExternalContent">
-            <div class="navbar-light p-3">
-                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-controller="Category" asp-action="Index"><h5>Categories</h5></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-controller="Product" asp-action="Index"><h5>Products</h5></a>
-                    </li>
-                </ul>
-            </div>
+        <div class="container">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
         </div>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
     </div>
 
     <footer class="border-top footer text-muted">
