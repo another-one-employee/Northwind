@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,16 +25,20 @@ namespace Northwind.Web.Middlewares
                 new DirectoryInfo(string.Concat(Directory.GetCurrentDirectory(),
                 cacheSettings.GetValue<string>("FolderPathFromCurrentDirectory")));
 
-            _expectedExtensions = cacheSettings.GetValue<string>("CachedExtensions").Split("|");
-
-            _maxImagesCount = cacheSettings.GetValue<int>("MaxImagesCount");
-
-            _timer = new Timer(cacheSettings.GetValue<double>("CacheTimerCleanValue"))
+            if (cacheSettings.Exists())
             {
-                AutoReset = true
-            };
-            _timer.Elapsed += (sender, e) => CleanCache();
-            _timer.Start();
+                _expectedExtensions = cacheSettings?.GetValue<string>("CachedExtensions").Split("|");
+
+
+                _maxImagesCount = cacheSettings.GetValue<int>("MaxImagesCount");
+
+                _timer = new Timer(cacheSettings.GetValue<double>("CacheTimerCleanValue"))
+                {
+                    AutoReset = true
+                };
+                _timer.Elapsed += (sender, e) => CleanCache();
+                _timer.Start();
+            }
         }
 
         public async Task InvokeAsync(HttpContext context)
