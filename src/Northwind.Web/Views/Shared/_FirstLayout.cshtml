@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
+    <header>@RenderSection("Header", false)</header>
+
     <div id="mySidebar" class="sidebar">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
         <a class="nav-link text-dark" asp-controller="Category" asp-action="Index"><h5>Categories</h5></a>
@@ -29,9 +31,16 @@
     </div>
 
     <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2021 - Northwind
-        </div>
+        @if (IsSectionDefined("Footer"))
+        {
+            @RenderSection("Footer")
+        }
+        else
+        {
+            <div class="container">
+                &copy; 2021 - Northwind
+            </div>
+        }
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
