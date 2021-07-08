@@ -1,7 +1,12 @@
 ﻿@model ErrorViewModel
 @{
     ViewData["Title"] = "Error";
+    Layout = null;
 }
+
+<head>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+</head>
 
 <div class="row">
     <div class="col-md-auto">
@@ -9,8 +14,12 @@
     </div>
 
     <div class="col-lg-auto">
-        <h1 class="text-danger">Error.</h1>
+        <h1 class="text-danger">Oops!</h1>
         <h2 class="text-danger">An error occurred while processing your request.</h2>
+        <p class="text-primary">
+            You can try to go to the main page:
+            <a asp-controller="Home" asp-action="Index">Home</a>.
+        </p>
 
         @if (Model.ShowRequestId)
         {
