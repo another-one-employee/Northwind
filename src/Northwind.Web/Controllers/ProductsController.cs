@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Northwind.Web.Controllers
 {
     [LogAction(true)]
-    public class ProductController : Controller
+    public class ProductsController : Controller
     {
         private readonly IRepository<ProductDTO> _db;
         private readonly IRepository<SupplierDTO> _dbSupplier;
@@ -18,7 +18,7 @@ namespace Northwind.Web.Controllers
         private readonly int _maximumAmountOfProducts;
         private readonly string _maximumAmountOfProductsKey = "MaximumAmountOfProducts";
 
-        public ProductController(
+        public ProductsController(
             IRepository<ProductDTO> db,
             IRepository<SupplierDTO> dbSupplier,
             IRepository<CategoryDTO> dbCategory,
