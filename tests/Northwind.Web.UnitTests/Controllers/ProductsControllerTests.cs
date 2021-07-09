@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace Northwind.Web.UnitTests.Controllers
 {
-    class ProductControllerTests
+    class ProductsControllerTests
     {
         private Mock<IRepository<ProductDTO>> _productsRepository;
         private Mock<IRepository<SupplierDTO>> _suppliersRepository;
@@ -27,7 +27,7 @@ namespace Northwind.Web.UnitTests.Controllers
             _productsRepository.Setup(repo => repo.FindAllAync()).ReturnsAsync(GetFakeItems());
         }
 
-        private ProductController GetProductController(int maxAmountOfProducts = 0)
+        private ProductsController GetProductController(int maxAmountOfProducts = 0)
         {
             var inMemorySettings = new Dictionary<string, string> {
                 {"MaximumAmountOfProducts", $"{maxAmountOfProducts}"}
@@ -37,7 +37,7 @@ namespace Northwind.Web.UnitTests.Controllers
                 .AddInMemoryCollection(inMemorySettings)
                 .Build();
 
-            var controller = new ProductController(
+            var controller = new ProductsController(
                 _productsRepository.Object,
                 _suppliersRepository.Object,
                 _cateforiessRepository.Object,
