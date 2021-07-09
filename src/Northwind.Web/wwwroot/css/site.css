@@ -18,10 +18,25 @@ a {
   border-color: #1861ac;
 }
 
+/* Navbar styles
+-------------------------------------------------- */
+.navbar {
+    font-size: 18px;
+    background-color: #5a84bf;
+    height: 73px;
+}
+
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+/* Breadcrumb styles
+-------------------------------------------------- */
+
+.breadcrumb {
+    background-color: #5a84bf;
 }
 
 /* Table styles
