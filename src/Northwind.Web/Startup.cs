@@ -12,7 +12,7 @@ using Northwind.Infrastructure.Data;
 using Northwind.Infrastructure.Mapping;
 using Northwind.Infrastructure.Models;
 using Northwind.Infrastructure.Repositories;
-using Northwind.Web.Middlewares;
+using Northwind.Web.Utilities.Middlewares;
 
 namespace Northwind.Web
 {

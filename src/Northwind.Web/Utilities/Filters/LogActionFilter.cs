@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 
-namespace Northwind.Web.Filters
+namespace Northwind.Web.Utilities.Filters
 {
     public class LogActionFilter : IAsyncActionFilter
     {

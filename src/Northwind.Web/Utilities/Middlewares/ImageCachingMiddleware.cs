@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
 
-namespace Northwind.Web.Middlewares
+namespace Northwind.Web.Utilities.Middlewares
 {
     public class ImageCachingMiddleware
     {
@@ -61,20 +61,21 @@ namespace Northwind.Web.Middlewares
                     string extension = GetExtensionFromContentType(context.Response.ContentType);
                     int currentImagesCount = GetCurrentImagesCount();
 
-                    if (_expectedExtensions.Contains(extension) &&
-                        currentImagesCount < _maxImagesCount &&
-                        !IsThisImageExist(id))
+                    if (IsThisImageExist(id))
                     {
-                        await ImageCachingAsync(id, memoryStream);
-                        _timer.Start();
-                    }
-                    else if (currentImagesCount >= _maxImagesCount)
-                    {
-                        CleanCache();
+                        context.Response.Body = File.OpenRead(string.Concat(_directoryInfo.FullName, id));
                     }
                     else
                     {
-                        context.Response.Body = File.OpenRead(string.Concat(_directoryInfo.FullName, id));
+                        if (currentImagesCount >= _maxImagesCount)
+                        {
+                            CleanCache();
+                        }
+                        else if (_expectedExtensions.Contains(extension))
+                        {
+                            await ImageCachingAsync(id, memoryStream);
+                            _timer.Start();
+                        }
                     }
 
                     memoryStream.Position = 0;

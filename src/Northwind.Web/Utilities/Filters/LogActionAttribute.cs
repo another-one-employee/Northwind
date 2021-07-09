@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using System;
 
-namespace Northwind.Web.Filters
+namespace Northwind.Web.Utilities.Filters
 {
     public class LogActionAttribute : Attribute, IFilterFactory
     {
