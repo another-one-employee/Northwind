@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using Northwind.Core.Interfaces;
 using Northwind.Core.Models;
-using Northwind.Web.Filters;
+using Northwind.Web.Utilities.Filters;
 using System.Linq;
 using System.Threading.Tasks;
 

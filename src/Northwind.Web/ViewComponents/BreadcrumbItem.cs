@@ -1,4 +1,4 @@
-﻿namespace Northwind.Web.Components
+﻿namespace Northwind.Web.ViewComponents
 {
     public class BreadcrumbItem
     {
