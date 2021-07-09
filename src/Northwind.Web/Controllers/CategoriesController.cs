@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 namespace Northwind.Web.Controllers
 {
     [LogAction(true)]
-    public class CategoryController : Controller
+    public class CategoriesController : Controller
     {
         private readonly IRepository<CategoryDTO> _db;
-        public CategoryController(IRepository<CategoryDTO> db)
+        public CategoriesController(IRepository<CategoryDTO> db)
         {
             _db = db;
         }
