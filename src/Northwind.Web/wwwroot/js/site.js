@@ -5,10 +5,8 @@
 
 function openNav() {
     document.getElementById("mySidebar").style.width = "165px";
-    document.getElementById("sidebarInvoker").style.marginLeft = "165px";
 }
 
 function closeNav() {
     document.getElementById("mySidebar").style.width = "0";
-    document.getElementById("sidebarInvoker").style.marginLeft = "0";
 }
