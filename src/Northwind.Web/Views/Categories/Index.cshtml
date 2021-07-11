@@ -12,6 +12,7 @@
                 <img src="@Url.Action("GetImage", new { id=category.CategoryID})" style="width:63px;height:63px;" />
             </div>
             <div>
+                <image-link id="@category.CategoryID" text="Show image"/>
                 <a asp-action="EditImage" asp-route-id="@category.CategoryID">Edit image</a>
             </div>
         </div>
