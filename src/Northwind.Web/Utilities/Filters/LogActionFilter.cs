@@ -15,7 +15,7 @@ namespace Northwind.Web.Utilities.Filters
         }
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            _logger.LogInformation("--STARTING--" + context.ActionDescriptor.DisplayName);
+            _logger.LogInformation(string.Concat("--STARTING--", context.ActionDescriptor.DisplayName));
 
             if (_logParams)
             {
@@ -27,7 +27,7 @@ namespace Northwind.Web.Utilities.Filters
 
             await next();
 
-            _logger.LogInformation("--ENDING--" + context.ActionDescriptor.DisplayName);
+            _logger.LogInformation(string.Concat("--ENDING--", context.ActionDescriptor.DisplayName));
         }
     }
 }
