@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Northwind.Core.Models;
 
-namespace Northwind.Infrastructure.Mapping
+namespace Northwind.Infrastructure.Mappings
 {
     public class ProductProfile : Profile
     {
