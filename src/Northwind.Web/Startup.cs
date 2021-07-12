@@ -1,4 +1,3 @@
-using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -9,10 +8,10 @@ using Microsoft.Extensions.Logging;
 using Northwind.Core.Interfaces;
 using Northwind.Core.Models;
 using Northwind.Infrastructure.Data;
-using Northwind.Infrastructure.Mapping;
 using Northwind.Infrastructure.Models;
 using Northwind.Infrastructure.Repositories;
 using Northwind.Web.Utilities.Middlewares;
+using System;
 
 namespace Northwind.Web
 {
@@ -38,16 +37,7 @@ namespace Northwind.Web
 
             services.AddScoped<DbContext, NorthwindDbContext>();
 
-            var mapperConfig = new MapperConfiguration(mc =>
-            {
-                mc.ShouldUseConstructor = mc => !mc.IsPrivate;
-                mc.AddProfile(new CategoryProfile());
-                mc.AddProfile(new ProductProfile());
-                mc.AddProfile(new SupplierProfile());
-            });
-
-            IMapper mapper = mapperConfig.CreateMapper();
-            services.AddSingleton(mapper);
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
 
         public void Configure(
