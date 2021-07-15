@@ -2,19 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Northwind.Core.Interfaces;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Northwind.Infrastructure.Repositories
 {
-    public class EntityRepository<TDbEntity, TDomain> : IRepository<TDomain>
+    public class EntityRepository<TDbModel, TDomain> : IAsyncRepository<TDomain>
         where TDomain : class
-        where TDbEntity : class
+        where TDbModel : class
     {
         protected DbContext Context { get; }
         protected IMapper Mapper { get; }
-        protected DbSet<TDbEntity> Set => Context.Set<TDbEntity>();
-        public IQueryable<TDomain> Query => Context.Set<TDomain>();
+        protected DbSet<TDbModel> Set => Context.Set<TDbModel>();
 
         public EntityRepository(DbContext dbContext, IMapper mapper)
         {
@@ -22,38 +20,38 @@ namespace Northwind.Infrastructure.Repositories
             Mapper = mapper;
         }
 
-        public void Update(TDomain entity)
+        public async Task Update(TDomain entity)
         {
-            TDbEntity dbEntity = Mapper.Map<TDbEntity>(entity);
+            TDbModel dbEntity = Mapper.Map<TDbModel>(entity);
+
             var entry = Context.Entry(dbEntity);
             if (entry.State == EntityState.Detached)
                 Set.Attach(dbEntity);
             entry.State = EntityState.Modified;
+
+            await Context.SaveChangesAsync();
         }
 
         public async Task InsertAsync(TDomain entity)
         {
-            TDbEntity dbEntity = Mapper.Map<TDbEntity>(entity);
+            TDbModel dbEntity = Mapper.Map<TDbModel>(entity);
             var entry = Context.Entry(dbEntity);
             if (entry.State == EntityState.Detached)
                 await Set.AddAsync(dbEntity);
+
+            await Context.SaveChangesAsync();
         }
 
-        public async Task<TDomain> FindAync(params object[] keys)
+        public async Task<TDomain> FindAsync(params object[] keys)
         {
-            TDbEntity dbEntity = await Set.FindAsync(keys);
+            TDbModel dbEntity = await Set.FindAsync(keys);
             return Mapper.Map<TDomain>(dbEntity);
         }
 
-        public virtual async Task<IEnumerable<TDomain>> FindAllAync()
+        public virtual async Task<IEnumerable<TDomain>> FindAllAsync()
         {
-            List<TDbEntity> allItems = await Set.ToListAsync();
-            return Mapper.Map<List<TDbEntity>, IEnumerable<TDomain>>(allItems);
-        }
-
-        public async Task SaveChangesAsync()
-        {
-            await Context.SaveChangesAsync();
+            List<TDbModel> allItems = await Set.ToListAsync();
+            return Mapper.Map<List<TDbModel>, IEnumerable<TDomain>>(allItems);
         }
     }
 }

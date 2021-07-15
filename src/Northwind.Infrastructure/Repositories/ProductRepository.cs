@@ -11,7 +11,7 @@ namespace Northwind.Infrastructure.Repositories
     {
         public ProductRepository(DbContext dbContext, IMapper mapper) : base(dbContext, mapper) { }
 
-        public override async Task<IEnumerable<ProductDTO>> FindAllAync()
+        public override async Task<IEnumerable<ProductDTO>> FindAllAsync()
         {
             List<Product> allItems = await Set
                .Include(s => s.Supplier)
