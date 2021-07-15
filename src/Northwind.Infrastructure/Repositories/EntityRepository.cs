@@ -20,7 +20,7 @@ namespace Northwind.Infrastructure.Repositories
             Mapper = mapper;
         }
 
-        public async Task Update(TDomain entity)
+        public async Task UpdateAsync(TDomain entity)
         {
             TDbModel dbEntity = Mapper.Map<TDbModel>(entity);
 
