@@ -63,6 +63,7 @@ namespace Northwind.Web
             app.UseRouting();
 
             app.UseMiddleware<ImageCachingMiddleware>(Configuration);
+            app.UseMiddleware<ExceptionHandlerMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
