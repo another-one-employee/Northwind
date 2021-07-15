@@ -34,7 +34,7 @@ namespace Northwind.Core.Services
 
         public async Task UpdateAsync(CategoryDTO category)
         {
-            await _categoryRepository.Update(category);
+            await _categoryRepository.UpdateAsync(category);
         }
     }
 }
