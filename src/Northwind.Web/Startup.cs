@@ -31,9 +31,9 @@ namespace Northwind.Web
                 options.UseSqlServer(connection));
             services.AddControllersWithViews();
 
-            services.AddScoped<IRepository<CategoryDTO>, EntityRepository<Category, CategoryDTO>>();
-            services.AddScoped<IRepository<ProductDTO>, ProductRepository>();
-            services.AddScoped<IRepository<SupplierDTO>, EntityRepository<Supplier, SupplierDTO>>();
+            services.AddScoped<IAsyncRepository<CategoryDTO>, EntityRepository<Category, CategoryDTO>>();
+            services.AddScoped<IAsyncRepository<ProductDTO>, ProductRepository>();
+            services.AddScoped<IAsyncRepository<SupplierDTO>, EntityRepository<Supplier, SupplierDTO>>();
 
             services.AddScoped<DbContext, NorthwindDbContext>();
 
