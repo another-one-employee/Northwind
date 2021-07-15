@@ -11,44 +11,24 @@ namespace Northwind.Web.Controllers
     [LogAction(true)]
     public class CategoriesController : Controller
     {
-        private readonly IRepository<CategoryDTO> _db;
-        public CategoriesController(IRepository<CategoryDTO> db)
+        private readonly ICategoryService _categoryService;
+
+        public CategoriesController(ICategoryService categoryService)
         {
-            _db = db;
+            _categoryService = categoryService;
         }
         public async Task<IActionResult> Index()
-        {
-            var categories = await _db.FindAllAync();
-            return View(categories);
-        }
+            => View(await _categoryService.GetAllAsync());
 
         [Route("images/{id}")]
         [Route("[controller]/[action]/{id}")]
-        public async Task<IActionResult> GetImage(int? id)
-        {
-            var category = await _db.FindAync(id);
-
-            if (category == null)
-            {
-                return NotFound();
-            }
-
-            var image = category.Picture;
-            return File(image, "image/bmp");
-        }
+        public async Task<IActionResult> GetImage(int id)
+            => File(await _categoryService.GetPictureByIdAsync(id), "image/bmp");
 
         [HttpGet]
-        public async Task<IActionResult> EditImage(int? id)
-        {
-            var category = await _db.FindAync(id);
+        public async Task<IActionResult> EditImage(int id)
+            => View(await _categoryService.GetByIdAsync(id));
 
-            if (category == null)
-            {
-                return NotFound();
-            }
-
-            return View(category);
-        }
 
         [HttpPost]
         public async Task<IActionResult> EditImage(CategoryDTO category, IFormFile uploadedFile)
@@ -59,8 +39,7 @@ namespace Northwind.Web.Controllers
                 await uploadedFile.CopyToAsync(memoryStream);
                 category.Picture = memoryStream.ToArray();
 
-                _db.Update(category);
-                await _db.SaveChangesAsync();
+                await _categoryService.UpdateAsync(category);
             }
 
             return RedirectToAction("Index");

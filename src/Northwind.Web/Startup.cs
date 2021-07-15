@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Northwind.Core.Interfaces;
 using Northwind.Core.Models;
+using Northwind.Core.Services;
 using Northwind.Infrastructure.Data;
 using Northwind.Infrastructure.Models;
 using Northwind.Infrastructure.Repositories;
@@ -36,6 +37,8 @@ namespace Northwind.Web
             services.AddScoped<IAsyncRepository<SupplierDTO>, EntityRepository<Supplier, SupplierDTO>>();
 
             services.AddScoped<DbContext, NorthwindDbContext>();
+
+            services.AddScoped<ICategoryService, CategoryService>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
