@@ -12,19 +12,19 @@ namespace Northwind.Web.UnitTests.Controllers
 {
     class ProductsControllerTests
     {
-        private Mock<IRepository<ProductDTO>> _productsRepository;
-        private Mock<IRepository<SupplierDTO>> _suppliersRepository;
-        private Mock<IRepository<CategoryDTO>> _cateforiessRepository;
-        private static int _fakeItemsCount = 10;
+        private Mock<IProductService> _productService;
+        private Mock<IAsyncRepository<SupplierDTO>> _suppliersRepository;
+        private Mock<IAsyncRepository<CategoryDTO>> _cateforiessRepository;
+        private static readonly int _fakeItemsCount = 10;
 
         [SetUp]
         public void Setup()
         {
-            _productsRepository = new Mock<IRepository<ProductDTO>>();
-            _suppliersRepository = new Mock<IRepository<SupplierDTO>>();
-            _cateforiessRepository = new Mock<IRepository<CategoryDTO>>();
+            _productService = new Mock<IProductService>();
+            _suppliersRepository = new Mock<IAsyncRepository<SupplierDTO>>();
+            _cateforiessRepository = new Mock<IAsyncRepository<CategoryDTO>>();
 
-            _productsRepository.Setup(repo => repo.FindAllAync()).ReturnsAsync(GetFakeItems());
+            _productService.Setup(service => service.GetMaxAmountAsync(It.IsAny<int>())).ReturnsAsync(GetFakeItems());
         }
 
         private ProductsController GetProductController(int maxAmountOfProducts = 0)
@@ -38,7 +38,7 @@ namespace Northwind.Web.UnitTests.Controllers
                 .Build();
 
             var controller = new ProductsController(
-                _productsRepository.Object,
+                _productService.Object,
                 _suppliersRepository.Object,
                 _cateforiessRepository.Object,
                 configuration);
@@ -72,21 +72,6 @@ namespace Northwind.Web.UnitTests.Controllers
             // Assert
             Assert.IsInstanceOf<IEnumerable<ProductDTO>>(model);
             Assert.AreEqual(GetFakeItems().Count(), model.Count());
-        }
-
-        [TestCase(3)]
-        public void Index_GetExactCount_ReturnsCorrectCount(int expectedCount)
-        {
-            // Arrange
-            var controller = GetProductController(expectedCount);
-
-            // Act
-            var result = controller.Index().Result as ViewResult;
-            var model = result.ViewData.Model as IEnumerable<ProductDTO>;
-
-            // Assert
-            Assert.IsInstanceOf<IEnumerable<ProductDTO>>(model);
-            Assert.AreEqual(expectedCount, model.Count());
         }
 
         [Test]
@@ -134,7 +119,7 @@ namespace Northwind.Web.UnitTests.Controllers
         public void Edit_GetCorrectId_ReturnsViewResult(int testId)
         {
             // Arrange
-            _productsRepository.Setup(repo => repo.FindAync(testId))
+            _productService.Setup(repo => repo.GetByIdAsync(testId))
                 .ReturnsAsync(GetFakeItems()
                 .FirstOrDefault(product => product.ProductID == testId));
 
@@ -145,19 +130,6 @@ namespace Northwind.Web.UnitTests.Controllers
 
             // Assert
             Assert.IsInstanceOf<ViewResult>(result);
-        }
-
-        [Test]
-        public void Edit_GetNullId_ReturnsNotFoundResult()
-        {
-            // Arrange
-            var controller = GetProductController();
-
-            // Act
-            var result = controller.Edit((int?)null).Result;
-
-            // Assert
-            Assert.IsInstanceOf<NotFoundResult>(result);
         }
 
         [Test]
@@ -182,7 +154,7 @@ namespace Northwind.Web.UnitTests.Controllers
             controller.ModelState.AddModelError("test", "test");
 
             // Act
-            var result = controller.Edit((ProductDTO)null).Result;
+            var result = controller.Edit(null).Result;
 
             // Assert
             Assert.IsInstanceOf<ViewResult>(result);

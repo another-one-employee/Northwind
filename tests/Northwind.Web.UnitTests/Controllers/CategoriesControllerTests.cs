@@ -12,19 +12,19 @@ namespace Northwind.Web.UnitTests.Controllers
 {
     public class CategoriesControllerTests
     {
-        private Mock<IRepository<CategoryDTO>> mockRepo;
+        private Mock<ICategoryService> mockService;
 
         [SetUp]
         public void Setup()
         {
-            mockRepo = new Mock<IRepository<CategoryDTO>>();
+            mockService = new Mock<ICategoryService>();
         }
 
         [Test]
         public void Index_GetView_ReturnsViewResult()
         {
             // Arrange
-            var controller = new CategoriesController(mockRepo.Object);
+            var controller = new CategoriesController(mockService.Object);
 
             // Act
             var result = controller.Index().Result;
@@ -37,9 +37,9 @@ namespace Northwind.Web.UnitTests.Controllers
         public void Index_GetAllItems_ReturnsAllItems()
         {
             // Arrange
-            mockRepo.Setup(repo => repo.FindAllAync())
+            mockService.Setup(service => service.GetAllAsync())
                 .ReturnsAsync(GetFakeItems());
-            var controller = new CategoriesController(mockRepo.Object);
+            var controller = new CategoriesController(mockService.Object);
 
             // Act
             var result = controller.Index().Result as ViewResult;
@@ -55,10 +55,10 @@ namespace Northwind.Web.UnitTests.Controllers
         public void GetImage_GetItem_ReturnsFileContentResult(int testId)
         {
             // Arrange
-            mockRepo.Setup(repo => repo.FindAync(testId))
+            mockService.Setup(service => service.GetByIdAsync(testId))
                 .ReturnsAsync(GetFakeItems()
                 .FirstOrDefault(c => c.CategoryID == testId));
-            var controller = new CategoriesController(mockRepo.Object);
+            var controller = new CategoriesController(mockService.Object);
 
             // Act
             var result = controller.GetImage(testId).Result;
@@ -67,27 +67,14 @@ namespace Northwind.Web.UnitTests.Controllers
             Assert.IsInstanceOf<FileContentResult>(result);
         }
 
-        [Test]
-        public void GetImage_GetUnexistedItem_ReturnsNotFoundResult()
-        {
-            // Arrange
-            var controller = new CategoriesController(mockRepo.Object);
-
-            // Act
-            var result = controller.GetImage(0).Result;
-
-            // Assert
-            Assert.IsInstanceOf<NotFoundResult>(result);
-        }
-
         [TestCase(1)]
         public void EditImage_GetItem_ReturnsViewResult(int testId)
         {
             // Arrange
-            mockRepo.Setup(repo => repo.FindAync(testId))
+            mockService.Setup(service => service.GetByIdAsync(testId))
                 .ReturnsAsync(GetFakeItems()
                 .FirstOrDefault(c => c.CategoryID == testId));
-            var controller = new CategoriesController(mockRepo.Object);
+            var controller = new CategoriesController(mockService.Object);
 
             // Act
             var result = controller.EditImage(testId).Result;
@@ -97,27 +84,14 @@ namespace Northwind.Web.UnitTests.Controllers
         }
 
         [Test]
-        public void EditImage_GetUnexistedItem_ReturnsNotFoundResult()
-        {
-            // Arrange
-            var controller = new CategoriesController(mockRepo.Object);
-
-            // Act
-            var result = controller.EditImage(0).Result;
-
-            // Assert
-            Assert.IsInstanceOf<NotFoundResult>(result);
-        }
-
-        [Test]
         public void EditImage_PostRequest_ReturnsRedirectToAction()
         {
             // Arrange
             var testItem = new Mock<CategoryDTO>();
             var testFile = new Mock<IFormFile>();
 
-            mockRepo.Setup(repo => repo.Update(testItem.Object));
-            var controller = new CategoriesController(mockRepo.Object);
+            mockService.Setup(service => service.UpdateAsync(testItem.Object));
+            var controller = new CategoriesController(mockService.Object);
 
             // Act
             var result = controller.EditImage(testItem.Object, testFile.Object).Result;
