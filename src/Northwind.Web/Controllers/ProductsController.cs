@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Northwind.Core.Interfaces;
 using Northwind.Core.Models;
 using Northwind.Web.Utilities.Filters;
+using System;
 using System.Threading.Tasks;
 
 namespace Northwind.Web.Controllers
@@ -14,8 +15,8 @@ namespace Northwind.Web.Controllers
         private readonly IProductService _productService;
         private readonly IAsyncRepository<SupplierDTO> _dbSupplier;
         private readonly IAsyncRepository<CategoryDTO> _dbCategory;
-        private readonly int _maximumAmountOfProducts;
-        private readonly string _maximumAmountOfProductsKey = "MaximumAmountOfProducts";
+        private readonly Lazy<int> _lazyMaxAmountOfProducts;
+        protected int MaxAmountOfProducts => _lazyMaxAmountOfProducts.Value;
 
         public ProductsController(
             IProductService productService,
@@ -26,13 +27,13 @@ namespace Northwind.Web.Controllers
             _productService = productService;
             _dbSupplier = dbSupplier;
             _dbCategory = dbCategory;
-            _maximumAmountOfProducts =
-                configuration.GetValue<int>(_maximumAmountOfProductsKey);
+            _lazyMaxAmountOfProducts = new Lazy<int>(
+                configuration.GetValue<int>(nameof(MaxAmountOfProducts)));
         }
 
         public async Task<IActionResult> Index()
         {
-            return View(await _productService.GetMaxAmountAsync(_maximumAmountOfProducts));
+            return View(await _productService.GetMaxAmountAsync(MaxAmountOfProducts));
         }
 
         [HttpGet]
