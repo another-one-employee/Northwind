@@ -4,7 +4,6 @@ using Microsoft.Extensions.Configuration;
 using Northwind.Core.Interfaces;
 using Northwind.Core.Models;
 using Northwind.Web.Utilities.Filters;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Northwind.Web.Controllers
@@ -12,19 +11,19 @@ namespace Northwind.Web.Controllers
     [LogAction(true)]
     public class ProductsController : Controller
     {
-        private readonly IRepository<ProductDTO> _db;
-        private readonly IRepository<SupplierDTO> _dbSupplier;
-        private readonly IRepository<CategoryDTO> _dbCategory;
+        private readonly IProductService _productService;
+        private readonly IAsyncRepository<SupplierDTO> _dbSupplier;
+        private readonly IAsyncRepository<CategoryDTO> _dbCategory;
         private readonly int _maximumAmountOfProducts;
         private readonly string _maximumAmountOfProductsKey = "MaximumAmountOfProducts";
 
         public ProductsController(
-            IRepository<ProductDTO> db,
-            IRepository<SupplierDTO> dbSupplier,
-            IRepository<CategoryDTO> dbCategory,
+            IProductService productService,
+            IAsyncRepository<SupplierDTO> dbSupplier,
+            IAsyncRepository<CategoryDTO> dbCategory,
             IConfiguration configuration)
         {
-            _db = db;
+            _productService = productService;
             _dbSupplier = dbSupplier;
             _dbCategory = dbCategory;
             _maximumAmountOfProducts =
@@ -33,14 +32,7 @@ namespace Northwind.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var products = await _db.FindAllAync();
-
-            if (_maximumAmountOfProducts == 0)
-            {
-                return View(products);
-            }
-
-            return View(products.Take(_maximumAmountOfProducts));
+            return View(await _productService.GetMaxAmountAsync(_maximumAmountOfProducts));
         }
 
         [HttpGet]
@@ -55,8 +47,7 @@ namespace Northwind.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _db.InsertAsync(product);
-                await _db.SaveChangesAsync();
+                await _productService.CreateAsync(product);
 
                 return RedirectToAction("Index");
             }
@@ -68,19 +59,10 @@ namespace Northwind.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id != null)
-            {
-                ProductDTO product = await _db.FindAync(id);
-                if (product != null)
-                {
-                    await PopulateProductsDropDownLists();
-                    return View(product);
-                }
-            }
-
-            return NotFound();
+            await PopulateProductsDropDownLists();
+            return View(await _productService.GetByIdAsync(id));
         }
 
         [HttpPost]
@@ -88,9 +70,7 @@ namespace Northwind.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                _db.Update(product);
-                await _db.SaveChangesAsync();
-
+                await _productService.UpdateAsync(product);
                 return RedirectToAction("Index");
             }
             else
@@ -102,8 +82,8 @@ namespace Northwind.Web.Controllers
 
         private async Task PopulateProductsDropDownLists()
         {
-            ViewBag.Suppliers = new SelectList(await _dbSupplier.FindAllAync(), "SupplierID", "CompanyName");
-            ViewBag.Categories = new SelectList(await _dbCategory.FindAllAync(), "CategoryID", "CategoryName");
+            ViewBag.Suppliers = new SelectList(await _dbSupplier.FindAllAsync(), "SupplierID", "CompanyName");
+            ViewBag.Categories = new SelectList(await _dbCategory.FindAllAsync(), "CategoryID", "CategoryName");
         }
     }
 }
