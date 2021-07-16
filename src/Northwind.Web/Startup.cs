@@ -1,18 +1,12 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Northwind.Core.Interfaces;
-using Northwind.Core.Models;
-using Northwind.Core.Services;
-using Northwind.Infrastructure.Data;
-using Northwind.Infrastructure.Models;
-using Northwind.Infrastructure.Repositories;
+using Northwind.Core;
+using Northwind.Infrastructure;
 using Northwind.Web.Utilities.Middlewares;
-using System;
 
 namespace Northwind.Web
 {
@@ -27,21 +21,10 @@ namespace Northwind.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
-            string connection = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<NorthwindDbContext>(options =>
-                options.UseSqlServer(connection));
+            services.AddCoreServices();
+            services.AddInfrastructureServices(Configuration);
+
             services.AddControllersWithViews();
-
-            services.AddScoped<IAsyncRepository<CategoryDTO>, EntityRepository<Category, CategoryDTO>>();
-            services.AddScoped<IAsyncRepository<ProductDTO>, ProductRepository>();
-            services.AddScoped<IAsyncRepository<SupplierDTO>, EntityRepository<Supplier, SupplierDTO>>();
-
-            services.AddScoped<DbContext, NorthwindDbContext>();
-
-            services.AddScoped<ICategoryService, CategoryService>();
-            services.AddScoped<IProductService, ProductService>();
-
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
 
         public void Configure(
