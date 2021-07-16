@@ -39,6 +39,7 @@ namespace Northwind.Web
             services.AddScoped<DbContext, NorthwindDbContext>();
 
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IProductService, ProductService>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
