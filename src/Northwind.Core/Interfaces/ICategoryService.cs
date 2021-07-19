@@ -9,6 +9,6 @@ namespace Northwind.Core.Interfaces
         Task<IEnumerable<CategoryDTO>> GetAllAsync();
         Task<CategoryDTO> GetByIdAsync(int id);
         Task<byte[]> GetPictureByIdAsync(int id);
-        Task UpdateAsync(CategoryDTO category);
+        Task EditImageById(int id, byte[] image);
     }
 }

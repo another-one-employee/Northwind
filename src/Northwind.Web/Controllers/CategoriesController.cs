@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Northwind.Core.Interfaces;
-using Northwind.Core.Models;
 using Northwind.Web.Utilities.Filters;
+using Northwind.Web.ViewModels.Categories;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -12,10 +13,12 @@ namespace Northwind.Web.Controllers
     public class CategoriesController : Controller
     {
         private readonly ICategoryService _categoryService;
+        private readonly IMapper _mapper;
 
-        public CategoriesController(ICategoryService categoryService)
+        public CategoriesController(ICategoryService categoryService, IMapper mapper)
         {
             _categoryService = categoryService;
+            _mapper = mapper;
         }
         public async Task<IActionResult> Index()
             => View(await _categoryService.GetAllAsync());
@@ -27,19 +30,19 @@ namespace Northwind.Web.Controllers
 
         [HttpGet]
         public async Task<IActionResult> EditImage(int id)
-            => View(await _categoryService.GetByIdAsync(id));
+            => View(_mapper.Map<EditImageViewModel>(await _categoryService.GetByIdAsync(id)));
 
 
         [HttpPost]
-        public async Task<IActionResult> EditImage(CategoryDTO category, IFormFile uploadedFile)
+        public async Task<IActionResult> EditImage(EditImageViewModel model, IFormFile uploadedFile)
         {
             if (ModelState.IsValid)
             {
                 await using var memoryStream = new MemoryStream();
                 await uploadedFile.CopyToAsync(memoryStream);
-                category.Picture = memoryStream.ToArray();
+                model.Picture = memoryStream.ToArray();
 
-                await _categoryService.UpdateAsync(category);
+                await _categoryService.EditImageById(model.CategoryID, model.Picture);
             }
 
             return RedirectToAction("Index");

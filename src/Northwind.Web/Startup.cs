@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Northwind.Core;
 using Northwind.Infrastructure;
 using Northwind.Web.Utilities.Middlewares;
+using System.Reflection;
 
 namespace Northwind.Web
 {
@@ -23,6 +24,8 @@ namespace Northwind.Web
         {
             services.AddCoreServices();
             services.AddInfrastructureServices(Configuration);
+
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             services.AddControllersWithViews();
         }
