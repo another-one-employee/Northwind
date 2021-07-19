@@ -45,12 +45,13 @@ namespace Northwind.Infrastructure.Repositories
         public async Task<TDomain> FindAsync(params object[] keys)
         {
             TDbModel dbEntity = await Set.FindAsync(keys);
+            Context.Entry(dbEntity).State = EntityState.Detached;
             return Mapper.Map<TDomain>(dbEntity);
         }
 
         public virtual async Task<IEnumerable<TDomain>> FindAllAsync()
         {
-            List<TDbModel> allItems = await Set.ToListAsync();
+            List<TDbModel> allItems = await Set.AsNoTracking().ToListAsync();
             return Mapper.Map<List<TDbModel>, IEnumerable<TDomain>>(allItems);
         }
     }
