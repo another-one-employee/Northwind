@@ -1,4 +1,4 @@
-﻿@model CategoryDTO
+﻿@model EditImageViewModel
 @{
     ViewData["Title"] = "Edit image";
 }
@@ -15,7 +15,6 @@
     <div>
         <input type="hidden" asp-for="CategoryID" />
         <input type="hidden" asp-for="CategoryName" />
-        <input type="hidden" asp-for="Description" />
         <input type="submit" value="Replace" class="btn btn-outline-secondary" />
     </div>
 </form>

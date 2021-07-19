@@ -32,8 +32,11 @@ namespace Northwind.Core.Services
             return category.Picture;
         }
 
-        public async Task UpdateAsync(CategoryDTO category)
+        public async Task EditImageById(int id, byte[] image)
         {
+            CategoryDTO category = await GetByIdAsync(id);
+
+            category.Picture = image;
             await _categoryRepository.UpdateAsync(category);
         }
     }

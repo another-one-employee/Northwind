@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Northwind.Core.Interfaces;
 using Northwind.Core.Models;
 using Northwind.Web.Controllers;
+using Northwind.Web.ViewModels.Categories;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,19 +14,24 @@ namespace Northwind.Web.UnitTests.Controllers
 {
     public class CategoriesControllerTests
     {
-        private Mock<ICategoryService> mockService;
+        private Mock<ICategoryService> _mockService;
+        private Mock<IMapper> _mapper;
+
+        private CategoriesController GetCategoriesController()
+            => new CategoriesController(_mockService.Object, _mapper.Object);
 
         [SetUp]
         public void Setup()
         {
-            mockService = new Mock<ICategoryService>();
+            _mockService = new Mock<ICategoryService>();
+            _mapper = new Mock<IMapper>();
         }
 
         [Test]
         public void Index_GetView_ReturnsViewResult()
         {
             // Arrange
-            var controller = new CategoriesController(mockService.Object);
+            var controller = GetCategoriesController();
 
             // Act
             var result = controller.Index().Result;
@@ -37,9 +44,9 @@ namespace Northwind.Web.UnitTests.Controllers
         public void Index_GetAllItems_ReturnsAllItems()
         {
             // Arrange
-            mockService.Setup(service => service.GetAllAsync())
+            _mockService.Setup(service => service.GetAllAsync())
                 .ReturnsAsync(GetFakeItems());
-            var controller = new CategoriesController(mockService.Object);
+            var controller = GetCategoriesController();
 
             // Act
             var result = controller.Index().Result as ViewResult;
@@ -55,10 +62,10 @@ namespace Northwind.Web.UnitTests.Controllers
         public void GetImage_GetItem_ReturnsFileContentResult(int testId)
         {
             // Arrange
-            mockService.Setup(service => service.GetByIdAsync(testId))
+            _mockService.Setup(service => service.GetByIdAsync(testId))
                 .ReturnsAsync(GetFakeItems()
                 .FirstOrDefault(c => c.CategoryID == testId));
-            var controller = new CategoriesController(mockService.Object);
+            var controller = GetCategoriesController();
 
             // Act
             var result = controller.GetImage(testId).Result;
@@ -71,10 +78,10 @@ namespace Northwind.Web.UnitTests.Controllers
         public void EditImage_GetItem_ReturnsViewResult(int testId)
         {
             // Arrange
-            mockService.Setup(service => service.GetByIdAsync(testId))
+            _mockService.Setup(service => service.GetByIdAsync(testId))
                 .ReturnsAsync(GetFakeItems()
                 .FirstOrDefault(c => c.CategoryID == testId));
-            var controller = new CategoriesController(mockService.Object);
+            var controller = GetCategoriesController();
 
             // Act
             var result = controller.EditImage(testId).Result;
@@ -87,11 +94,11 @@ namespace Northwind.Web.UnitTests.Controllers
         public void EditImage_PostRequest_ReturnsRedirectToAction()
         {
             // Arrange
-            var testItem = new Mock<CategoryDTO>();
+            var testItem = new Mock<EditImageViewModel>();
             var testFile = new Mock<IFormFile>();
 
-            mockService.Setup(service => service.UpdateAsync(testItem.Object));
-            var controller = new CategoriesController(mockService.Object);
+            _mockService.Setup(service => service.EditImageById(It.IsAny<int>(), It.IsAny<byte[]>()));
+            var controller = GetCategoriesController();
 
             // Act
             var result = controller.EditImage(testItem.Object, testFile.Object).Result;
