@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Timers;
 
@@ -15,6 +16,7 @@ namespace Northwind.Web.Utilities.Middlewares
         private readonly DirectoryInfo _directoryInfo;
         private readonly Timer _timer;
         private readonly int _maxImagesCount;
+        private static Regex AllowedPaths => new(@"(images|Categories/(Get|Edit)Image)/\d+$");
 
         public ImageCachingMiddleware(RequestDelegate next, IConfiguration _configuration)
         {
@@ -43,7 +45,7 @@ namespace Northwind.Web.Utilities.Middlewares
 
         public async Task InvokeAsync(HttpContext context)
         {
-            if (context.Request.Path.Value.ToLower().Contains("image"))
+            if (AllowedPaths.IsMatch(context.Request.Path.Value))
             {
                 var id = context.Request.RouteValues["id"].ToString();
 
@@ -58,15 +60,15 @@ namespace Northwind.Web.Utilities.Middlewares
 
                     memoryStream.Position = 0;
 
-                    string extension = GetExtensionFromContentType(context.Response.ContentType);
-                    int currentImagesCount = GetCurrentImagesCount();
-
                     if (IsThisImageExist(id))
                     {
                         context.Response.Body = File.OpenRead(string.Concat(_directoryInfo.FullName, id));
                     }
-                    else
+                    else if (context.Response.ContentType != null)
                     {
+                        string extension = GetExtensionFromContentType(context.Response.ContentType);
+                        int currentImagesCount = GetCurrentImagesCount();
+
                         if (currentImagesCount >= _maxImagesCount)
                         {
                             CleanCache();
