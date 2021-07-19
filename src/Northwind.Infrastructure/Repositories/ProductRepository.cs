@@ -16,6 +16,7 @@ namespace Northwind.Infrastructure.Repositories
             List<Product> allItems = await Set
                .Include(s => s.Supplier)
                .Include(c => c.Category)
+               .AsNoTracking()
                .ToListAsync();
 
             return Mapper.Map<List<Product>, IEnumerable<ProductDTO>>(allItems);
