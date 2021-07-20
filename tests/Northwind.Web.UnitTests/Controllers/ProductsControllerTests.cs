@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Moq;
 using Northwind.Core.Interfaces;
 using Northwind.Core.Models;
 using Northwind.Web.Controllers;
+using Northwind.Web.ViewModels.Products;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +18,7 @@ namespace Northwind.Web.UnitTests.Controllers
         private Mock<IAsyncRepository<SupplierDTO>> _suppliersRepository;
         private Mock<IAsyncRepository<CategoryDTO>> _cateforiessRepository;
         private static readonly int _fakeItemsCount = 10;
+        private Mock<IMapper> _mapper;
 
         [SetUp]
         public void Setup()
@@ -23,6 +26,7 @@ namespace Northwind.Web.UnitTests.Controllers
             _productService = new Mock<IProductService>();
             _suppliersRepository = new Mock<IAsyncRepository<SupplierDTO>>();
             _cateforiessRepository = new Mock<IAsyncRepository<CategoryDTO>>();
+            _mapper = new Mock<IMapper>();
 
             _productService.Setup(service => service.GetMaxAmountAsync(It.IsAny<int>())).ReturnsAsync(GetFakeItems());
         }
@@ -41,7 +45,8 @@ namespace Northwind.Web.UnitTests.Controllers
                 _productService.Object,
                 _suppliersRepository.Object,
                 _cateforiessRepository.Object,
-                configuration);
+                configuration,
+                _mapper.Object);
 
             return controller;
         }
@@ -91,7 +96,7 @@ namespace Northwind.Web.UnitTests.Controllers
         public void Create_CreateItem_ReturnsRedirectToAction()
         {
             // Arrange
-            var newItem = new ProductDTO() { ProductID = 0 };
+            var newItem = new CreateProductViewModel();
             var controller = GetProductController();
 
             // Act
@@ -136,7 +141,7 @@ namespace Northwind.Web.UnitTests.Controllers
         public void Edit_EditItem_ReturnsRedirectToAction()
         {
             // Arrange
-            var newItem = new ProductDTO() { ProductID = 0 };
+            var newItem = new EditProductViewModel() { ProductID = 0 };
             var controller = GetProductController();
 
             // Act
