@@ -11,6 +11,7 @@
     <img src="@Url.Action("GetImage", new { id=Model.CategoryID})" style="width:78px;height:78px;" />
     <div class="input-group-sm col-sm-4">
         <input type="file" name="uploadedFile" class="form-control" />
+        <span asp-validation-for="Picture"></span>
     </div>
     <div>
         <input type="hidden" asp-for="CategoryID" />
@@ -18,3 +19,7 @@
         <input type="submit" value="Replace" class="btn btn-outline-secondary" />
     </div>
 </form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
