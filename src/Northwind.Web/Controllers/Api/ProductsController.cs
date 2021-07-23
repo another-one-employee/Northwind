@@ -27,7 +27,7 @@ namespace Northwind.Web.Controllers.Api
         {
             try
             {
-                return Ok(await _productService.GetMaxAmountAsync(1)); // todo: return maxAmount
+                return Ok(await _productService.GetMaxAmountAsync(MaxAmountOfProducts));
             }
             catch
             {
