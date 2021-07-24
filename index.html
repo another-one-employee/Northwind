@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <h2>Categories list</h2>
+    <table class="table table-condensed table-striped  col-md-6">
+        <thead><tr><th>Id</th><th>Name</th><th>Discription</th><th></th></tr></thead>
+        <tbody>
+        </tbody>
+    </table>
+    <script>
+        // Получение всех пользователей
+        async function GetCategories() {
+            // отправляет запрос и получаем ответ
+            const response = await fetch("/api/categories", {
+                method: "GET",
+                headers: { "Accept": "application/json" }
+            });
+            // если запрос прошел нормально
+            if (response.ok === true) {
+                // получаем данные
+                const categories = await response.json();
+                let rows = document.querySelector("tbody");
+                categories.forEach(category => {
+                    // добавляем полученные элементы в таблицу
+                    rows.append(row(category));
+                });
+            }
+        }
+
+        // загрузка пользователей
+        GetCategories();
+    </script>
+</body>
+</html>
