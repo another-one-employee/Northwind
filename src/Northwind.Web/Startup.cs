@@ -40,6 +40,7 @@ namespace Northwind.Web
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseCors(options => options.AllowAnyOrigin());
             }
             else
             {

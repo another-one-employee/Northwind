@@ -17,7 +17,22 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Core", "src\North
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Northwind.Clients", "Northwind.Clients", "{A968C542-C789-4674-826E-C4B50700A702}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Northwind.ConsoleClient", "src\Northwind.Clients\Northwind.ConsoleClient\Northwind.ConsoleClient.csproj", "{9A7B0B2F-9109-45E6-9646-0F783959C5CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.ConsoleClient", "src\Northwind.Clients\Northwind.ConsoleClient\Northwind.ConsoleClient.csproj", "{9A7B0B2F-9109-45E6-9646-0F783959C5CF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Northwind.JSClient", "Northwind.JSClient", "{21F20BD2-FD29-412F-B90C-555847AF3078}"
+	ProjectSection(SolutionItems) = preProject
+		src\Northwind.Clients\Northwind.JSClient\index.html = src\Northwind.Clients\Northwind.JSClient\index.html
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "js", "js", "{954329E8-2CE5-498D-9012-B103B7CB5090}"
+	ProjectSection(SolutionItems) = preProject
+		src\Northwind.Clients\Northwind.JSClient\js\scripts.js = src\Northwind.Clients\Northwind.JSClient\js\scripts.js
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{50DC81CC-B8AD-49F4-861D-0F15500F7107}"
+	ProjectSection(SolutionItems) = preProject
+		src\Northwind.Clients\Northwind.JSClient\lib\jquery-2.0.3.min.js = src\Northwind.Clients\Northwind.JSClient\lib\jquery-2.0.3.min.js
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,6 +71,9 @@ Global
 		{37D690ED-8629-438E-818F-B202C52B1737} = {F8BD8A72-EB63-4623-ADDF-26283F096539}
 		{A968C542-C789-4674-826E-C4B50700A702} = {F8BD8A72-EB63-4623-ADDF-26283F096539}
 		{9A7B0B2F-9109-45E6-9646-0F783959C5CF} = {A968C542-C789-4674-826E-C4B50700A702}
+		{21F20BD2-FD29-412F-B90C-555847AF3078} = {A968C542-C789-4674-826E-C4B50700A702}
+		{954329E8-2CE5-498D-9012-B103B7CB5090} = {21F20BD2-FD29-412F-B90C-555847AF3078}
+		{50DC81CC-B8AD-49F4-861D-0F15500F7107} = {21F20BD2-FD29-412F-B90C-555847AF3078}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {71A0C92C-7408-4909-81CA-2EACE2D13875}
