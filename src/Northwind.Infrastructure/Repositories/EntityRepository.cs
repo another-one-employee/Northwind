@@ -45,7 +45,12 @@ namespace Northwind.Infrastructure.Repositories
         public async Task<TDomain> FindAsync(params object[] keys)
         {
             TDbModel dbEntity = await Set.FindAsync(keys);
-            Context.Entry(dbEntity).State = EntityState.Detached;
+
+            if (dbEntity != null)
+            {
+                Context.Entry(dbEntity).State = EntityState.Detached;
+            }
+
             return Mapper.Map<TDomain>(dbEntity);
         }
 
