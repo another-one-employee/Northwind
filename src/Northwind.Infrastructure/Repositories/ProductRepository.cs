@@ -11,6 +11,23 @@ namespace Northwind.Infrastructure.Repositories
     {
         public ProductRepository(DbContext dbContext, IMapper mapper) : base(dbContext, mapper) { }
 
+        public override async Task<ProductDTO> FindAsync(params object[] keys)
+        {
+            Product dbEntity = await Set.FindAsync(keys);
+
+            if (dbEntity != null)
+            {
+                await Context.Entry(dbEntity).Reference(s => s.Supplier).LoadAsync();
+                await Context.Entry(dbEntity).Reference(c => c.Category).LoadAsync();
+
+                Context.Entry(dbEntity).State = EntityState.Detached;
+                Context.Entry(dbEntity.Category).State = EntityState.Detached;
+                Context.Entry(dbEntity.Supplier).State = EntityState.Detached;
+            }
+
+            return Mapper.Map<ProductDTO>(dbEntity);
+        }
+
         public override async Task<IEnumerable<ProductDTO>> FindAllAsync()
         {
             List<Product> allItems = await Set

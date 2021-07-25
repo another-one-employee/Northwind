@@ -10,5 +10,6 @@ namespace Northwind.Core.Interfaces
         Task UpdateAsync(ProductDTO product);
         Task<ProductDTO> GetByIdAsync(int id);
         Task<IEnumerable<ProductDTO>> GetMaxAmountAsync(int maxAmountOfProducts);
+        Task DeleteAsync(ProductDTO product);
     }
 }
