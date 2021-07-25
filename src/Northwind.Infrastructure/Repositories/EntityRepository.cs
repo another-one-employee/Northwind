@@ -42,7 +42,7 @@ namespace Northwind.Infrastructure.Repositories
             await Context.SaveChangesAsync();
         }
 
-        public async Task<TDomain> FindAsync(params object[] keys)
+        public virtual async Task<TDomain> FindAsync(params object[] keys)
         {
             TDbModel dbEntity = await Set.FindAsync(keys);
 
@@ -58,6 +58,18 @@ namespace Northwind.Infrastructure.Repositories
         {
             List<TDbModel> allItems = await Set.AsNoTracking().ToListAsync();
             return Mapper.Map<List<TDbModel>, IEnumerable<TDomain>>(allItems);
+        }
+
+        public async Task DeleteAsync(TDomain entity)
+        {
+            TDbModel dbEntity = Mapper.Map<TDbModel>(entity);
+
+            var entry = Context.Entry(dbEntity);
+            if (entry.State == EntityState.Detached)
+                Set.Attach(dbEntity);
+            Set.Remove(dbEntity);
+
+            await Context.SaveChangesAsync();
         }
     }
 }

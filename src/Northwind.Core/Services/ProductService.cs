@@ -42,5 +42,10 @@ namespace Northwind.Core.Services
         {
             await _productRepository.UpdateAsync(product);
         }
+
+        public async Task DeleteAsync(ProductDTO product)
+        {
+            await _productRepository.DeleteAsync(product);
+        }
     }
 }

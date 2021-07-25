@@ -7,6 +7,7 @@ namespace Northwind.Core.Interfaces
     {
         Task InsertAsync(TEntity entity);
         Task UpdateAsync(TEntity entity);
+        Task DeleteAsync(TEntity entity);
         Task<TEntity> FindAsync(params object[] keys);
         Task<IEnumerable<TEntity>> FindAllAsync();
     }
