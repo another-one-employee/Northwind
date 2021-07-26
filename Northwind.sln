@@ -34,6 +34,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{50DC81CC-B8A
 		src\Northwind.Clients\Northwind.JSClient\lib\jquery-2.0.3.min.js = src\Northwind.Clients\Northwind.JSClient\lib\jquery-2.0.3.min.js
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IO.Swagger.Test", "tests\IO.Swagger.Test\IO.Swagger.Test.csproj", "{19F1DEBC-DE5E-4517-8062-F000CD499087}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IO.Swagger", "src\Northwind.Clients\IO.Swagger\IO.Swagger.csproj", "{630ED3BF-0B52-4102-A652-34E51F71B3A3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -60,6 +64,14 @@ Global
 		{9A7B0B2F-9109-45E6-9646-0F783959C5CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A7B0B2F-9109-45E6-9646-0F783959C5CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9A7B0B2F-9109-45E6-9646-0F783959C5CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19F1DEBC-DE5E-4517-8062-F000CD499087}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19F1DEBC-DE5E-4517-8062-F000CD499087}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19F1DEBC-DE5E-4517-8062-F000CD499087}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19F1DEBC-DE5E-4517-8062-F000CD499087}.Release|Any CPU.Build.0 = Release|Any CPU
+		{630ED3BF-0B52-4102-A652-34E51F71B3A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{630ED3BF-0B52-4102-A652-34E51F71B3A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{630ED3BF-0B52-4102-A652-34E51F71B3A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{630ED3BF-0B52-4102-A652-34E51F71B3A3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,6 +86,8 @@ Global
 		{21F20BD2-FD29-412F-B90C-555847AF3078} = {A968C542-C789-4674-826E-C4B50700A702}
 		{954329E8-2CE5-498D-9012-B103B7CB5090} = {21F20BD2-FD29-412F-B90C-555847AF3078}
 		{50DC81CC-B8AD-49F4-861D-0F15500F7107} = {21F20BD2-FD29-412F-B90C-555847AF3078}
+		{19F1DEBC-DE5E-4517-8062-F000CD499087} = {1CDDBE4D-A55D-4E6A-A3EA-378FC8B1C2B0}
+		{630ED3BF-0B52-4102-A652-34E51F71B3A3} = {A968C542-C789-4674-826E-C4B50700A702}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {71A0C92C-7408-4909-81CA-2EACE2D13875}
