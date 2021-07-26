@@ -4,7 +4,7 @@ namespace Northwind.Web.ViewModels.Api.Products
 {
     public class UpdateProductModel
     {
-        [Key]
+        [Required]
         public int ProductID { get; set; }
 
         [Required]
