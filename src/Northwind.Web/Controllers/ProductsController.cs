@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 namespace Northwind.Web.Controllers
 {
     [LogAction(true)]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class ProductsController : Controller
     {
         private readonly IProductService _productService;

@@ -9,6 +9,7 @@ using System.Diagnostics;
 namespace Northwind.Web.Controllers
 {
     [LogAction]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class HomeController : Controller
     {
         private readonly ILogger<ErrorViewModel> _loggerOfErrors;

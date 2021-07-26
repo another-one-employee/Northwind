@@ -29,6 +29,9 @@ namespace Northwind.Web.Controllers.Api
                 configuration.GetValue<int>(nameof(MaxAmountOfProducts)));
         }
 
+        /// <summary>
+        /// Get all Products
+        /// </summary>
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -41,7 +44,12 @@ namespace Northwind.Web.Controllers.Api
                 return StatusCode(StatusCodes.Status500InternalServerError, "Failed to get products");
             }
         }
- 
+
+        /// <summary>
+        /// Get a concrete Product
+        /// </summary>
+        /// <response code="404">If the item is null or was not found</response>    
+        /// <response code="500">An error occurred on the server side</response>    
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
@@ -59,6 +67,13 @@ namespace Northwind.Web.Controllers.Api
             }
         }
 
+        /// <summary>
+        /// Create a concrete Product
+        /// </summary>
+        /// <returns>A create Product</returns>
+        /// <response code="201">Returns new item's values</response>
+        /// <response code="400">If the validations failed</response>    
+        /// <response code="500">An error occurred on the server side</response>  
         [HttpPost]
         public async Task<ActionResult<CreateProductModel>> Post(CreateProductModel model)
         {
@@ -79,6 +94,13 @@ namespace Northwind.Web.Controllers.Api
             }
         }
 
+        /// <summary>
+        /// Update a Product
+        /// </summary>
+        /// <returns>An updated Product</returns>
+        /// <response code="400">If the validations failed</response>    
+        /// <response code="404">If the item is null or was not found</response>   
+        /// <response code="500">An error occurred on the server side</response>  
         [HttpPut]
         public async Task<ActionResult<UpdateProductModel>> Put(UpdateProductModel model)
         {
@@ -103,6 +125,12 @@ namespace Northwind.Web.Controllers.Api
             }
         }
 
+        /// <summary>
+        /// Delete a concrete Product
+        /// </summary>
+        /// <returns>A deleted Product</returns>
+        /// <response code="404">If the item is null or was not found</response>    
+        /// <response code="500">An error occurred on the server side</response>  
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

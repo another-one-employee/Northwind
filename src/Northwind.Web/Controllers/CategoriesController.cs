@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 namespace Northwind.Web.Controllers
 {
     [LogAction(true)]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class CategoriesController : Controller
     {
         private readonly ICategoryService _categoryService;
