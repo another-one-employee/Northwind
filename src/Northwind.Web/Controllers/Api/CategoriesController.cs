@@ -22,6 +22,9 @@ namespace Northwind.Web.Controllers.Api
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Get all Categories
+        /// </summary>
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -35,6 +38,12 @@ namespace Northwind.Web.Controllers.Api
             }
         }
 
+        /// <summary>
+        /// Get a concrete category image
+        /// </summary>
+        /// <returns>A CategoryImageModel</returns>
+        /// <response code="404">If the item is null or was not found</response>    
+        /// <response code="500">An error occurred on the server side</response>  
         [HttpGet("image/{id}")]
         public async Task<IActionResult> Get(int id)
         {
@@ -53,6 +62,13 @@ namespace Northwind.Web.Controllers.Api
             }
         }
 
+        /// <summary>
+        /// Update a concrete category image
+        /// </summary>
+        /// <returns>A CategoryImageModel</returns>
+        /// <response code="400">If the validations failed</response>    
+        /// <response code="404">If the item is null or was not found</response>   
+        /// <response code="500">An error occurred on the server side</response>  
         [HttpPut("image")]
         public async Task<ActionResult<CategoryImageModel>> Put(CategoryImageModel model)
         {

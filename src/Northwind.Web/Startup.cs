@@ -4,9 +4,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using Northwind.Core;
 using Northwind.Infrastructure;
 using Northwind.Web.Utilities.Middlewares;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using System;
+using System.IO;
 using System.Reflection;
 
 namespace Northwind.Web
@@ -28,6 +32,7 @@ namespace Northwind.Web
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             services.AddControllersWithViews();
+            services.AddSwaggerGen(o => SetupSwaggerGen(o));
         }
 
         public void Configure(
@@ -41,6 +46,11 @@ namespace Northwind.Web
             {
                 app.UseDeveloperExceptionPage();
                 app.UseCors(options => options.AllowAnyOrigin());
+                app.UseSwagger();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("v1/swagger.json", "Northwind API V1");
+                });
             }
             else
             {
@@ -72,6 +82,24 @@ namespace Northwind.Web
             {
                 logger.LogInformation($"{config.Key,-35} : {config.Value}");
             }
+        }
+
+        private static void SetupSwaggerGen(SwaggerGenOptions options)
+        {
+            options.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Version = "v1",
+                Title = "Northwind API",
+                Contact = new OpenApiContact
+                {
+                    Name = "Srul1k",
+                    Url = new Uri("https://t.me/Srul1k"),
+                },
+            });
+
+            var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+            options.IncludeXmlComments(xmlPath);
         }
     }
 }
