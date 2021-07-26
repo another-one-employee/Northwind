@@ -7,6 +7,7 @@ using Northwind.Core.Interfaces;
 using Northwind.Core.Models;
 using Northwind.Web.ViewModels.Api.Products;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Northwind.Web.Controllers.Api
@@ -33,14 +34,14 @@ namespace Northwind.Web.Controllers.Api
         {
             try
             {
-                return Ok(_mapper.Map<ProductModel>(await _productService.GetMaxAmountAsync(MaxAmountOfProducts)));
+                return Ok(_mapper.Map<IEnumerable<ProductModel>>(await _productService.GetMaxAmountAsync(MaxAmountOfProducts)));
             }
             catch
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Failed to get products");
             }
         }
-
+ 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {

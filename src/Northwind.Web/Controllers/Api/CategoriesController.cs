@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Northwind.Core.Exceptions;
 using Northwind.Core.Interfaces;
 using Northwind.Web.ViewModels.Api.Categories;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Northwind.Web.Controllers.Api
@@ -26,7 +27,7 @@ namespace Northwind.Web.Controllers.Api
         {
             try
             {
-                return Ok(_mapper.Map<CategoryModel>(await _categoryService.GetAllAsync()));
+                return Ok(_mapper.Map<IEnumerable<CategoryModel>>(await _categoryService.GetAllAsync()));
             }
             catch
             {
