@@ -286,8 +286,7 @@ namespace IO.Swagger.Client
                 return response.RawBytes;
             }
 
-            // TODO: ? if (type.IsAssignableFrom(typeof(Stream)))
-            if (type == typeof(Stream))
+            if (type.IsAssignableFrom(typeof(Stream)))
             {
                 if (headers != null)
                 {
