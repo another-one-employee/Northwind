@@ -1,28 +1,18 @@
-﻿using Northwind.ConsoleClient.Models;
+﻿using IO.Swagger.Api;
+using Newtonsoft.Json;
+using Northwind.ConsoleClient.Models;
 using System;
 using System.Collections.Generic;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace Northwind.ConsoleClient
 {
     static class Program
     {
-        static readonly HttpClient client = new();
+        static readonly string BasePath = "http://localhost:5000/";
 
-        static void Main()
+        static async Task Main()
         {
-            RunAsync().GetAwaiter().GetResult();
-        }
-
-        static async Task RunAsync()
-        {
-            client.BaseAddress = new Uri("http://localhost:5000/");
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
-
             try
             {
                 var categories = await TryGetCategoriesAsync();
@@ -49,28 +39,32 @@ namespace Northwind.ConsoleClient
 
         static async Task<IEnumerable<Product>> TryGetProductsAsync()
         {
-            HttpResponseMessage response = await client.GetAsync("api/products");
+            var client = new ProductsApi(BasePath);
+            var response = await client.ApiProductsGetAsyncWithHttpInfo();
 
-            if (response.IsSuccessStatusCode)
+            IEnumerable<Product> products = null;
+
+            if (response != null)
             {
-                var products = await response.Content.ReadAsAsync<IEnumerable<Product>>();
-                return products;
+                products = JsonConvert.DeserializeObject<IEnumerable<Product>>((string)response.Data);
             }
 
-            return null;
+            return products;
         }
 
         static async Task<IEnumerable<Category>> TryGetCategoriesAsync()
         {
-            HttpResponseMessage response = await client.GetAsync("api/categories");
+            var client = new CategoriesApi(BasePath);
+            var response = await client.ApiCategoriesGetAsyncWithHttpInfo();
 
-            if (response.IsSuccessStatusCode)
+            IEnumerable<Category> categories = null;
+
+            if (response != null)
             {
-                var categories = await response.Content.ReadAsAsync<IEnumerable<Category>>();
-                return categories;
+                categories = JsonConvert.DeserializeObject<IEnumerable<Category>>((string)response.Data);
             }
 
-            return null;
+            return categories;
         }
 
         static void ShowProduct(Product product)
@@ -83,7 +77,7 @@ namespace Northwind.ConsoleClient
         static void ShowCategories(Category category)
         {
             Console.WriteLine($"Category: {category.CategoryName}\n" +
-                $"  {category.Description, 10}\n");
+                $"  {category.Description,10}\n");
         }
     }
 }
