@@ -37,7 +37,9 @@ namespace Northwind.Web.Controllers.Api
         {
             try
             {
-                return Ok(_mapper.Map<IEnumerable<ProductModel>>(await _productService.GetMaxAmountAsync(MaxAmountOfProducts)));
+                var products = await _productService.GetMaxAmountAsync(MaxAmountOfProducts);
+                var productModels = _mapper.Map<IEnumerable<ProductModel>>(products);
+                return Ok(productModels);
             }
             catch
             {
@@ -55,7 +57,9 @@ namespace Northwind.Web.Controllers.Api
         {
             try
             {
-                return Ok(_mapper.Map<ProductModel>(await _productService.GetByIdAsync(id)));
+                var product = await _productService.GetByIdAsync(id);
+                var productModel = _mapper.Map<ProductModel>(product);
+                return Ok(productModel);
             }
             catch (NotFoundException)
             {
@@ -138,7 +142,8 @@ namespace Northwind.Web.Controllers.Api
             {
                 var product = await _productService.GetByIdAsync(id);
                 await _productService.DeleteAsync(product);
-                return Ok(_mapper.Map<ProductModel>(product));
+                var productModel = _mapper.Map<ProductModel>(product);
+                return Ok(productModel);
             }
             catch (NotFoundException)
             {
