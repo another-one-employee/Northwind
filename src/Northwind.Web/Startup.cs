@@ -36,7 +36,7 @@ namespace Northwind.Web
             {
                 s.RegisterValidatorsFromAssemblyContaining<Startup>();
             });
-            services.AddSwaggerGen(o => SetupSwaggerGen(o));
+            services.AddSwaggerGen(SetupSwaggerGen);
         }
 
         public void Configure(

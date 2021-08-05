@@ -10,16 +10,6 @@
 
 using NUnit.Framework;
 
-using System;
-using System.Linq;
-using System.IO;
-using System.Collections.Generic;
-using IO.Swagger.Api;
-using IO.Swagger.Model;
-using IO.Swagger.Client;
-using System.Reflection;
-using Newtonsoft.Json;
-
 namespace IO.Swagger.Test
 {
     /// <summary>
