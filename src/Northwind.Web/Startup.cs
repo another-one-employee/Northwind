@@ -12,6 +12,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 using System.IO;
 using System.Reflection;
+using FluentValidation.AspNetCore;
 
 namespace Northwind.Web
 {
@@ -31,7 +32,10 @@ namespace Northwind.Web
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddFluentValidation(s =>
+            {
+                s.RegisterValidatorsFromAssemblyContaining<Startup>();
+            });
             services.AddSwaggerGen(o => SetupSwaggerGen(o));
         }
 
