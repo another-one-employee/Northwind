@@ -30,7 +30,9 @@ namespace Northwind.Web.Controllers.Api
         {
             try
             {
-                return Ok(_mapper.Map<IEnumerable<CategoryModel>>(await _categoryService.GetAllAsync()));
+                var categories = await _categoryService.GetAllAsync();
+                var categoryModels = _mapper.Map<IEnumerable<CategoryModel>>(categories);
+                return Ok(categoryModels);
             }
             catch
             {
@@ -50,7 +52,8 @@ namespace Northwind.Web.Controllers.Api
             try
             {
                 var picture = await _categoryService.GetPictureByIdAsync(id);
-                return Ok(new CategoryImageModel { CategoryID = id, Picture = picture });
+                var categoryImageModel = new CategoryImageModel { CategoryID = id, Picture = picture };
+                return Ok(categoryImageModel);
             }
             catch (NotFoundException)
             {
