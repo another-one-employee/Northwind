@@ -1,33 +1,34 @@
 ﻿using AutoMapper;
-using Northwind.Core.Exceptions;
-using Northwind.Core.Interfaces;
+using Northwind.Application.Exceptions;
+using Northwind.Application.Interfaces;
+using Northwind.Application.Models;
+using Northwind.Domain.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Category = Northwind.Core.Entities.Category;
 
-namespace Northwind.Core.Services
+namespace Northwind.Application.Services
 {
     public class CategoryService : ICategoryService
     {
-        private readonly IAsyncRepository<Models.Category> _categoryRepository;
+        private readonly IAsyncRepository<Category> _categoryRepository;
         private readonly IMapper _mapper;
 
-        public CategoryService(IAsyncRepository<Models.Category> categoryRepository, IMapper mapper)
+        public CategoryService(IAsyncRepository<Category> categoryRepository, IMapper mapper)
         {
             _categoryRepository = categoryRepository;
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<Category>> GetAllAsync()
+        public async Task<IEnumerable<CategoryEntity>> GetAllAsync()
         {
             var models = await _categoryRepository.FindAllAsync();
-            return _mapper.Map<IEnumerable<Category>>(models);
+            return _mapper.Map<IEnumerable<CategoryEntity>>(models);
         }
 
-        public async Task<Category> GetByIdAsync(int id)
+        public async Task<CategoryEntity> GetByIdAsync(int id)
         {
             var model = await FindByIdAsync(id);
-            return _mapper.Map<Category>(model);
+            return _mapper.Map<CategoryEntity>(model);
         }
 
         public async Task<byte[]> GetPictureByIdAsync(int id)
@@ -45,7 +46,7 @@ namespace Northwind.Core.Services
             await _categoryRepository.UpdateAsync(model);
         }
 
-        private async Task<Models.Category> FindByIdAsync(int id)
+        private async Task<Category> FindByIdAsync(int id)
         {
             return await _categoryRepository.FindAsync(c => c.CategoryId == id) ??
                    throw new NotFoundException(nameof(Category), id);

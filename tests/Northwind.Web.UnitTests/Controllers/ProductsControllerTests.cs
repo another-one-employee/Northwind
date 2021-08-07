@@ -2,13 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Moq;
-using Northwind.Core.Interfaces;
+using Northwind.Application.Interfaces;
+using Northwind.Domain.Entities;
 using Northwind.Web.Controllers;
 using Northwind.Web.ViewModels.Products;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
-using Northwind.Core.Entities;
 
 namespace Northwind.Web.UnitTests.Controllers
 {
@@ -66,10 +66,10 @@ namespace Northwind.Web.UnitTests.Controllers
 
             // Act
             var result = controller.Index().Result as ViewResult;
-            var model = result.ViewData.Model as IEnumerable<Product>;
+            var model = result.ViewData.Model as IEnumerable<ProductEntity>;
 
             // Assert
-            Assert.IsInstanceOf<IEnumerable<Product>>(model);
+            Assert.IsInstanceOf<IEnumerable<ProductEntity>>(model);
             Assert.AreEqual(GetFakeItems().Count(), model.Count());
         }
 
@@ -159,13 +159,13 @@ namespace Northwind.Web.UnitTests.Controllers
             Assert.IsInstanceOf<ViewResult>(result);
         }
 
-        private static IEnumerable<Product> GetFakeItems()
+        private static IEnumerable<ProductEntity> GetFakeItems()
         {
-            var categories = new List<Product>();
+            var categories = new List<ProductEntity>();
 
             for (int i = 1; i <= _fakeItemsCount; i++)
             {
-                categories.Add(new Product() { ProductID = i, ProductName = $"Product {i}" });
+                categories.Add(new ProductEntity() { ProductID = i, ProductName = $"Product {i}" });
             }
 
             return categories;

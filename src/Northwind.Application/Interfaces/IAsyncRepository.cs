@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Northwind.Core.Interfaces
+namespace Northwind.Application.Interfaces
 {
     public interface IAsyncRepository<TEntity> where TEntity : class
     {

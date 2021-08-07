@@ -2,13 +2,13 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Northwind.Core.Entities;
-using Northwind.Core.Exceptions;
-using Northwind.Core.Interfaces;
+using Northwind.Application.Interfaces;
 using Northwind.Web.ViewModels.Api.Products;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Northwind.Application.Exceptions;
+using Northwind.Domain.Entities;
 
 namespace Northwind.Web.Controllers.Api
 {
@@ -85,7 +85,7 @@ namespace Northwind.Web.Controllers.Api
             {
                 if (ModelState.IsValid)
                 {
-                    var product = _mapper.Map<Product>(model);
+                    var product = _mapper.Map<ProductEntity>(model);
                     await _productService.CreateAsync(product);
                     return Created($"/api/products/{product.ProductID}", model);
                 }
@@ -112,7 +112,7 @@ namespace Northwind.Web.Controllers.Api
             {
                 if (ModelState.IsValid && model.ProductID != 0)
                 {
-                    var product = _mapper.Map<Product>(model);
+                    var product = _mapper.Map<ProductEntity>(model);
                     await _productService.UpdateAsync(product);
                     return model;
                 }

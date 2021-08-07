@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Northwind.Core.Interfaces;
-using Northwind.Core.Models;
+using Northwind.Application.Interfaces;
+using Northwind.Application.Models;
 using Northwind.Infrastructure.Data;
 using Northwind.Infrastructure.Repositories;
 

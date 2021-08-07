@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Northwind.Core.Exceptions;
 using System;
 using System.Net;
 using System.Threading.Tasks;
+using Northwind.Application.Exceptions;
 
 namespace Northwind.Web.Utilities.Middlewares
 {

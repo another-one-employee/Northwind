@@ -1,7 +1,7 @@
 ﻿@model CreateProductViewModel
 
 @{
-    ViewData["Title"] = "Create new product";
+    ViewData["Title"] = "Create new productEntityDb";
 }
 
 <h2>@ViewData["Title"]</h2>
@@ -13,11 +13,11 @@
         <span asp-validation-for="ProductName"></span>
     </div>
     <div class="input-group-sm col-sm-6">
-        <label asp-for="Supplier"></label>
+        <label asp-for="SupplierEntity"></label>
         <select asp-for="SupplierID" asp-items="ViewBag.Suppliers" class="form-control"></select>
     </div>
     <div class="input-group-sm col-sm-6">
-        <label asp-for="Category"></label>
+        <label asp-for="CategoryEntity"></label>
         <select asp-for="CategoryID" asp-items="ViewBag.Categories" class="form-control"></select>
     </div>
     <div class="input-group-sm col-sm-6">

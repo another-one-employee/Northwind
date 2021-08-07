@@ -10,7 +10,7 @@
 
 using NUnit.Framework;
 
-namespace IO.Swagger.Test
+namespace IO.Swagger.Test.Model
 {
     /// <summary>
     ///  Class for testing CategoryImageModel

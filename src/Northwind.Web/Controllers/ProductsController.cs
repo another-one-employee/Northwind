@@ -2,11 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
-using Northwind.Core.Interfaces;
 using Northwind.Web.Utilities.Filters;
 using Northwind.Web.ViewModels.Products;
 using System;
 using System.Threading.Tasks;
+using Northwind.Application.Interfaces;
+using Northwind.Domain.Entities;
 
 namespace Northwind.Web.Controllers
 {
@@ -47,7 +48,7 @@ namespace Northwind.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _productService.CreateAsync(_mapper.Map<Core.Entities.Product>(product));
+                await _productService.CreateAsync(_mapper.Map<ProductEntity>(product));
 
                 return RedirectToAction("Index");
             }
@@ -70,7 +71,7 @@ namespace Northwind.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _productService.UpdateAsync(_mapper.Map<Core.Entities.Product>(product));
+                await _productService.UpdateAsync(_mapper.Map<ProductEntity>(product));
                 return RedirectToAction("Index");
             }
             else

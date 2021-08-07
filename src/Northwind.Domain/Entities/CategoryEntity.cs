@@ -1,8 +1,8 @@
-﻿namespace Northwind.Core.Models
+﻿namespace Northwind.Domain.Entities
 {
-    public class Category
+    public class CategoryEntity
     {
-        public int CategoryId { get; set; }
+        public int CategoryID { get; set; }
         public string CategoryName { get; set; }
         public string Description { get; set; }
         public byte[] Picture { get; set; }

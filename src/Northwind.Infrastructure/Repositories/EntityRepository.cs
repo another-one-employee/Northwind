@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Northwind.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Northwind.Application.Interfaces;
 
 namespace Northwind.Infrastructure.Repositories
 {

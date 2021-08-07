@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Northwind.Core.Entities;
+using Northwind.Domain.Entities;
 using Northwind.Web.ViewModels.Api;
 using Northwind.Web.ViewModels.Api.Categories;
 using Northwind.Web.ViewModels.Api.Products;
@@ -12,16 +12,16 @@ namespace Northwind.Web.Utilities.Profiles
     {
         public MappingProfile()
         {
-            CreateMap<EditImageViewModel, Category>().ReverseMap();
-            CreateMap<CreateProductViewModel, Product>().ReverseMap();
-            CreateMap<EditProductViewModel, Product>().ReverseMap();
+            CreateMap<EditImageViewModel, CategoryEntity>().ReverseMap();
+            CreateMap<CreateProductViewModel, ProductEntity>().ReverseMap();
+            CreateMap<EditProductViewModel, ProductEntity>().ReverseMap();
 
-            CreateMap<Product, ProductModel>();
-            CreateMap<Supplier, SupplierModel>();
-            CreateMap<Category, CategoryModel>();
+            CreateMap<ProductEntity, ProductModel>();
+            CreateMap<SupplierEntity, SupplierModel>();
+            CreateMap<CategoryEntity, CategoryModel>();
 
-            CreateMap<CreateProductModel, Product>();
-            CreateMap<UpdateProductModel, Product>();
+            CreateMap<CreateProductModel, ProductEntity>();
+            CreateMap<UpdateProductModel, ProductEntity>();
         }
     }
 }

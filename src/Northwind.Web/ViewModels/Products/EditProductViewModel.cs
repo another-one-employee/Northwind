@@ -1,4 +1,4 @@
-﻿using Northwind.Core.Entities;
+﻿using Northwind.Domain.Entities;
 using System.ComponentModel.DataAnnotations;
 
 namespace Northwind.Web.ViewModels.Products
@@ -32,9 +32,9 @@ namespace Northwind.Web.ViewModels.Products
         public bool Discontinued { get; set; }
 
         public int SupplierID { get; set; }
-        public Supplier Supplier { get; set; }
+        public SupplierEntity SupplierEntity { get; set; }
 
         public int CategoryID { get; set; }
-        public Category Category { get; set; }
+        public CategoryEntity CategoryEntity { get; set; }
     }
 }
