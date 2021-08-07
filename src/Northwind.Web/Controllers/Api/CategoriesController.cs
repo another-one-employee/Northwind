@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Northwind.Core.Exceptions;
-using Northwind.Core.Interfaces;
 using Northwind.Web.ViewModels.Api.Categories;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Northwind.Application.Exceptions;
+using Northwind.Application.Interfaces;
 
 namespace Northwind.Web.Controllers.Api
 {

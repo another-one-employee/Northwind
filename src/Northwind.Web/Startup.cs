@@ -6,13 +6,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Northwind.Core;
 using Northwind.Infrastructure;
 using Northwind.Web.Utilities.Middlewares;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 using System.IO;
 using System.Reflection;
+using Northwind.Application;
 
 namespace Northwind.Web
 {
@@ -27,7 +27,7 @@ namespace Northwind.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCoreServices();
+            services.AddApplicationServices();
             services.AddInfrastructureServices(Configuration);
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
@@ -67,7 +67,7 @@ namespace Northwind.Web
 
             app.UseRouting();
 
-            //app.UseImageCaching(Configuration);
+            app.UseImageCaching(Configuration);
             app.UseCustomExceptionHandler();
 
             app.UseEndpoints(endpoints =>

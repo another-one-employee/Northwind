@@ -1,8 +1,8 @@
-﻿namespace Northwind.Core.Entities
+﻿namespace Northwind.Application.Models
 {
     public class Supplier
     {
-        public int SupplierID { get; set; }
+        public int SupplierId { get; set; }
         public string CompanyName { get; set; }
     }
 }

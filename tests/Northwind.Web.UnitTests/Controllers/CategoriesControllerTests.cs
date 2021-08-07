@@ -2,13 +2,13 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Northwind.Core.Interfaces;
+using Northwind.Application.Interfaces;
+using Northwind.Domain.Entities;
 using Northwind.Web.Controllers;
 using Northwind.Web.ViewModels.Categories;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
-using Northwind.Core.Entities;
 
 namespace Northwind.Web.UnitTests.Controllers
 {
@@ -50,10 +50,10 @@ namespace Northwind.Web.UnitTests.Controllers
 
             // Act
             var result = controller.Index().Result as ViewResult;
-            var model = result.ViewData.Model as IEnumerable<Category>;
+            var model = result.ViewData.Model as IEnumerable<CategoryEntity>;
 
             // Assert
-            Assert.IsInstanceOf<IEnumerable<Category>>(model);
+            Assert.IsInstanceOf<IEnumerable<CategoryEntity>>(model);
             Assert.AreEqual(GetFakeItems().Count(), model.Count());
 
         }
@@ -107,18 +107,18 @@ namespace Northwind.Web.UnitTests.Controllers
             Assert.IsInstanceOf<RedirectToActionResult>(result);
         }
 
-        private static IEnumerable<Category> GetFakeItems()
+        private static IEnumerable<CategoryEntity> GetFakeItems()
         {
-            var categories = new List<Category>
+            var categories = new List<CategoryEntity>
             {
-                new Category()
+                new CategoryEntity()
                 {
                     CategoryID = 1,
                     CategoryName = "Cetagory 1",
                     Description = "Testing category 1",
                     Picture = new byte[] { 1 }
                 },
-                new Category()
+                new CategoryEntity()
                 {
                     CategoryID = 2,
                     CategoryName = "Cetagory 2",

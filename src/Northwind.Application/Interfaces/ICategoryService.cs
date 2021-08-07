@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Northwind.Core.Entities;
+using Northwind.Domain.Entities;
 
-namespace Northwind.Core.Interfaces
+namespace Northwind.Application.Interfaces
 {
     public interface ICategoryService
     {
-        Task<IEnumerable<Category>> GetAllAsync();
-        Task<Category> GetByIdAsync(int id);
+        Task<IEnumerable<CategoryEntity>> GetAllAsync();
+        Task<CategoryEntity> GetByIdAsync(int id);
         Task<byte[]> GetPictureByIdAsync(int id);
         Task EditImageById(int id, byte[] image);
     }

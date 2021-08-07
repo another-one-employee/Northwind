@@ -1,4 +1,4 @@
-﻿namespace Northwind.Core.Models
+﻿namespace Northwind.Application.Models
 {
     public class Product
     {

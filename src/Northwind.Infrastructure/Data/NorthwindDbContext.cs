@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Northwind.Core.Models;
+using Northwind.Application.Models;
 
 namespace Northwind.Infrastructure.Data
 {
