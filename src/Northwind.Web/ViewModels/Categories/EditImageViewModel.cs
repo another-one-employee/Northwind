@@ -8,7 +8,7 @@ namespace Northwind.Web.ViewModels.Categories
         public int CategoryID { get; set; }
         [Required]
         public string CategoryName { get; set; }
-        [Required]
+
         public byte[] Picture { get; set; }
     }
 }

@@ -4,9 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Northwind.Core.Interfaces;
 using Northwind.Core.Models;
 using Northwind.Infrastructure.Data;
-using Northwind.Infrastructure.Models;
 using Northwind.Infrastructure.Repositories;
-using System.Reflection;
 
 namespace Northwind.Infrastructure
 {
@@ -18,13 +16,11 @@ namespace Northwind.Infrastructure
             services.AddDbContext<NorthwindDbContext>(options =>
                 options.UseSqlServer(connection));
 
-            services.AddScoped<IAsyncRepository<CategoryDTO>, EntityRepository<Category, CategoryDTO>>();
-            services.AddScoped<IAsyncRepository<ProductDTO>, ProductRepository>();
-            services.AddScoped<IAsyncRepository<SupplierDTO>, EntityRepository<Supplier, SupplierDTO>>();
+            services.AddScoped<IAsyncRepository<Category>, EntityRepository<Category>>();
+            services.AddScoped<IAsyncRepository<Product>, ProductRepository>();
+            services.AddScoped<IAsyncRepository<Supplier>, EntityRepository<Supplier>>();
 
             services.AddScoped<DbContext, NorthwindDbContext>();
-
-            services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             return services;
         }
