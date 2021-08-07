@@ -3,20 +3,18 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Moq;
 using Northwind.Core.Interfaces;
-using Northwind.Core.Models;
 using Northwind.Web.Controllers;
 using Northwind.Web.ViewModels.Products;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
+using Northwind.Core.Entities;
 
 namespace Northwind.Web.UnitTests.Controllers
 {
     class ProductsControllerTests
     {
         private Mock<IProductService> _productService;
-        private Mock<IAsyncRepository<SupplierDTO>> _suppliersRepository;
-        private Mock<IAsyncRepository<CategoryDTO>> _cateforiessRepository;
         private static readonly int _fakeItemsCount = 10;
         private Mock<IMapper> _mapper;
 
@@ -24,8 +22,6 @@ namespace Northwind.Web.UnitTests.Controllers
         public void Setup()
         {
             _productService = new Mock<IProductService>();
-            _suppliersRepository = new Mock<IAsyncRepository<SupplierDTO>>();
-            _cateforiessRepository = new Mock<IAsyncRepository<CategoryDTO>>();
             _mapper = new Mock<IMapper>();
 
             _productService.Setup(service => service.GetMaxAmountAsync(It.IsAny<int>())).ReturnsAsync(GetFakeItems());
@@ -43,8 +39,6 @@ namespace Northwind.Web.UnitTests.Controllers
 
             var controller = new ProductsController(
                 _productService.Object,
-                _suppliersRepository.Object,
-                _cateforiessRepository.Object,
                 configuration,
                 _mapper.Object);
 
@@ -72,10 +66,10 @@ namespace Northwind.Web.UnitTests.Controllers
 
             // Act
             var result = controller.Index().Result as ViewResult;
-            var model = result.ViewData.Model as IEnumerable<ProductDTO>;
+            var model = result.ViewData.Model as IEnumerable<Product>;
 
             // Assert
-            Assert.IsInstanceOf<IEnumerable<ProductDTO>>(model);
+            Assert.IsInstanceOf<IEnumerable<Product>>(model);
             Assert.AreEqual(GetFakeItems().Count(), model.Count());
         }
 
@@ -165,13 +159,13 @@ namespace Northwind.Web.UnitTests.Controllers
             Assert.IsInstanceOf<ViewResult>(result);
         }
 
-        private static IEnumerable<ProductDTO> GetFakeItems()
+        private static IEnumerable<Product> GetFakeItems()
         {
-            var categories = new List<ProductDTO>();
+            var categories = new List<Product>();
 
             for (int i = 1; i <= _fakeItemsCount; i++)
             {
-                categories.Add(new ProductDTO() { ProductID = i, ProductName = $"Product {i}" });
+                categories.Add(new Product() { ProductID = i, ProductName = $"Product {i}" });
             }
 
             return categories;

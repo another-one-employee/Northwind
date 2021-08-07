@@ -1,4 +1,4 @@
-﻿using Northwind.Core.Models;
+﻿using Northwind.Core.Entities;
 using System.ComponentModel.DataAnnotations;
 
 namespace Northwind.Web.ViewModels.Products
@@ -29,9 +29,9 @@ namespace Northwind.Web.ViewModels.Products
         public bool Discontinued { get; set; }
 
         public int SupplierID { get; set; }
-        public SupplierDTO Supplier { get; set; }
+        public Supplier Supplier { get; set; }
 
         public int CategoryID { get; set; }
-        public CategoryDTO Category { get; set; }
+        public Category Category { get; set; }
     }
 }

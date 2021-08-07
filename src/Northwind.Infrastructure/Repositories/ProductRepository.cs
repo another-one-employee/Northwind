@@ -1,42 +1,34 @@
-﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using Northwind.Core.Models;
-using Northwind.Infrastructure.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Northwind.Core.Models;
 
 namespace Northwind.Infrastructure.Repositories
 {
-    public class ProductRepository : EntityRepository<Product, ProductDTO>
+    public class ProductRepository : EntityRepository<Product>
     {
-        public ProductRepository(DbContext dbContext, IMapper mapper) : base(dbContext, mapper) { }
+        public ProductRepository(DbContext dbContext) : base(dbContext) { }
 
-        public override async Task<ProductDTO> FindAsync(params object[] keys)
+        public override async Task<Product> FindAsync(Expression<Func<Product, bool>> predicate)
         {
-            Product dbEntity = await Set.FindAsync(keys);
-
-            if (dbEntity != null)
-            {
-                await Context.Entry(dbEntity).Reference(s => s.Supplier).LoadAsync();
-                await Context.Entry(dbEntity).Reference(c => c.Category).LoadAsync();
-
-                Context.Entry(dbEntity).State = EntityState.Detached;
-                Context.Entry(dbEntity.Category).State = EntityState.Detached;
-                Context.Entry(dbEntity.Supplier).State = EntityState.Detached;
-            }
-
-            return Mapper.Map<ProductDTO>(dbEntity);
+            return await Set
+                .Include(s => s.Supplier)
+                .Include(c => c.Category)
+                .AsNoTracking()
+                .FirstAsync(predicate);
         }
 
-        public override async Task<IEnumerable<ProductDTO>> FindAllAsync()
+        public override async Task<IEnumerable<Product>> FindAllAsync()
         {
-            List<Product> allItems = await Set
+            return await Set
                .Include(s => s.Supplier)
                .Include(c => c.Category)
+               .OrderBy(p => p.ProductId)
                .AsNoTracking()
                .ToListAsync();
-
-            return Mapper.Map<List<Product>, IEnumerable<ProductDTO>>(allItems);
         }
     }
 }

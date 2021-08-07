@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 using Northwind.Core.Interfaces;
 using Northwind.Core.Services;
 
@@ -10,6 +11,8 @@ namespace Northwind.Core
         {
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IProductService, ProductService>();
+
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             return services;
         }

@@ -1,15 +1,17 @@
-﻿using Northwind.Core.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Northwind.Core.Entities;
 
 namespace Northwind.Core.Interfaces
 {
     public interface IProductService
     {
-        Task CreateAsync(ProductDTO product);
-        Task UpdateAsync(ProductDTO product);
-        Task<ProductDTO> GetByIdAsync(int id);
-        Task<IEnumerable<ProductDTO>> GetMaxAmountAsync(int maxAmountOfProducts);
-        Task DeleteAsync(ProductDTO product);
+        Task CreateAsync(Product product);
+        Task UpdateAsync(Product product);
+        Task<Product> GetByIdAsync(int id);
+        Task<IEnumerable<Product>> GetMaxAmountAsync(int maxAmountOfProducts);
+        Task DeleteAsync(Product product);
+        Task<IEnumerable<Supplier>> GetSuppliers();
+        Task<IEnumerable<Category>> GetCategories();
     }
 }
