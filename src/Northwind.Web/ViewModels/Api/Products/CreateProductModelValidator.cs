@@ -7,7 +7,7 @@ namespace Northwind.Web.ViewModels.Api.Products
         public CreateProductModelValidator()
         {
             RuleFor(cpm => cpm.ProductName)
-                .NotEmpty()
+                .NotNull()
                 .MaximumLength(50);
 
             RuleFor(cpm => cpm.QuantityPerUnit)
@@ -29,7 +29,7 @@ namespace Northwind.Web.ViewModels.Api.Products
                 .WithMessage("{PropertyName} must be positive");
 
             RuleFor(cpm => cpm.Discontinued)
-                .NotEmpty();
+                .NotNull();
         }
     }
 }
