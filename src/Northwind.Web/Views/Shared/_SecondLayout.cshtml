@@ -19,6 +19,23 @@
             <button class="navbar-toggler navbar-dark" type="button" onclick="openNav()">
                 <span class="navbar-toggler-icon"></span>
             </button>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <form method="post" asp-controller="Account" asp-action="Logout">
+                    <input type="submit" value="Logout" />
+                </form>
+            }
+            else
+            {
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="btn btn-light" asp-controller="Account" asp-action="Login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-light" asp-controller="Account" asp-action="Register">Register</a>
+                    </li>
+                </ul>
+            }
         </nav>
         <div class="container">
             <div class="text-center">

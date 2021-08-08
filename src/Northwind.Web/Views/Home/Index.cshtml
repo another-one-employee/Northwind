@@ -4,6 +4,13 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Greetings!</h1>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <h1 class="display-4">Welcome, @User.Identity.Name</h1>
+    }
+    else
+    {
+        <h1 class="display-4">Greetings!</h1>
+    }
     <p>You can view the source code on <a href="https://github.com/Srul1k/web-learning">GitHub</a>.</p>
 </div>

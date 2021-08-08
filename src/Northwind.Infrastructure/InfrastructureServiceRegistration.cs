@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Northwind.Application.Interfaces;
@@ -14,13 +15,19 @@ namespace Northwind.Infrastructure
         {
             services
                 .AddDbContext<NorthwindDbContext>(options =>
-                    options.UseSqlServer(configuration.GetConnectionString(nameof(NorthwindDbContext))));
+                    options.UseSqlServer(configuration.GetConnectionString(nameof(NorthwindDbContext))))
+                .AddDbContext<NorthwindIdentityDbContext>(options =>
+                    options.UseSqlServer(configuration.GetConnectionString(nameof(NorthwindIdentityDbContext))));
 
-            services.AddScoped<IAsyncRepository<Category>, EntityRepository<Category>>();
-            services.AddScoped<IAsyncRepository<Product>, ProductRepository>();
-            services.AddScoped<IAsyncRepository<Supplier>, EntityRepository<Supplier>>();
+            services
+                .AddScoped<IAsyncRepository<Category>, EntityRepository<Category>>()
+                .AddScoped<IAsyncRepository<Product>, ProductRepository>()
+                .AddScoped<IAsyncRepository<Supplier>, EntityRepository<Supplier>>();
 
             services.AddScoped<DbContext, NorthwindDbContext>();
+
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<NorthwindIdentityDbContext>();
 
             return services;
         }
