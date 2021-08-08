@@ -12,9 +12,9 @@ namespace Northwind.Infrastructure
     {
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
         {
-            string connection = configuration.GetConnectionString("NorthwindConnectionString");
-            services.AddDbContext<NorthwindDbContext>(options =>
-                options.UseSqlServer(connection));
+            services
+                .AddDbContext<NorthwindDbContext>(options =>
+                    options.UseSqlServer(configuration.GetConnectionString(nameof(NorthwindDbContext))));
 
             services.AddScoped<IAsyncRepository<Category>, EntityRepository<Category>>();
             services.AddScoped<IAsyncRepository<Product>, ProductRepository>();
