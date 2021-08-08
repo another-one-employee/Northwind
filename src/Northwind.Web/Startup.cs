@@ -67,6 +67,8 @@ namespace Northwind.Web
 
             app.UseRouting();
 
+            app.UseAuthentication();
+
             app.UseImageCaching(Configuration);
             app.UseCustomExceptionHandler();
 
