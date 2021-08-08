@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
-using System;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -18,11 +17,11 @@ namespace Northwind.Web.Utilities.Middlewares
         private readonly int _maxImagesCount;
         private static Regex AllowedPaths => new(@"(images|Categories/(Get|Edit)Image)/\d+$");
 
-        public ImageCachingMiddleware(RequestDelegate next, IConfiguration _configuration)
+        public ImageCachingMiddleware(RequestDelegate next, IConfiguration configuration)
         {
             _next = next;
 
-            var cacheSettings = _configuration.GetSection("CacheSettings");
+            var cacheSettings = configuration.GetSection("CacheSettings");
             _directoryInfo =
                 new DirectoryInfo(string.Concat(Directory.GetCurrentDirectory(),
                 cacheSettings.GetValue<string>("FolderPathFromCurrentDirectory")));
@@ -38,16 +37,16 @@ namespace Northwind.Web.Utilities.Middlewares
                 {
                     AutoReset = true
                 };
-                _timer.Elapsed += (sender, e) => CleanCache();
+                _timer.Elapsed += delegate { CleanCache(); };
                 _timer.Start();
             }
         }
 
         public async Task InvokeAsync(HttpContext context)
         {
-            if (AllowedPaths.IsMatch(context.Request.Path.Value))
+            if (AllowedPaths.IsMatch(context.Request.Path.Value ?? string.Empty))
             {
-                var id = context.Request.RouteValues["id"].ToString();
+                var id = context.Request.RouteValues["id"]?.ToString();
 
                 Stream originalBody = context.Response.Body;
 
@@ -64,7 +63,7 @@ namespace Northwind.Web.Utilities.Middlewares
                     {
                         context.Response.Body = File.OpenRead(string.Concat(_directoryInfo.FullName, id));
                     }
-                    else if (context.Response.ContentType != null)
+                    else
                     {
                         string extension = GetExtensionFromContentType(context.Response.ContentType);
                         int currentImagesCount = GetCurrentImagesCount();
@@ -123,7 +122,11 @@ namespace Northwind.Web.Utilities.Middlewares
 
             foreach (var file in files)
             {
-                file.Delete();
+                try
+                {
+                    file.Delete();
+                }
+                catch (IOException) { }
             }
         }
     }
