@@ -1,0 +1,18 @@
+﻿@model Microsoft.AspNetCore.Identity.IdentityUser
+
+<form method="post" asp-controller="Account" asp-action="ConfirmExternalUser">
+    <div asp-validation-summary="ModelOnly"></div>
+    <div>
+        <label asp-for="Email"></label><br />
+        <input asp-for="Email" />
+        <span asp-validation-for="Email"></span>
+    </div>
+    <div>
+        <input type="submit" value="Register" class="btn btn-primary" />
+    </div>
+</form>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}
