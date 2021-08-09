@@ -1,18 +1,24 @@
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Identity.Web;
+using Microsoft.Identity.Web.UI;
 using Microsoft.OpenApi.Models;
+using Northwind.Application;
 using Northwind.Infrastructure;
 using Northwind.Web.Utilities.Middlewares;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 using System.IO;
 using System.Reflection;
-using Northwind.Application;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace Northwind.Web
 {
@@ -37,6 +43,15 @@ namespace Northwind.Web
                 s.RegisterValidatorsFromAssemblyContaining<Startup>();
             });
             services.AddSwaggerGen(SetupSwaggerGen);
+
+            services.Configure<OpenIdConnectOptions>(OpenIdConnectDefaults.AuthenticationScheme,
+                options => options.SignInScheme = IdentityConstants.ExternalScheme);
+
+            services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
+                .AddMicrosoftIdentityWebApp(Configuration.GetSection("AzureAd"));
+
+            services.AddRazorPages()
+                .AddMicrosoftIdentityUI();
         }
 
         public void Configure(
@@ -76,6 +91,7 @@ namespace Northwind.Web
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();
+                endpoints.MapRazorPages();
             });
         }
 

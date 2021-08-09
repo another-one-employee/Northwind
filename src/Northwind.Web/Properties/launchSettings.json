@@ -22,6 +22,15 @@
         "ASPNETCORE_ENVIRONMENT": "Production"
       }
     },
+    "Northwind": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "dotnetRunMessages": "true",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:44321"
+    },
     "Northwind.Web": {
       "commandName": "Project",
       "launchBrowser": true,

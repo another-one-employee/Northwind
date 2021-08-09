@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Northwind.Application.Interfaces;
 using Northwind.Web.ViewModels.Account;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 
 namespace Northwind.Web.Controllers
 {
@@ -62,7 +63,7 @@ namespace Northwind.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = 
+                var result =
                     await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
 
                 if (result.Succeeded)
@@ -71,15 +72,15 @@ namespace Northwind.Web.Controllers
                     {
                         return Redirect(model.ReturnUrl);
                     }
-                    
+
                     return RedirectToAction("Index", "Home");
-                } 
-                
+                }
+
                 ModelState.AddModelError("", "Invalid username and/or password");
             }
             return View(model);
         }
- 
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
@@ -106,7 +107,7 @@ namespace Northwind.Web.Controllers
                 {
                     return View("ForgotPasswordConfirmation");
                 }
- 
+
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
                 var callbackUrl = Url.Action("ResetPassword", "Account", new { UserId = user.Id, Code = code }, HttpContext.Request.Scheme);
                 await _emailService.SendEmailAsync(model.Email, "Reset Password",
@@ -122,7 +123,7 @@ namespace Northwind.Web.Controllers
         {
             return code == null ? View("Error") : View();
         }
- 
+
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -151,6 +152,60 @@ namespace Northwind.Web.Controllers
             }
 
             return View(model);
+        }
+
+        [HttpGet]
+        public ChallengeResult ExternalLogin()
+        {
+            var redirectUrl = Url.Action(nameof(ExternalLoginCallback));
+            var properties = _signInManager.ConfigureExternalAuthenticationProperties(OpenIdConnectDefaults.AuthenticationScheme, redirectUrl);
+            return new ChallengeResult(OpenIdConnectDefaults.AuthenticationScheme, properties);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ExternalLoginCallback()
+        {
+            var info = await _signInManager.GetExternalLoginInfoAsync();
+
+            var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, false, false);
+
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            return RedirectToAction(nameof(ConfirmExternalUser));
+        }
+
+        [HttpGet]
+        public IActionResult ConfirmExternalUser()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ConfirmExternalUser(IdentityUser user)
+        {
+            user.UserName = user.Email;
+
+            var info = await _signInManager.GetExternalLoginInfoAsync();
+            var result = await _userManager.CreateAsync(user);
+
+            if (!result.Succeeded)
+            {
+                return RedirectToAction("Login");
+            }
+
+            var loginResult = await _userManager.AddLoginAsync(user, info);
+
+            if (!loginResult.Succeeded)
+            {
+                return RedirectToAction("Login");
+            }
+
+            await _signInManager.SignInAsync(user, false);
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }
