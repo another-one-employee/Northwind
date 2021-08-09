@@ -6,6 +6,7 @@ using Northwind.Application.Interfaces;
 using Northwind.Application.Models;
 using Northwind.Infrastructure.Data;
 using Northwind.Infrastructure.Repositories;
+using Northwind.Infrastructure.Services;
 
 namespace Northwind.Infrastructure
 {
@@ -27,7 +28,10 @@ namespace Northwind.Infrastructure
             services.AddScoped<DbContext, NorthwindDbContext>();
 
             services.AddIdentity<IdentityUser, IdentityRole>()
-                .AddEntityFrameworkStores<NorthwindIdentityDbContext>();
+                .AddEntityFrameworkStores<NorthwindIdentityDbContext>()
+                .AddTokenProvider<DataProtectorTokenProvider<IdentityUser>>(TokenOptions.DefaultProvider);
+
+            services.AddScoped<IEmailService, EmailService>();
 
             return services;
         }
