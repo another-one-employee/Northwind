@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Northwind.Application.Interfaces;
 using Northwind.Web.ViewModels.Account;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 
 namespace Northwind.Web.Controllers
 {
@@ -155,7 +155,7 @@ namespace Northwind.Web.Controllers
         }
 
         [HttpGet]
-        public ChallengeResult ExternalLogin()
+        public IActionResult ExternalLogin()
         {
             var redirectUrl = Url.Action(nameof(ExternalLoginCallback));
             var properties = _signInManager.ConfigureExternalAuthenticationProperties(OpenIdConnectDefaults.AuthenticationScheme, redirectUrl);
@@ -167,14 +167,29 @@ namespace Northwind.Web.Controllers
         {
             var info = await _signInManager.GetExternalLoginInfoAsync();
 
-            var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, false, false);
+            var result =
+                await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, false, false);
 
             if (result.Succeeded)
             {
                 return RedirectToAction("Index", "Home");
             }
+            
+            if (info.Principal.Identity != null && !string.IsNullOrEmpty(info.Principal.Identity.Name))
+            {
+                var name = info.Principal.Identity.Name;
+                var user = new IdentityUser(name) { Email = name };
+                var createResult = await _userManager.CreateAsync(user);
+                var loginResult = await _userManager.AddLoginAsync(user, info);
 
-            return RedirectToAction(nameof(ConfirmExternalUser));
+                if (createResult.Succeeded && loginResult.Succeeded)
+                {
+                    await _signInManager.SignInAsync(user, false);
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+
+            return RedirectToAction(nameof(Login));
         }
 
         [HttpGet]
