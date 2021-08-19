@@ -29,7 +29,7 @@ namespace Northwind.Infrastructure
 
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<NorthwindIdentityDbContext>()
-                .AddTokenProvider<DataProtectorTokenProvider<IdentityUser>>(TokenOptions.DefaultProvider);
+                .AddDefaultTokenProviders();
 
             services.AddScoped<IEmailService, EmailService>();
 

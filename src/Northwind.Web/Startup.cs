@@ -2,12 +2,12 @@ using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Identity.Web;
-using Microsoft.Identity.Web.UI;
 using Microsoft.OpenApi.Models;
 using Northwind.Application;
 using Northwind.Infrastructure;
@@ -16,9 +16,6 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 using System.IO;
 using System.Reflection;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace Northwind.Web
 {
@@ -33,25 +30,29 @@ namespace Northwind.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddApplicationServices();
-            services.AddInfrastructureServices(Configuration);
+            services
+                .AddApplicationServices()
+                .AddInfrastructureServices(Configuration);
 
-            services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            services
+                .AddAutoMapper(Assembly.GetExecutingAssembly())
+                .AddFluentValidation(s => 
+                {
+                    s.RegisterValidatorsFromAssemblyContaining<Startup>();
+                });
 
-            services.AddControllersWithViews().AddFluentValidation(s =>
-            {
-                s.RegisterValidatorsFromAssemblyContaining<Startup>();
-            });
-            services.AddSwaggerGen(SetupSwaggerGen);
+            services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme);
+            services.AddMicrosoftIdentityWebAppAuthentication(Configuration);
 
             services.Configure<OpenIdConnectOptions>(OpenIdConnectDefaults.AuthenticationScheme,
-                options => options.SignInScheme = IdentityConstants.ExternalScheme);
+                options =>
+                {
+                    options.SignInScheme = IdentityConstants.ExternalScheme;
+                });
+            
+            services.AddControllersWithViews();
 
-            services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
-                .AddMicrosoftIdentityWebApp(Configuration.GetSection("AzureAd"));
-
-            services.AddRazorPages()
-                .AddMicrosoftIdentityUI();
+            services.AddSwaggerGen(SetupSwaggerGen);
         }
 
         public void Configure(
@@ -91,7 +92,6 @@ namespace Northwind.Web
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();
-                endpoints.MapRazorPages();
             });
         }
 
