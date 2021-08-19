@@ -191,36 +191,5 @@ namespace Northwind.Web.Controllers
 
             return RedirectToAction(nameof(Login));
         }
-
-        [HttpGet]
-        public IActionResult ConfirmExternalUser()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> ConfirmExternalUser(IdentityUser user)
-        {
-            user.UserName = user.Email;
-
-            var info = await _signInManager.GetExternalLoginInfoAsync();
-            var result = await _userManager.CreateAsync(user);
-
-            if (!result.Succeeded)
-            {
-                return RedirectToAction("Login");
-            }
-
-            var loginResult = await _userManager.AddLoginAsync(user, info);
-
-            if (!loginResult.Succeeded)
-            {
-                return RedirectToAction("Login");
-            }
-
-            await _signInManager.SignInAsync(user, false);
-
-            return RedirectToAction("Index", "Home");
-        }
     }
 }
