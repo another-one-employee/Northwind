@@ -1,16 +1,18 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Northwind.Application.Interfaces;
 using Northwind.Web.Utilities.Filters;
 using Northwind.Web.ViewModels.Categories;
 using System.IO;
 using System.Threading.Tasks;
-using Northwind.Application.Interfaces;
 
 namespace Northwind.Web.Controllers
 {
     [LogAction(true)]
     [ApiExplorerSettings(IgnoreApi = true)]
+    [Authorize]
     public class CategoriesController : Controller
     {
         private readonly ICategoryService _categoryService;
