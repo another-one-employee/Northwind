@@ -1,18 +1,20 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
+using Northwind.Application.Interfaces;
+using Northwind.Domain.Entities;
 using Northwind.Web.Utilities.Filters;
 using Northwind.Web.ViewModels.Products;
 using System;
 using System.Threading.Tasks;
-using Northwind.Application.Interfaces;
-using Northwind.Domain.Entities;
 
 namespace Northwind.Web.Controllers
 {
     [LogAction(true)]
     [ApiExplorerSettings(IgnoreApi = true)]
+    [Authorize]
     public class ProductsController : Controller
     {
         private readonly IProductService _productService;
