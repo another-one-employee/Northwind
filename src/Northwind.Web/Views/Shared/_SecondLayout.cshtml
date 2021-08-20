@@ -22,19 +22,15 @@
             @if (User.Identity.IsAuthenticated)
             {
                 <form method="post" asp-controller="Account" asp-action="Logout">
-                    <input type="submit" value="Logout" />
+                    <input type="submit" class="btn btn-lg" style="color: white" value="Logout" />
                 </form>
             }
             else
             {
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="btn btn-light" asp-controller="Account" asp-action="Login">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn btn-light" asp-controller="Account" asp-action="Register">Register</a>
-                    </li>
-                </ul>
+                <div class="container-fluid fixed-top justify-content-end">
+                    <a class="btn btn-lg" style="color: white; padding-top: 18px" asp-controller="Account" asp-action="Login">Login</a>
+                    <a class="btn btn-lg" style="color: white; padding-top: 18px" asp-controller="Account" asp-action="Register">Register</a>
+                </div>
             }
         </nav>
         <div class="container">
