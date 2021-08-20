@@ -2,23 +2,24 @@
 @{
     ViewData["Title"] = "Categories list:";
 }
-<h2>@ViewData["Title"]</h2>
 
 @foreach (var category in Model)
 {
-    <div class="row">
+    <div class="row" style="padding-top: 40px">
         <div class="col-md-auto">
             <div>
                 <img src="@Url.Action("GetImage", new { id=category.CategoryID})" style="width:63px;height:63px;" />
             </div>
             <div>
                 <image-link id="@category.CategoryID" text="Show image"/>
+            </div>
+            <div>
                 <a asp-action="EditImage" asp-route-id="@category.CategoryID">Edit image</a>
             </div>
         </div>
         <div class="col-lg-auto">
             <dl>
-                <dt>@category.CategoryName</dt>
+                <dt class="h4">@category.CategoryName</dt>
                 <dd>• @category.Description</dd>
             </dl>
         </div>
