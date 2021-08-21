@@ -48,13 +48,14 @@ table {
 }
 
 td, th {
-    border: 1px solid #dddddd;
+    border: 1px solid #f1f1f1;
     text-align: left;
+    font-size: 14px;
     padding: 6px;
 }
 
 tr:nth-child(even) {
-    background-color: #dddddd;
+    background-color: #f1f1f1;
 }
 
 /* Sidebar styles

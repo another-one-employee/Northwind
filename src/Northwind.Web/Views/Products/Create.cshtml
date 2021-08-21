@@ -4,54 +4,52 @@
     ViewData["Title"] = "Create new productEntityDb";
 }
 
-<h2>@ViewData["Title"]</h2>
-
-<form method="post">
-    <div class="input-group-sm col-sm-6">
+<form method="post" class="font-weight-bold text-sm-left">
+    <div class="input-group-sm col-sm-3">
         <label asp-for="ProductName">Product name</label>
         <input asp-for="ProductName" class="form-control" />
         <span asp-validation-for="ProductName"></span>
     </div>
-    <div class="input-group-sm col-sm-6">
-        <label asp-for="SupplierEntity"></label>
+    <div class="input-group-sm col-sm-3" style="padding-top: 10px">
+        <label asp-for="SupplierEntity">Supplier</label>
         <select asp-for="SupplierID" asp-items="ViewBag.Suppliers" class="form-control"></select>
     </div>
-    <div class="input-group-sm col-sm-6">
-        <label asp-for="CategoryEntity"></label>
+    <div class="input-group-sm col-sm-3" style="padding-top: 10px">
+        <label asp-for="CategoryEntity">Category</label>
         <select asp-for="CategoryID" asp-items="ViewBag.Categories" class="form-control"></select>
     </div>
-    <div class="input-group-sm col-sm-6">
+    <div class="input-group-sm col-sm-3" style="padding-top: 10px">
         <label asp-for="QuantityPerUnit">Quantity per unit</label>
         <input asp-for="QuantityPerUnit" class="form-control" />
         <span asp-validation-for="QuantityPerUnit"></span>
     </div>
-    <div class="input-group-sm col-sm-3">
+    <div class="input-group-sm col-sm-2" style="padding-top: 10px">
         <label asp-for="UnitPrice">Unit price</label>
         <input asp-for="UnitPrice" class="form-control" />
         <span asp-validation-for="UnitPrice"></span>
     </div>
-    <div class="input-group-sm col-sm-3">
+    <div class="input-group-sm col-sm-2" style="padding-top: 10px">
         <label asp-for="UnitsInStock">Units in stock</label>
         <input asp-for="UnitsInStock" class="form-control" />
         <span asp-validation-for="UnitsInStock"></span>
     </div>
-    <div class="input-group-sm col-sm-3">
+    <div class="input-group-sm col-sm-2" style="padding-top: 10px">
         <label asp-for="UnitsOnOrder">Units on order</label>
         <input asp-for="UnitsOnOrder" class="form-control" />
         <span asp-validation-for="UnitsOnOrder"></span>
     </div>
-    <div class="input-group-sm col-sm-3">
+    <div class="input-group-sm col-sm-2" style="padding-top: 10px">
         <label asp-for="ReorderLevel">Reorder level</label>
         <input asp-for="ReorderLevel" class="form-control" />
         <span asp-validation-for="ReorderLevel"></span>
     </div>
-    <div class="input-group-sm col-sm-3">
+    <div class="input-group-sm col-sm-2" style="padding-top: 10px">
         <label asp-for="Discontinued"></label>
         <input asp-for="Discontinued" />
         <span asp-validation-for="Discontinued"></span>
     </div>
-    <div class="form-group">
-        <input type="submit" name="save" class="btn btn-success btn-lg" value="Submit" />
+    <div class="form-group" style="padding-left: 16px">
+        <input type="submit" name="save" class="btn btn-outline-success btn-lg" value="Submit" />
     </div>
 </form>
 
