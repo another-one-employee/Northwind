@@ -2,27 +2,26 @@
 @{
     ViewData["Title"] = "Registration";
 }
-<h2>@ViewData["Title"]</h2>
 
 <form method="post" asp-controller="Account" asp-action="Register">
     <div asp-validation-summary="ModelOnly"></div>
-    <div>
-        <label asp-for="Email"></label><br />
+    <div style="padding-top: 10px">
+        <label asp-for="Email">Email:</label><br />
         <input asp-for="Email" />
         <span asp-validation-for="Email"></span>
     </div>
-    <div>
-        <label asp-for="Password"></label><br />
+    <div style="padding-top: 20px">
+        <label asp-for="Password">Password:</label><br />
         <input asp-for="Password" />
         <span asp-validation-for="Password"></span>
     </div>
-    <div>
-        <label asp-for="PasswordConfirm"></label><br />
+    <div style="padding-top: 20px">
+        <label asp-for="PasswordConfirm">Confirm Password:</label><br />
         <input asp-for="PasswordConfirm" />
         <span asp-validation-for="PasswordConfirm"></span>
     </div>
-    <div>
-        <input type="submit" value="Register" />
+    <div style="padding-top: 20px">
+        <input type="submit" class="btn btn-primary" style="width: 190px; height: 35px;" value="Register" />
     </div>
 </form>
 

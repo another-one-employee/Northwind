@@ -2,30 +2,32 @@
 @{
     ViewData["Title"] = "Login";
 }
-<h2>@ViewData["Title"]</h2>
 
 <form method="post" asp-controller="Account" asp-action="Login"
       asp-route-returnUrl="@Model.ReturnUrl">
+    <div style="padding-top: 10px">
+        <a asp-controller="Account" asp-action="ExternalLogin" class="btn btn-outline-primary">Continue with Azure AD</a>
+    </div>
     <div asp-validation-summary="ModelOnly"></div>
-    <div>
-        <label asp-for="Email"></label><br />
+    <div style="padding-top: 20px">
+        <label asp-for="Email">Email:</label><br />
         <input asp-for="Email" />
         <span asp-validation-for="Email"></span>
     </div>
-    <div>
-        <label asp-for="Password"></label><br />
+    <div style="padding-top: 10px">
+        <label asp-for="Password">
+            Password:
+            <a style="color: #5a84bf; padding-left: 40px; font-size: 10px" asp-controller="Account" asp-action="ForgotPassword">Forgot password?</a>
+        </label><br />
         <input asp-for="Password" />
         <span asp-validation-for="Password"></span>
     </div>
-    <div>
-        <label asp-for="RememberMe"></label><br />
-        <input asp-for="RememberMe" />
+    <div style="padding-top: 20px;">
+        <input type="submit" class="btn btn-success" style="width: 190px; height: 35px;" value="Login" />
     </div>
-    <div>
-        <input type="submit" value="Login" />
-    </div>
-    <div class="col-sm">                                                         
-        <a asp-controller="Account" asp-action="ExternalLogin" class="btn btn-primary">Azure AD</a>
+    <div style="padding-top: 20px">
+        <label asp-for="RememberMe">Remember Me:</label><br />
+        <input asp-for="RememberMe" style="width: 25px; height: 25px;" />
     </div>
 </form>
 
