@@ -4,14 +4,18 @@
 }
 
 <div class="text-center">
-    <img src="/img/logo.jpg" style="width: 318px; height: 159px;" class="rounded" />
-    @if (User.Identity.IsAuthenticated)
-    {
-        <h1 class="display-4">Welcome, @User.Identity.Name</h1>
-    }
-    else
-    {
-        <h1 class="display-4">Greetings!</h1>
-    }
-    <p>You can view the source code on <a href="https://github.com/Srul1k/web-learning">GitHub</a>.</p>
+    <div style="padding-top: 40px">
+        <img src="/img/logo.jpg" style="width: 318px; height: 159px;" class="rounded" />
+    </div>
+    <div style="padding-top: 60px">
+        @if (User.Identity.IsAuthenticated)
+        {
+            <h1 class="display-4">Welcome, @User.Identity.Name</h1>
+        }
+        else
+        {
+            <h1 class="display-4">Greetings! Login or register to interact.</h1>
+        }
+        <p>You can view the source code on <a href="https://github.com/Srul1k/web-learning">GitHub</a>.</p>
+    </div>
 </div>

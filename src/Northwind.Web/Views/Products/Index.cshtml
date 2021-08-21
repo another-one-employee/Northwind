@@ -1,35 +1,44 @@
 ﻿@model IEnumerable<Northwind.Domain.Entities.ProductEntity>
+@{
+    ViewData["Title"] = "Products";
+}
 
-<a asp-action="Create" class="btn btn-primary">Create new productEntityDb</a>
+<div>
+    <a asp-action="Create" class="btn btn-outline-primary">Create new product</a>
+</div>
 
-<table>
-    <tr>
-        <td />
-        <th>Name</th>
-        <th>SupplierEntityDb</th>
-        <th>CategoryEntityDb</th>
-        <th>Quantity per unit</th>
-        <th>Unit price</th>
-        <th>Units in stock</th>
-        <th>Units on order</th>
-        <th>Reorder level</th>
-        <th>Discontinued</th>
-    </tr>
-    @foreach (var product in Model)
-    {
+<div style="padding-top: 20px; padding-right: 30px">
+    <table>
         <tr>
-            <td>
-                <a asp-action="Edit" asp-route-id="@product.ProductID" class="btn btn-outline-secondary">Edit</a>
-            </td>
-            <td>@product.ProductName</td>
-            <td>@product.SupplierEntity.CompanyName</td>
-            <td>@product.CategoryEntity.CategoryName</td>
-            <td>@product.QuantityPerUnit</td>
-            <td>@product.UnitPrice</td>
-            <td>@product.UnitsInStock</td>
-            <td>@product.UnitsOnOrder</td>
-            <td>@product.ReorderLevel</td>
-            <td>@product.Discontinued</td>
+            <th />
+            <th>Name</th>
+            <th>Supplier</th>
+            <th>Category</th>
+            <th>Quantity per unit</th>
+            <th>Unit price</th>
+            <th>Units in stock</th>
+            <th>Units on order</th>
+            <th>Reorder level</th>
+            <th>Discontinued</th>
         </tr>
-    }
-</table>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@product.ProductID" class="btn btn-sm" style="color: gray;">
+                        <img src="/img/edit.png" style="width: 20px; height: 20px;" class="rounded" />
+                    </a>
+                </td>
+                <td>@product.ProductName</td>
+                <td>@product.SupplierEntity.CompanyName</td>
+                <td>@product.CategoryEntity.CategoryName</td>
+                <td>@product.QuantityPerUnit</td>
+                <td>@product.UnitPrice</td>
+                <td>@product.UnitsInStock</td>
+                <td>@product.UnitsOnOrder</td>
+                <td>@product.ReorderLevel</td>
+                <td class="text-center">@(product.Discontinued? "✓" : "×")</td>
+            </tr>
+        }
+    </table>
+</div>
