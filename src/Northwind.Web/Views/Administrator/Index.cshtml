@@ -4,12 +4,14 @@
     Layout = "_SecondLayout";
 }
 
-<table class="table">
-    <tr><th>Email</th><th></th></tr>
-    @foreach (var user in Model)
-    {
-        <tr>
-            <td>@user.Email</td>
-        </tr>
-    }
-</table>
+<div style="padding-top: 20px; padding-right: 40px">
+    <table class="table col-md-3">
+        <tr><th>Email</th></tr>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Email</td>
+            </tr>
+        }
+    </table>
+</div>

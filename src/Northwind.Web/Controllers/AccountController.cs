@@ -32,7 +32,7 @@ namespace Northwind.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                IdentityUser user = new IdentityUser { Email = model.Email, UserName = model.Email };
+                IdentityUser user = new() { Email = model.Email, UserName = model.Email };
 
                 var result = await _userManager.CreateAsync(user, model.Password);
 
@@ -95,6 +95,7 @@ namespace Northwind.Web.Controllers
         {
             return View();
         }
+
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -121,7 +122,7 @@ namespace Northwind.Web.Controllers
         [AllowAnonymous]
         public IActionResult ResetPassword(string code = null)
         {
-            return code == null ? View("Error") : View();
+            return code == null ? RedirectToAction("Error", "Home") : View();
         }
 
         [HttpPost]
@@ -174,7 +175,7 @@ namespace Northwind.Web.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-            
+
             if (info.Principal.Identity != null && !string.IsNullOrEmpty(info.Principal.Identity.Name))
             {
                 var name = info.Principal.Identity.Name;
