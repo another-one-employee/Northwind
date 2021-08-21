@@ -26,7 +26,7 @@ namespace Northwind.Infrastructure.Repositories
             return await Set
                .Include(s => s.Supplier)
                .Include(c => c.Category)
-               .OrderBy(p => p.ProductId)
+               .OrderByDescending(p => p.ProductId)
                .AsNoTracking()
                .ToListAsync();
         }
