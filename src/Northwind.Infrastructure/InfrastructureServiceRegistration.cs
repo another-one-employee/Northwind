@@ -21,8 +21,8 @@ namespace Northwind.Infrastructure
                     options.UseSqlServer(configuration.GetConnectionString(nameof(NorthwindIdentityDbContext))));
 
             services
+                .AddScoped<IProductAsyncRepository, ProductRepository>()
                 .AddScoped<IAsyncRepository<Category>, EntityRepository<Category>>()
-                .AddScoped<IAsyncRepository<Product>, ProductRepository>()
                 .AddScoped<IAsyncRepository<Supplier>, EntityRepository<Supplier>>();
 
             services.AddScoped<DbContext, NorthwindDbContext>();
