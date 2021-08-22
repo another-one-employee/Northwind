@@ -11,7 +11,7 @@ OpenAPI spec version: v1
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{630ED3BF-0B52-4102-A652-34E51F71B3A3}</ProjectGuid>
+    <ProjectGuid>{211DD87E-1C96-4E7C-A5C5-BC72A4D5503F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>IO.Swagger</RootNamespace>
