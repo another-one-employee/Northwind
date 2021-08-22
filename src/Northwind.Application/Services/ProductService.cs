@@ -4,20 +4,19 @@ using Northwind.Application.Interfaces;
 using Northwind.Application.Models;
 using Northwind.Domain.Entities;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Northwind.Application.Services
 {
     public class ProductService : IProductService
     {
-        private readonly IAsyncRepository<Product> _productRepository;
+        private readonly IProductAsyncRepository _productRepository;
         private readonly IAsyncRepository<Supplier> _supplierRepository;
         private readonly IAsyncRepository<Category> _categoryRepository;
         private readonly IMapper _mapper;
 
         public ProductService(
-            IAsyncRepository<Product> productRepository,
+            IProductAsyncRepository productRepository,
             IAsyncRepository<Supplier> supplierRepository,
             IAsyncRepository<Category> categoryRepository,
             IMapper mapper)
@@ -30,14 +29,14 @@ namespace Northwind.Application.Services
 
         public async Task<IEnumerable<ProductEntity>> GetMaxAmountAsync(int maxAmountOfProducts)
         {
-            var models = await _productRepository.FindAllAsync();
-
             if (maxAmountOfProducts == 0)
             {
-                return _mapper.Map<IEnumerable<ProductEntity>>(models);
+                var allModels = await _productRepository.FindAllAsync();
+                return _mapper.Map<IEnumerable<ProductEntity>>(allModels);
             }
 
-            return _mapper.Map<IEnumerable<ProductEntity>>(models.Take(maxAmountOfProducts));
+            var someModels = await _productRepository.TakeLast(maxAmountOfProducts);
+            return _mapper.Map<IEnumerable<ProductEntity>>(someModels);
         }
 
         public async Task CreateAsync(ProductEntity productEntity)
