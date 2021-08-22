@@ -68,4 +68,10 @@ OpenAPI spec version: v1
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\clients\IO.Swagger\IO.Swagger.csproj">
+      <Project>{211dd87e-1c96-4e7c-a5c5-bc72a4d5503f}</Project>
+      <Name>IO.Swagger</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>
