@@ -11,6 +11,7 @@ using Microsoft.Identity.Web;
 using Microsoft.OpenApi.Models;
 using Northwind.Application;
 using Northwind.Infrastructure;
+using Northwind.Infrastructure.Services;
 using Northwind.Web.Utilities.Middlewares;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
@@ -61,6 +62,7 @@ namespace Northwind.Web
             ILoggerFactory loggerFactory)
         {
             LoggingSetup(loggerFactory, Configuration);
+            app.InitializeAdminAsync(Configuration);
 
             if (env.IsDevelopment())
             {
