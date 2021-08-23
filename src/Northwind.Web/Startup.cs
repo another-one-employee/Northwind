@@ -50,8 +50,12 @@ namespace Northwind.Web
                 {
                     options.SignInScheme = IdentityConstants.ExternalScheme;
                 });
-            
-            services.AddControllersWithViews();
+
+            services
+                .AddControllersWithViews()
+                .AddRazorRuntimeCompilation();
+
+            services.AddWebOptimizer();
 
             services.AddSwaggerGen(SetupSwaggerGen);
         }
@@ -79,6 +83,8 @@ namespace Northwind.Web
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+
+            app.UseWebOptimizer();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
