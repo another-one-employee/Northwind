@@ -6,7 +6,9 @@ namespace Northwind.Web.ViewModels.Account
     {
         public ForgotPasswordViewModelValidator()
         {
-            RuleFor(fvm => fvm.Email).NotNull();
+            RuleFor(fvm => fvm.Email)
+                .NotNull()
+                .EmailAddress();
         }
     }
 }
