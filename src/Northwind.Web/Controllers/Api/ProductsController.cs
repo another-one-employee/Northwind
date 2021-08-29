@@ -110,7 +110,7 @@ namespace Northwind.Web.Controllers.Api
         {
             try
             {
-                if (ModelState.IsValid && model.ProductID != 0)
+                if (ModelState.IsValid)
                 {
                     var product = _mapper.Map<ProductEntity>(model);
                     await _productService.UpdateAsync(product);
@@ -140,10 +140,15 @@ namespace Northwind.Web.Controllers.Api
         {
             try
             {
-                var product = await _productService.GetByIdAsync(id);
-                await _productService.DeleteAsync(product);
-                var productModel = _mapper.Map<ProductModel>(product);
-                return Ok(productModel);
+                if (id < 1)
+                {
+                    var product = await _productService.GetByIdAsync(id);
+                    await _productService.DeleteAsync(product);
+                    var productModel = _mapper.Map<ProductModel>(product);
+                    return Ok(productModel);
+                }
+
+                return BadRequest();
             }
             catch (NotFoundException)
             {

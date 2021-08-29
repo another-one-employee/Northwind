@@ -7,7 +7,8 @@ namespace Northwind.Web.ViewModels.Api.Products
         public UpdateProductModelValidator()
         {
             RuleFor(cpm => cpm.ProductID)
-                .NotNull();
+                .NotNull()
+                .GreaterThan(0);
 
             RuleFor(cpm => cpm.ProductName)
                 .NotNull()
