@@ -29,16 +29,13 @@ namespace Northwind.Web.Utilities.Middlewares
 
         private void HandleCustomExceptions(HttpContext context, Exception exception)
         {
-            HttpStatusCode httpStatusCode = (HttpStatusCode)context.Response.StatusCode;
-
             switch (exception)
             {
                 case NotFoundException:
-                    httpStatusCode = HttpStatusCode.NotFound;
+                    var httpStatusCode = HttpStatusCode.NotFound;
+                    context.Response.StatusCode = (int)httpStatusCode;
                     break;
             }
-            
-            context.Response.StatusCode = (int)httpStatusCode;
         }
     }
 }
