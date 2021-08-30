@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/northwindwebdbserversql/databases/Northwind.Web_db",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:NorthwindDbContext",
+      "secretStore": "AzureAppSettings"
+    },
+    "mssql2": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/northwindwebdbserversql/databases/Northwind.Web_identitydb",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:NorthwindIdentityDbContext",
+      "secretStore": "AzureAppSettings"
+    }
+  }
+}

@@ -21,12 +21,12 @@ namespace Northwind.Infrastructure.Services
             var email = adminSetting.GetSection(emailSection).Value;
             var password = adminSetting.GetSection(passwordSection).Value;
 
-            if (await roleManager.FindByNameAsync(nameof(Roles.admin)) == null)
+            if (roleManager != null && await roleManager.FindByNameAsync(nameof(Roles.admin)) == null)
             {
                 await roleManager.CreateAsync(new IdentityRole(nameof(Roles.admin)));
             }
 
-            if (await userManager.FindByNameAsync(email) == null)
+            if (userManager != null && await userManager.FindByNameAsync(email) == null)
             {
                 IdentityUser admin = new() { Email = email, UserName = email };
                 IdentityResult result = await userManager.CreateAsync(admin, password);
