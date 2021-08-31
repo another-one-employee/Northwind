@@ -16,7 +16,9 @@ namespace Northwind.Web.Utilities.Profiles
             CreateMap<CreateProductViewModel, ProductEntity>().ReverseMap();
             CreateMap<EditProductViewModel, ProductEntity>().ReverseMap();
 
-            CreateMap<ProductEntity, ProductModel>();
+            CreateMap<ProductEntity, ProductModel>()
+                .ForMember(pm => pm.Supplier, options => options.MapFrom(pe => pe.SupplierEntity))
+                .ForMember(pm => pm.Category, options => options.MapFrom(pe => pe.CategoryEntity));
             CreateMap<SupplierEntity, SupplierModel>();
             CreateMap<CategoryEntity, CategoryModel>();
 
