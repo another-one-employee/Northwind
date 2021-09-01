@@ -5,11 +5,11 @@ VisualStudioVersion = 16.0.31129.286
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Web", "src\Northwind.Web\Northwind.Web.csproj", "{F86837EA-04E5-4BB8-A155-9DE324397ADD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Web.UnitTests", "test\Northwind.Web.UnitTests\Northwind.Web.UnitTests.csproj", "{443AA533-6E7F-4D91-A668-CE694C571D4D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Web.UnitTests", "tests\Northwind.Web.UnitTests\Northwind.Web.UnitTests.csproj", "{443AA533-6E7F-4D91-A668-CE694C571D4D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F8BD8A72-EB63-4623-ADDF-26283F096539}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{1CDDBE4D-A55D-4E6A-A3EA-378FC8B1C2B0}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{1CDDBE4D-A55D-4E6A-A3EA-378FC8B1C2B0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Infrastructure", "src\Northwind.Infrastructure\Northwind.Infrastructure.csproj", "{CD1CA6EC-CFC0-41B9-ACE9-7CB580380AA1}"
 EndProject
@@ -28,7 +28,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{50DC81CC-B8A
 		clients\Northwind.JSClient\lib\jquery-2.0.3.min.js = clients\Northwind.JSClient\lib\jquery-2.0.3.min.js
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IO.Swagger.Test", "test\IO.Swagger.Test\IO.Swagger.Test.csproj", "{19F1DEBC-DE5E-4517-8062-F000CD499087}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IO.Swagger.Test", "tests\IO.Swagger.Test\IO.Swagger.Test.csproj", "{19F1DEBC-DE5E-4517-8062-F000CD499087}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Domain", "src\Northwind.Domain\Northwind.Domain.csproj", "{39ECC88C-97E9-4F17-8154-C588A3E620EB}"
 EndProject
