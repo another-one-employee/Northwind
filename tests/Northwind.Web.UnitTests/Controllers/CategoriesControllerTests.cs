@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Northwind.Application.Interfaces;
@@ -7,126 +6,104 @@ using Northwind.Domain.Entities;
 using Northwind.Web.Controllers;
 using Northwind.Web.ViewModels.Categories;
 using NUnit.Framework;
-using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace Northwind.Web.UnitTests.Controllers
 {
     public class CategoriesControllerTests
     {
-        private Mock<ICategoryService> _mockService;
-        private Mock<IMapper> _mapper;
-
-        private CategoriesController GetCategoriesController()
-            => new CategoriesController(_mockService.Object, _mapper.Object);
+        private Mocks _mocks;
+        private CategoriesController _controller;
 
         [SetUp]
         public void Setup()
         {
-            _mockService = new Mock<ICategoryService>();
-            _mapper = new Mock<IMapper>();
+            _mocks = new Mocks();
+
+            _mocks.CategoryService
+                .Setup(service => service.GetAllAsync())
+                .ReturnsAsync(Data.CategoryEntities);
+
+            _mocks.CategoryService
+                .Setup(service => service.GetByIdAsync(Data.GetById))
+                .ReturnsAsync(Data.CategoryEntities
+                    .FirstOrDefault(c => c.CategoryID == Data.GetById));
+
+            _mocks.CategoryService
+                .Setup(service => service.EditImageById(It.IsAny<int>(), It.IsAny<byte[]>()))
+                .Returns(Task.CompletedTask);
+
+            _controller = new CategoriesController(_mocks.CategoryService.Object, _mocks.Mapper.Object);
         }
 
         [Test]
-        public void Index_GetView_ReturnsViewResult()
+        public void Index_ReturnsViewResult()
         {
-            // Arrange
-            var controller = GetCategoriesController();
-
             // Act
-            var result = controller.Index().Result;
+            var result = _controller.Index().Result;
 
             // Assert
             Assert.IsInstanceOf<ViewResult>(result);
         }
 
         [Test]
-        public void Index_GetAllItems_ReturnsAllItems()
+        public void GetImage_ReturnsFileContentResult()
         {
-            // Arrange
-            _mockService.Setup(service => service.GetAllAsync())
-                .ReturnsAsync(GetFakeItems());
-            var controller = GetCategoriesController();
-
             // Act
-            var result = controller.Index().Result as ViewResult;
-            var model = result.ViewData.Model as IEnumerable<CategoryEntity>;
-
-            // Assert
-            Assert.IsInstanceOf<IEnumerable<CategoryEntity>>(model);
-            Assert.AreEqual(GetFakeItems().Count(), model.Count());
-
-        }
-
-        [TestCase(1)]
-        public void GetImage_GetItem_ReturnsFileContentResult(int testId)
-        {
-            // Arrange
-            _mockService.Setup(service => service.GetByIdAsync(testId))
-                .ReturnsAsync(GetFakeItems()
-                .FirstOrDefault(c => c.CategoryID == testId));
-            var controller = GetCategoriesController();
-
-            // Act
-            var result = controller.GetImage(testId).Result;
+            var result = _controller.GetImage(Data.GetById).Result;
 
             // Assert
             Assert.IsInstanceOf<FileContentResult>(result);
         }
 
-        [TestCase(1)]
-        public void EditImage_GetItem_ReturnsViewResult(int testId)
+        [Test]
+        public void EditImage_ReturnsViewResultIfHttpRequestIsGet()
         {
-            // Arrange
-            _mockService.Setup(service => service.GetByIdAsync(testId))
-                .ReturnsAsync(GetFakeItems()
-                .FirstOrDefault(c => c.CategoryID == testId));
-            var controller = GetCategoriesController();
-
             // Act
-            var result = controller.EditImage(testId).Result;
+            var result = _controller.EditImage(Data.GetById).Result;
 
             // Assert
             Assert.IsInstanceOf<ViewResult>(result);
         }
 
         [Test]
-        public void EditImage_PostRequest_ReturnsRedirectToAction()
+        public void EditImage_ReturnsRedirectToActionIfHttpRequestIsPost()
         {
-            // Arrange
-            var testItem = new Mock<EditImageViewModel>();
-            var testFile = new Mock<IFormFile>();
-
-            _mockService.Setup(service => service.EditImageById(It.IsAny<int>(), It.IsAny<byte[]>()));
-            var controller = GetCategoriesController();
-
             // Act
-            var result = controller.EditImage(testItem.Object, testFile.Object).Result;
+            var result = _controller.EditImage(Mock.Of<EditImageViewModel>(), Mock.Of<IFormFile>()).Result;
 
             // Assert
             Assert.IsInstanceOf<RedirectToActionResult>(result);
         }
 
-        private static IEnumerable<CategoryEntity> GetFakeItems()
+        private static class Data
         {
-            var categories = new List<CategoryEntity>
+            public static int GetById = 0;
+
+            public static CategoryEntity[] CategoryEntities { get; } =
             {
-                new CategoryEntity()
+                new()
                 {
-                    CategoryID = 1,
-                    CategoryName = "Cetagory 1",
-                    Description = "Testing category 1",
-                    Picture = new byte[] { 1 }
+                    CategoryID = 1
                 },
-                new CategoryEntity()
+                new()
                 {
-                    CategoryID = 2,
-                    CategoryName = "Cetagory 2",
-                    Description = "Testing category 2",
-                    Picture = new byte[] { 2 }
+                    CategoryID = 2
+                },
+                new()
+                {
+                    CategoryID = 3
                 }
             };
-            return categories;
+        }
+
+        private class Mocks
+        {
+            public Mock<ICategoryService> CategoryService { get; } = new();
+
+            public Mock<IMapper> Mapper { get; } = new();
         }
     }
 }
