@@ -14,7 +14,7 @@ namespace Northwind.Web.UnitTests.Controllers
     {
 
         [Test]
-        public void Index_GetView_ReturnsViewResult()
+        public void Index_ReturnsViewResult()
         {
             // Arrange
             var controller = new HomeController(null);
@@ -27,11 +27,10 @@ namespace Northwind.Web.UnitTests.Controllers
         }
 
         [Test]
-        public void Error_GetView_ReturnsViewResult()
+        public void Error_ReturnsViewResult()
         {
             // Arrange
-            var logger = new Mock<ILogger<ErrorViewModel>>();
-            var controller = new HomeController(logger.Object)
+            var controller = new HomeController(Mock.Of<ILogger<ErrorViewModel>>())
             {
                 ControllerContext = new ControllerContext
                 {
@@ -47,7 +46,7 @@ namespace Northwind.Web.UnitTests.Controllers
         }
 
         [Test]
-        public void Error_ExceptionHandling_LogsError()
+        public void Error_LogsError()
         {
             // Arrange
             var logger = new Mock<ILogger<ErrorViewModel>>();
