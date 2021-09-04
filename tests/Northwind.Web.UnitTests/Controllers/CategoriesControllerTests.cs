@@ -27,9 +27,9 @@ namespace Northwind.Web.UnitTests.Controllers
                 .ReturnsAsync(Data.CategoryEntities);
 
             _mocks.CategoryService
-                .Setup(service => service.GetByIdAsync(Data.GetById))
+                .Setup(service => service.GetByIdAsync(Data.CategoryId))
                 .ReturnsAsync(Data.CategoryEntities
-                    .FirstOrDefault(c => c.CategoryID == Data.GetById));
+                    .FirstOrDefault(c => c.CategoryID == Data.CategoryId));
 
             _mocks.CategoryService
                 .Setup(service => service.EditImageById(It.IsAny<int>(), It.IsAny<byte[]>()))
@@ -52,7 +52,7 @@ namespace Northwind.Web.UnitTests.Controllers
         public void GetImage_ReturnsFileContentResult()
         {
             // Act
-            var result = _controller.GetImage(Data.GetById).Result;
+            var result = _controller.GetImage(Data.CategoryId).Result;
 
             // Assert
             Assert.IsInstanceOf<FileContentResult>(result);
@@ -62,7 +62,7 @@ namespace Northwind.Web.UnitTests.Controllers
         public void EditImage_ReturnsViewResultIfHttpRequestIsGet()
         {
             // Act
-            var result = _controller.EditImage(Data.GetById).Result;
+            var result = _controller.EditImage(Data.CategoryId).Result;
 
             // Assert
             Assert.IsInstanceOf<ViewResult>(result);
@@ -80,23 +80,10 @@ namespace Northwind.Web.UnitTests.Controllers
 
         private static class Data
         {
-            public static int GetById = 0;
+            public static int CategoryId = 1;
 
             public static CategoryEntity[] CategoryEntities { get; } =
-            {
-                new()
-                {
-                    CategoryID = 1
-                },
-                new()
-                {
-                    CategoryID = 2
-                },
-                new()
-                {
-                    CategoryID = 3
-                }
-            };
+                Enumerable.Range(1, 10).Select(i => new CategoryEntity { CategoryID = i }).ToArray();
         }
 
         private class Mocks
