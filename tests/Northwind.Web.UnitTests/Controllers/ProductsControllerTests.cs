@@ -7,168 +7,131 @@ using Northwind.Domain.Entities;
 using Northwind.Web.Controllers;
 using Northwind.Web.ViewModels.Products;
 using NUnit.Framework;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Northwind.Web.UnitTests.Controllers
 {
     class ProductsControllerTests
     {
-        private Mock<IProductService> _productService;
-        private static readonly int _fakeItemsCount = 10;
-        private Mock<IMapper> _mapper;
+        private Mocks _mocks;
+        private ProductsController _controller;
 
         [SetUp]
         public void Setup()
         {
-            _productService = new Mock<IProductService>();
-            _mapper = new Mock<IMapper>();
+            _mocks = new Mocks();
 
-            _productService.Setup(service => service.GetMaxAmountAsync(It.IsAny<int>())).ReturnsAsync(GetFakeItems());
-        }
+            _mocks.ProductService
+                .Setup(service => service.GetMaxAmountAsync(It.IsAny<int>()))
+                .ReturnsAsync(Data.ProductEntities);
 
-        private ProductsController GetProductController(int maxAmountOfProducts = 0)
-        {
-            var inMemorySettings = new Dictionary<string, string> {
-                {"MaximumAmountOfProducts", $"{maxAmountOfProducts}"}
-            };
+            _mocks.ProductService
+                .Setup(repo => repo.GetByIdAsync(Data.ProductId))
+                .ReturnsAsync(Data.ProductEntities
+                    .FirstOrDefault(product => product.ProductID == Data.ProductId));
 
-            IConfiguration configuration = new ConfigurationBuilder()
-                .AddInMemoryCollection(inMemorySettings)
-                .Build();
+            _mocks.Configuration
+                .Setup(config => config.GetSection(It.IsAny<string>()))
+                .Returns(Mock.Of<IConfigurationSection>());
 
-            var controller = new ProductsController(
-                _productService.Object,
-                configuration,
-                _mapper.Object);
-
-            return controller;
+            _controller = new(
+                _mocks.ProductService.Object,
+                _mocks.Configuration.Object,
+                _mocks.Mapper.Object);
         }
 
         [Test]
-        public void Index_GetView_ReturnsViewResult()
+        public void Index_ReturnsViewResult()
         {
-            // Arrange
-            var controller = GetProductController();
-
             // Act
-            var result = controller.Index().Result;
+            var result = _controller.Index().Result;
 
             // Assert
             Assert.IsInstanceOf<ViewResult>(result);
         }
 
         [Test]
-        public void Index_GetAllItems_ReturnsAllItems()
+        public void Create_ReturnsViewResultIfHttpRequestIsGet()
         {
-            // Arrange
-            var controller = GetProductController();
-
             // Act
-            var result = controller.Index().Result as ViewResult;
-            var model = result.ViewData.Model as IEnumerable<ProductEntity>;
-
-            // Assert
-            Assert.IsInstanceOf<IEnumerable<ProductEntity>>(model);
-            Assert.AreEqual(GetFakeItems().Count(), model.Count());
-        }
-
-        [Test]
-        public void Create_GetView_ReturnsViewResult()
-        {
-            // Arrange
-            var controller = GetProductController();
-
-            // Act
-            var result = controller.Create().Result;
+            var result = _controller.Create().Result;
 
             // Assert
             Assert.IsInstanceOf<ViewResult>(result);
         }
 
         [Test]
-        public void Create_CreateItem_ReturnsRedirectToAction()
+        public void Create_ReturnsRedirectToActionIfHttpRequestIsPost()
         {
-            // Arrange
-            var newItem = new CreateProductViewModel();
-            var controller = GetProductController();
-
             // Act
-            var result = controller.Create(newItem).Result;
+            var result = _controller.Create(Mock.Of<CreateProductViewModel>()).Result;
 
             // Assert
             Assert.IsInstanceOf<RedirectToActionResult>(result);
         }
 
         [Test]
-        public void Create_ModelStateInvalid_ReturnsViewResult()
+        public void Create_ReturnsViewResultIfHttpRequestIsPostAndModelStateInvalid()
         {
             // Arrange
-            var controller = GetProductController();
-            controller.ModelState.AddModelError("test", "test");
+            _controller.ModelState.AddModelError("test", "test model");
 
             // Act
-            var result = controller.Create(null).Result;
-
-            // Assert
-            Assert.IsInstanceOf<ViewResult>(result);
-        }
-
-        [TestCase(1)]
-        public void Edit_GetCorrectId_ReturnsViewResult(int testId)
-        {
-            // Arrange
-            _productService.Setup(repo => repo.GetByIdAsync(testId))
-                .ReturnsAsync(GetFakeItems()
-                .FirstOrDefault(product => product.ProductID == testId));
-
-            var controller = GetProductController();
-
-            // Act
-            var result = controller.Edit(testId).Result;
+            var result = _controller.Create(null).Result;
 
             // Assert
             Assert.IsInstanceOf<ViewResult>(result);
         }
 
         [Test]
-        public void Edit_EditItem_ReturnsRedirectToAction()
+        public void Edit_ReturnsViewResultIfHttpRequestIsGet()
         {
-            // Arrange
-            var newItem = new EditProductViewModel() { ProductID = 0 };
-            var controller = GetProductController();
-
             // Act
-            var result = controller.Edit(newItem).Result;
+            var result = _controller.Edit(Data.ProductId).Result;
+
+            // Assert
+            Assert.IsInstanceOf<ViewResult>(result);
+        }
+
+        [Test]
+        public void Edit_ReturnsRedirectToActionIfHttpRequestIsPost()
+        {
+            // Act
+            var result = _controller.Edit(Mock.Of<EditProductViewModel>()).Result;
 
             // Assert
             Assert.IsInstanceOf<RedirectToActionResult>(result);
         }
 
         [Test]
-        public void Edit_ModelStateInvalid_ReturnsViewResult()
+        public void Edit_ReturnsViewResultIfHttpRequestIsPostAndModelStateInvalid()
         {
             // Arrange
-            var controller = GetProductController();
-            controller.ModelState.AddModelError("test", "test");
+            _controller.ModelState.AddModelError("test", "test model");
 
             // Act
-            var result = controller.Edit(null).Result;
+            var result = _controller.Edit(null).Result;
 
             // Assert
             Assert.IsInstanceOf<ViewResult>(result);
         }
 
-        private static IEnumerable<ProductEntity> GetFakeItems()
+        private static class Data
         {
-            var categories = new List<ProductEntity>();
+            public static int ProductId { get; } = 1;
 
-            for (int i = 1; i <= _fakeItemsCount; i++)
-            {
-                categories.Add(new ProductEntity() { ProductID = i, ProductName = $"Product {i}" });
-            }
+            public static ProductEntity[] ProductEntities { get; } =
+                Enumerable.Range(1, 10).Select(i => new ProductEntity {ProductID = i}).ToArray();
 
-            return categories;
+        }
+
+        private class Mocks
+        {
+            public Mock<IProductService> ProductService { get; } = new();
+
+            public Mock<IConfiguration> Configuration { get; } = new();
+
+            public Mock<IMapper> Mapper { get; } = new();
         }
     }
 }
