@@ -40,6 +40,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IO.Swagger", "clients\IO.Sw
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Infrastructure.UnitTests", "tests\Northwind.Infrastructure.UnitTests\Northwind.Infrastructure.UnitTests.csproj", "{5DE27FD1-9617-497E-9128-3361E80F6A18}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Northwind.Application.UnitTests", "tests\Northwind.Application.UnitTests\Northwind.Application.UnitTests.csproj", "{667E7235-74A9-40A7-A32D-FDDA0280BB76}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -78,6 +80,10 @@ Global
 		{5DE27FD1-9617-497E-9128-3361E80F6A18}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5DE27FD1-9617-497E-9128-3361E80F6A18}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5DE27FD1-9617-497E-9128-3361E80F6A18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{667E7235-74A9-40A7-A32D-FDDA0280BB76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{667E7235-74A9-40A7-A32D-FDDA0280BB76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{667E7235-74A9-40A7-A32D-FDDA0280BB76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{667E7235-74A9-40A7-A32D-FDDA0280BB76}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -94,6 +100,7 @@ Global
 		{9D0031B8-B4CA-4B2A-96D5-BA247595605B} = {6827DD37-4689-4D0A-AD5C-4F22C6B115A2}
 		{211DD87E-1C96-4E7C-A5C5-BC72A4D5503F} = {6827DD37-4689-4D0A-AD5C-4F22C6B115A2}
 		{5DE27FD1-9617-497E-9128-3361E80F6A18} = {1CDDBE4D-A55D-4E6A-A3EA-378FC8B1C2B0}
+		{667E7235-74A9-40A7-A32D-FDDA0280BB76} = {1CDDBE4D-A55D-4E6A-A3EA-378FC8B1C2B0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {71A0C92C-7408-4909-81CA-2EACE2D13875}
