@@ -4,6 +4,16 @@
 
 Northwind is a simple MVC application with CRUD operations for working with Products and Categories designed on a Clean Architecture.
 
+---
+## How to run :cyclone:
+<details>
+<summary>Instructions</summary>
+
+// TODO: add instructions
+
+</details>
+
+---
 ### Contact me :unicorn:
 
 <a href="https://t.me/Srul1k">
