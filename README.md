@@ -1,8 +1,10 @@
-# <img src="res/logo.png" height="22">
+# <img src="res/logo.png" height="24">
 
 ![AppVeyor branch](https://img.shields.io/appveyor/build/Srul1k/Northwind/master?logo=appveyor) ![AppVeyor tests (branch)](https://img.shields.io/appveyor/tests/Srul1k/Northwind/master?logo=appveyor)
 
 Northwind is a simple MVC application with CRUD operations for working with Products and Categories designed on a Clean Architecture.
+
+The application was created using the framework ASP.NET Core 5.0. For the frontend part, Razor with Bootstrap are used. To work with databases, MS SQL is used in conjunction with EF Core.
 
 ## How to run :cyclone:
 <details>
@@ -15,7 +17,7 @@ Northwind is a simple MVC application with CRUD operations for working with Prod
 
 </details>
 
-### Contact me :unicorn:
+## Contact me :unicorn:
 
 <a href="https://t.me/Srul1k">
     <img src="https://img.shields.io/badge/Telegram-2CA5E0?&logo=telegram&logoColor=white"></a>
