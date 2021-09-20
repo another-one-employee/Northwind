@@ -10,7 +10,7 @@ The application was created using the framework ASP.NET Core 5.0. For the fronte
 <details>
 <summary><b>Instruction</b></summary>  
 
-#### The following developer tools are recommended for running the project:
+**The following developer tools are recommended for running the project:**
 
 * **[IDE Visual Studio 2019 Community](https://visualstudio.microsoft.com/vs/community/)**  
 * **[MS SQL Server Express 2019](https://www.microsoft.com/en-us/Download/details.aspx?id=101064)**  
@@ -19,7 +19,7 @@ The application was created using the framework ASP.NET Core 5.0. For the fronte
 
 ### Steps for running project:
 
-<span style="color:yellow">:warning: If you have some problems with project, please write to me.</span>
+<a style="color:yellow">:warning: If you have some problems with project, please write to me.</a>
 
 #### Installation:  
 
@@ -59,7 +59,7 @@ The application was created using the framework ASP.NET Core 5.0. For the fronte
 4. Open the ```appsettings.Development.json``` file that is located on this path: ```src/Northwind.Web```
     * Configure AzureAD section if you want to log in with a Microsoft account *(optional)*.  
     **[Please follow the link for more information](https://docs.microsoft.com/en-us/azure/active-directory-domain-services/tutorial-create-instance)**  
-    * Configure the EmailService section by entering an e-mail and password. Make sure that the permission to use third-party services is set in your mail service. Passwords for recovery will be sent to users via this mail *(optional, it is recommended to use Gmail)*.
+    * Configure the EmailService section by entering an e-mail and password. Make sure that the permission to use third-party services is set in your mail service. Passwords for recovery will be sent to users via this mail *(optional, it is recommended to use Gmail)*.  
     **[Please follow the link for more information](https://support.google.com/accounts/answer/3466521?hl=en)**  
     * Configure the AdminInitializer section by entering an e-mail and password. This data will be used to log in as administrator.  
 
