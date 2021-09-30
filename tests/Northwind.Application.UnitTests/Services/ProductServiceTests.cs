@@ -12,7 +12,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Northwind.Application.UnitTests
+namespace Northwind.Application.UnitTests.Services
 {
     public class ProductServiceTests
     {
