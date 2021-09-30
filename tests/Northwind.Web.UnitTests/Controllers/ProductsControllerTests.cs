@@ -8,12 +8,14 @@ using Northwind.Web.Controllers;
 using Northwind.Web.ViewModels.Products;
 using NUnit.Framework;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Northwind.Web.UnitTests.Controllers
 {
     class ProductsControllerTests
     {
         private Mocks _mocks;
+
         private ProductsController _controller;
 
         [SetUp]
@@ -22,82 +24,82 @@ namespace Northwind.Web.UnitTests.Controllers
             _mocks = new Mocks();
 
             _mocks.ProductService
-                .Setup(service => service.GetMaxAmountAsync(It.IsAny<int>()))
+                .Setup(ps => ps.GetMaxAmountAsync(It.IsAny<int>()))
                 .ReturnsAsync(Data.ProductEntities);
 
             _mocks.ProductService
-                .Setup(repo => repo.GetByIdAsync(Data.ProductId))
+                .Setup(ps => ps.GetByIdAsync(Data.ProductId))
                 .ReturnsAsync(Data.ProductEntities
                     .FirstOrDefault(product => product.ProductID == Data.ProductId));
 
             _mocks.Configuration
-                .Setup(config => config.GetSection(It.IsAny<string>()))
+                .Setup(c => c.GetSection(It.IsAny<string>()))
                 .Returns(Mock.Of<IConfigurationSection>());
 
-            _controller = new(
+            _controller = new ProductsController(
                 _mocks.ProductService.Object,
                 _mocks.Configuration.Object,
                 _mocks.Mapper.Object);
         }
 
         [Test]
-        public void Index_ReturnsViewResult()
+        public async Task Index_ReturnsViewResult()
         {
             // Act
-            var result = _controller.Index().Result;
+            var result = await _controller.Index();
 
             // Assert
             Assert.IsInstanceOf<ViewResult>(result);
         }
 
         [Test]
-        public void Create_ReturnsViewResultIfHttpRequestIsGet()
+        public async Task Create_ReturnsViewResultIfHttpRequestIsGet()
         {
             // Act
-            var result = _controller.Create().Result;
+            var result = await _controller.Create();
 
             // Assert
             Assert.IsInstanceOf<ViewResult>(result);
         }
 
         [Test]
-        public void Create_ReturnsRedirectToActionIfHttpRequestIsPost()
+        public async Task Create_ReturnsRedirectToActionIfHttpRequestIsPost()
         {
             // Act
-            var result = _controller.Create(Mock.Of<CreateProductViewModel>()).Result;
+            var result = await _controller.Create(Mock.Of<CreateProductViewModel>());
 
             // Assert
             Assert.IsInstanceOf<RedirectToActionResult>(result);
         }
 
         [Test]
-        public void Create_ReturnsViewResultIfHttpRequestIsPostAndModelStateInvalid()
+        public async Task Create_ReturnsViewResultIfHttpRequestIsPostAndModelStateInvalid()
         {
             // Arrange
-            _controller.ModelState.AddModelError("test", "test model");
+            _controller.ModelState.AddModelError(Data.ModelErrorKey, Data.ModelErrorMessage);
 
             // Act
-            var result = _controller.Create(null).Result;
+            var result = await _controller.Create(null);
 
             // Assert
             Assert.IsInstanceOf<ViewResult>(result);
         }
 
         [Test]
-        public void Edit_ReturnsViewResultIfHttpRequestIsGet()
+        public async Task Edit_ReturnsViewResultIfHttpRequestIsGet()
         {
             // Act
-            var result = _controller.Edit(Data.ProductId).Result;
+            var result = await _controller.Edit(Data.ProductId);
 
             // Assert
             Assert.IsInstanceOf<ViewResult>(result);
         }
 
         [Test]
-        public void Edit_ReturnsRedirectToActionIfHttpRequestIsPost()
+        public async Task Edit_ReturnsRedirectToActionIfHttpRequestIsPost()
         {
             // Act
-            var result = _controller.Edit(Mock.Of<EditProductViewModel>()).Result;
+            var result = await _controller.Edit(Mock.Of<EditProductViewModel>());
 
             // Assert
             Assert.IsInstanceOf<RedirectToActionResult>(result);
@@ -107,7 +109,7 @@ namespace Northwind.Web.UnitTests.Controllers
         public void Edit_ReturnsViewResultIfHttpRequestIsPostAndModelStateInvalid()
         {
             // Arrange
-            _controller.ModelState.AddModelError("test", "test model");
+            _controller.ModelState.AddModelError(Data.ModelErrorKey, Data.ModelErrorMessage);
 
             // Act
             var result = _controller.Edit(null).Result;
@@ -123,6 +125,9 @@ namespace Northwind.Web.UnitTests.Controllers
             public static ProductEntity[] ProductEntities { get; } =
                 Enumerable.Range(1, 10).Select(i => new ProductEntity {ProductID = i}).ToArray();
 
+            public static string ModelErrorKey { get; } = "test";
+
+            public static string ModelErrorMessage { get; } = "test model";
         }
 
         private class Mocks

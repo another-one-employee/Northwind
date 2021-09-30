@@ -9,6 +9,7 @@ using Northwind.Web.ViewModels.Account;
 using NUnit.Framework;
 using System.Security.Claims;
 using System.Security.Principal;
+using System.Threading.Tasks;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace Northwind.Web.UnitTests.Controllers
@@ -16,6 +17,7 @@ namespace Northwind.Web.UnitTests.Controllers
     public class AccountControllerTests
     {
         private Mocks _mocks;
+
         private AccountController _controller;
 
         [SetUp]
@@ -59,7 +61,7 @@ namespace Northwind.Web.UnitTests.Controllers
             Mock<IUrlHelper> urlHelper = new();
             urlHelper
                 .Setup(uh => uh.Action(It.IsAny<UrlActionContext>()))
-                .Returns("");
+                .Returns(string.Empty);
 
             urlHelper
                 .Setup(uh => uh.IsLocalUrl(It.IsAny<string>()))
@@ -79,30 +81,30 @@ namespace Northwind.Web.UnitTests.Controllers
         }
 
         [Test]
-        public void Register_ReturnsRedirectToActionIfHttpRequestIsPost()
+        public async Task Register_ReturnsRedirectToActionIfHttpRequestIsPost()
         {
             // Act
-            var result = _controller.Register(Mock.Of<RegisterViewModel>()).Result;
+            var result = await _controller.Register(Mock.Of<RegisterViewModel>());
 
             // Assert
             Assert.IsInstanceOf<RedirectToActionResult>(result);
         }
 
         [Test]
-        public void Register_ReturnsViewResultIfHttpRequestIsPostAndModelStateInvalid()
+        public async Task Register_ReturnsViewResultIfHttpRequestIsPostAndModelStateInvalid()
         {
             // Arrange
-            _controller.ModelState.AddModelError("test", "test model");
+            _controller.ModelState.AddModelError(Data.ModelErrorKey, Data.ModelErrorMessage);
 
             // Act
-            var result = _controller.Register(Mock.Of<RegisterViewModel>()).Result;
+            var result = await _controller.Register(Mock.Of<RegisterViewModel>());
 
             // Assert
             Assert.IsInstanceOf<ViewResult>(result);
         }
 
         [Test]
-        public void Register_ReturnsViewResultIfHttpRequestIsPostAndIdentityResultFailed()
+        public async Task Register_ReturnsViewResultIfHttpRequestIsPostAndIdentityResultFailed()
         {
             // Arrange
             _mocks.UserManager
@@ -110,7 +112,7 @@ namespace Northwind.Web.UnitTests.Controllers
                 .ReturnsAsync(IdentityResult.Failed());
 
             // Act
-            var result = _controller.Register(Mock.Of<RegisterViewModel>()).Result;
+            var result = await _controller.Register(Mock.Of<RegisterViewModel>());
 
             // Assert
             Assert.IsInstanceOf<ViewResult>(result);
@@ -127,30 +129,30 @@ namespace Northwind.Web.UnitTests.Controllers
         }
 
         [Test]
-        public void Login_ReturnsRedirectToActionIfHttpRequestIsPost()
+        public async Task Login_ReturnsRedirectToActionIfHttpRequestIsPost()
         {
             // Act
-            var result = _controller.Login(Mock.Of<LoginViewModel>()).Result;
+            var result = await _controller.Login(Mock.Of<LoginViewModel>());
 
             // Assert
             Assert.IsInstanceOf<RedirectToActionResult>(result);
         }
 
         [Test]
-        public void Login_ReturnsRedirectResultIfHttpRequestIsPostAndModelReturnUrlNotEmpty()
+        public async Task Login_ReturnsRedirectResultIfHttpRequestIsPostAndModelReturnUrlNotEmpty()
         {
             // Act
-            var result = _controller.Login(new LoginViewModel { Email = "test@mail.net", Password = "!Aa123", PasswordConfirm = "!Aa123", ReturnUrl = "/test" }).Result;
+            var result = await _controller.Login(Data.LoginViewModel);
 
             // Assert
             Assert.IsInstanceOf<RedirectResult>(result);
         }
 
         [Test]
-        public void Logout_ReturnsRedirectToAction()
+        public async Task Logout_ReturnsRedirectToAction()
         {
             // Act
-            var result = _controller.Logout().Result;
+            var result = await _controller.Logout();
 
             // Assert
             Assert.IsInstanceOf<RedirectToActionResult>(result);
@@ -167,13 +169,13 @@ namespace Northwind.Web.UnitTests.Controllers
         }
 
         [Test]
-        public void ForgotPassword_ReturnsViewResultIfHttpRequestIsPostAndModelInvalid()
+        public async Task ForgotPassword_ReturnsViewResultIfHttpRequestIsPostAndModelInvalid()
         {
             // Arrange
-            _controller.ModelState.AddModelError("test", "test model");
+            _controller.ModelState.AddModelError(Data.ModelErrorKey, Data.ModelErrorMessage);
 
             // Act
-            var result = _controller.ForgotPassword(Mock.Of<ForgotPasswordViewModel>()).Result;
+            var result = await _controller.ForgotPassword(Mock.Of<ForgotPasswordViewModel>());
 
             // Assert
             Assert.IsInstanceOf<ViewResult>(result);
@@ -181,14 +183,14 @@ namespace Northwind.Web.UnitTests.Controllers
         }
 
         [Test]
-        public void ForgotPassword_ReturnsViewResultIfHttpRequestIsPostAndModelValidButUserIsNull()
+        public async Task ForgotPassword_ReturnsViewResultIfHttpRequestIsPostAndModelValidButUserIsNull()
         {
             // Arrange
             _mocks.UserManager
                 .Setup(um => um.FindByEmailAsync(It.IsAny<string>()));
 
             // Act
-            var result = _controller.ForgotPassword(Mock.Of<ForgotPasswordViewModel>()).Result;
+            var result = await _controller.ForgotPassword(Mock.Of<ForgotPasswordViewModel>());
 
             // Assert
             Assert.IsInstanceOf<ViewResult>(result);
@@ -197,14 +199,14 @@ namespace Northwind.Web.UnitTests.Controllers
         }
 
         [Test]
-        public void ForgotPassword_ReturnsViewResultIfHttpRequestIsPostAndModelValid()
+        public async Task ForgotPassword_ReturnsViewResultIfHttpRequestIsPostAndModelValid()
         {
             // Act
-            var result = _controller.ForgotPassword(Mock.Of<ForgotPasswordViewModel>()).Result;
+            var result = await _controller.ForgotPassword(Mock.Of<ForgotPasswordViewModel>());
 
             // Assert
             Assert.IsInstanceOf<ViewResult>(result);
-            _mocks.UserManager.Verify(x => x.GeneratePasswordResetTokenAsync(It.IsAny<IdentityUser>()), Times.Once);
+            _mocks.UserManager.Verify(um => um.GeneratePasswordResetTokenAsync(It.IsAny<IdentityUser>()), Times.Once);
         }
 
         [Test]
@@ -221,14 +223,14 @@ namespace Northwind.Web.UnitTests.Controllers
         public void ResetPassword_ReturnsViewResultIfHttpRequestIsGet()
         {
             // Act
-            var result = _controller.ResetPassword("43");
+            var result = _controller.ResetPassword(Data.ResetPasswordCode);
 
             // Assert
             Assert.IsInstanceOf<ViewResult>(result);
         }
 
         [Test]
-        public void ResetPassword_ReturnsViewResultIfHttpRequestIsPost()
+        public async Task ResetPassword_ReturnsViewResultIfHttpRequestIsPost()
         {
             // Arrange
             _mocks.UserManager
@@ -236,43 +238,43 @@ namespace Northwind.Web.UnitTests.Controllers
                 .ReturnsAsync(IdentityResult.Success);
 
             // Act
-            var result = _controller.ResetPassword(Mock.Of<ResetPasswordViewModel>()).Result;
+            var result = await _controller.ResetPassword(Mock.Of<ResetPasswordViewModel>());
 
             // Assert
             Assert.IsInstanceOf<ViewResult>(result);
-            _mocks.UserManager.Verify(x => x.ResetPasswordAsync(It.IsAny<IdentityUser>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+            _mocks.UserManager.Verify(um => um.ResetPasswordAsync(It.IsAny<IdentityUser>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
         }
 
         [Test]
-        public void ResetPassword_ReturnsViewResultIfHttpRequestIsPostAndModelInvalid()
+        public async Task ResetPassword_ReturnsViewResultIfHttpRequestIsPostAndModelInvalid()
         {
             // Arrange
-            _controller.ModelState.AddModelError("test", "test model");
+            _controller.ModelState.AddModelError(Data.ModelErrorKey, Data.ModelErrorMessage);
 
             // Act
-            var result = _controller.ResetPassword(Mock.Of<ResetPasswordViewModel>()).Result;
+            var result = await _controller.ResetPassword(Mock.Of<ResetPasswordViewModel>());
 
             // Assert
             Assert.IsInstanceOf<ViewResult>(result);
         }
 
         [Test]
-        public void ResetPassword_ReturnsViewResultIfHttpRequestIsPostAndFindByEmailReturnsNull()
+        public async Task ResetPassword_ReturnsViewResultIfHttpRequestIsPostAndFindByEmailReturnsNull()
         {
             // Arrange
             _mocks.UserManager
                 .Setup(um => um.FindByEmailAsync(It.IsAny<string>()));
 
             // Act
-            var result = _controller.ResetPassword(Mock.Of<ResetPasswordViewModel>()).Result;
+            var result = await _controller.ResetPassword(Mock.Of<ResetPasswordViewModel>());
 
             // Assert
             Assert.IsInstanceOf<ViewResult>(result);
-            _mocks.UserManager.Verify(x => x.FindByEmailAsync(It.IsAny<string>()), Times.Once);
+            _mocks.UserManager.Verify(um => um.FindByEmailAsync(It.IsAny<string>()), Times.Once);
         }
 
         [Test]
-        public void ResetPassword_ReturnsViewResultIfHttpRequestIsPostAndResetPasswordAsyncFailed()
+        public async Task ResetPassword_ReturnsViewResultIfHttpRequestIsPostAndResetPasswordAsyncFailed()
         {
             // Arrange
             _mocks.UserManager
@@ -280,11 +282,11 @@ namespace Northwind.Web.UnitTests.Controllers
                 .ReturnsAsync(IdentityResult.Failed());
 
             // Act
-            var result = _controller.ResetPassword(Mock.Of<ResetPasswordViewModel>()).Result;
+            var result = await _controller.ResetPassword(Mock.Of<ResetPasswordViewModel>());
 
             // Assert
             Assert.IsInstanceOf<ViewResult>(result);
-            _mocks.UserManager.Verify(x => x.ResetPasswordAsync(It.IsAny<IdentityUser>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+            _mocks.UserManager.Verify(um => um.ResetPasswordAsync(It.IsAny<IdentityUser>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
         }
 
         [Test]
@@ -298,7 +300,7 @@ namespace Northwind.Web.UnitTests.Controllers
         }
 
         [Test]
-        public void ExternalLoginCallback_ReturnsRedirectToActionResultIfHttpRequestIsPost()
+        public async Task ExternalLoginCallback_ReturnsRedirectToActionResultIfHttpRequestIsPost()
         {
             // Arrange
             _mocks.SignInManager
@@ -306,18 +308,18 @@ namespace Northwind.Web.UnitTests.Controllers
                 .ReturnsAsync(SignInResult.Success);
 
             // Act
-            var result = _controller.ExternalLoginCallback().Result;
+            var result = await _controller.ExternalLoginCallback();
 
             // Assert
             Assert.IsInstanceOf<RedirectToActionResult>(result);
-            _mocks.SignInManager.Verify(x => x.SignInAsync(It.IsAny<IdentityUser>(), false, It.IsAny<string>()), Times.Never);
+            _mocks.SignInManager.Verify(um => um.SignInAsync(It.IsAny<IdentityUser>(), false, It.IsAny<string>()), Times.Never);
         }
 
         [Test]
-        public void ExternalLoginCallback_ReturnsRedirectToActionResultIfHttpRequestIsPostAndSignInResultFailed()
+        public async Task ExternalLoginCallback_ReturnsRedirectToActionResultIfHttpRequestIsPostAndSignInResultFailed()
         {
             // Act
-            var result = _controller.ExternalLoginCallback().Result;
+            var result = await _controller.ExternalLoginCallback();
 
             // Assert
             Assert.IsInstanceOf<RedirectToActionResult>(result);
@@ -327,14 +329,14 @@ namespace Northwind.Web.UnitTests.Controllers
         }
 
         [Test]
-        public void ExternalLoginCallback_ReturnsRedirectToActionResultIfHttpRequestIsPostAndSignInResultFailedWithNotEmptyIdentityName()
+        public async Task ExternalLoginCallback_ReturnsRedirectToActionResultIfHttpRequestIsPostAndSignInResultFailedWithNotEmptyIdentityName()
         {
             // Arrange
             Mock<IIdentity> iIdentity = new();
-            iIdentity.SetupGet(i => i.Name).Returns("test");
+            iIdentity.SetupGet(i => i.Name).Returns(Data.IdentityName);
 
             Mock<ClaimsPrincipal> claimsPrincipal = new(iIdentity.Object);
-            claimsPrincipal.SetupGet(x => x.Identity).Returns(iIdentity.Object);
+            claimsPrincipal.SetupGet(cp => cp.Identity).Returns(iIdentity.Object);
 
             Mock<ExternalLoginInfo> externalLoginInfo = new(claimsPrincipal.Object, null, null, null);
 
@@ -351,11 +353,27 @@ namespace Northwind.Web.UnitTests.Controllers
                 .ReturnsAsync(IdentityResult.Success);
 
             // Act
-            var result = _controller.ExternalLoginCallback().Result;
+            var result = await _controller.ExternalLoginCallback();
 
             // Assert
             Assert.IsInstanceOf<RedirectToActionResult>(result);
-            _mocks.SignInManager.Verify(x => x.SignInAsync(It.IsAny<IdentityUser>(), false, It.IsAny<string>()), Times.Once);
+            _mocks.SignInManager.Verify(sm => sm.SignInAsync(It.IsAny<IdentityUser>(), false, It.IsAny<string>()), Times.Once);
+        }
+
+        private static class Data
+        {
+            public static string ModelErrorKey { get; } = "test";
+
+            public static string ModelErrorMessage { get; } = "test model";
+
+            public static string IdentityName { get; } = "test";
+
+            public static string ResetPasswordCode { get; } = "43";
+
+            public static LoginViewModel LoginViewModel { get; } = new()
+            {
+                Email = "test@mail.net", Password = "!Aa123", PasswordConfirm = "!Aa123", ReturnUrl = "/test"
+            };
         }
 
         private class Mocks

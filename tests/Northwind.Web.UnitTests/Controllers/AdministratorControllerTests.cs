@@ -12,9 +12,9 @@ namespace Northwind.Web.UnitTests.Controllers
         public void Index_ReturnsViewResult()
         {
             // Arrange
-            var userStoreMock = new Mock<IUserStore<IdentityUser>>();
+            var userStore = new Mock<IUserStore<IdentityUser>>();
             var userManager = new Mock<UserManager<IdentityUser>>(
-                userStoreMock.Object, null, null, null, null, null, null, null, null);
+                userStore.Object, null, null, null, null, null, null, null, null);
 
             var controller = new AdministratorController(userManager.Object);
 
