@@ -68,8 +68,8 @@ namespace Northwind.Web.UnitTests.Controllers
             controller.Error();
 
             // Assert
-            logger.Verify(x =>
-                x.Log
+            logger.Verify(e =>
+                e.Log
                     (LogLevel.Error,
                     It.IsAny<EventId>(),
                     It.IsAny<It.IsAnyType>(),

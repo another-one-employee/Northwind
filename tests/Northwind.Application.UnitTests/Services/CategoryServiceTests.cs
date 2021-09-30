@@ -17,6 +17,7 @@ namespace Northwind.Application.UnitTests.Services
     public class CategoryServiceTests
     {
         private Mocks _mocks;
+
         private CategoryService _service;
 
         [SetUp]
