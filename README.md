@@ -1,4 +1,4 @@
-# <img src="res/logo.png" height="24">
+# <img src="res/logo.png" height="28">
 
 ![AppVeyor branch](https://img.shields.io/appveyor/build/Srul1k/Northwind/master?logo=appveyor) ![AppVeyor tests (branch)](https://img.shields.io/appveyor/tests/Srul1k/Northwind/master?logo=appveyor)
 
@@ -6,9 +6,9 @@ Northwind is a simple MVC application with CRUD operations for working with Prod
 
 The application was created using the framework ASP.NET Core 5.0. For the frontend part, Razor with Bootstrap are used. To work with databases, MS SQL is used in conjunction with EF Core.
 
-## How to run :cyclone:
+## How to run ▶️
 <details>
-<summary><b>Instruction</b> (Click to expand!)</summary>  
+<summary><b>Instruction</b> <i>(Click to expand!)</i></summary>  
 
 **The following developer tools are recommended for running the project:**
 
@@ -19,7 +19,9 @@ The application was created using the framework ASP.NET Core 5.0. For the fronte
 
 ### Steps for running project:
 
-<a style="color:yellow">:warning: If you have some problems with project, please write to me.</a>
+```diff
+- ⚠️ If you have some problems with project, please write to me.
+```
 
 #### Installation:  
 
@@ -76,7 +78,7 @@ The application was created using the framework ASP.NET Core 5.0. For the fronte
 
 <a href="https://t.me/Srul1k">
     <img src="https://img.shields.io/badge/Telegram-2CA5E0?&logo=telegram&logoColor=white"></a>
-<a href="https://discordapp.com/users/855782773403025440/">
+<a href="https://discord.gg/2MXtSumMAb">
     <img src="https://img.shields.io/badge/Discord-%237289DA.svg?&logo=discord&logoColor=white"></a>  
 <a href="mailto:srul1k@protonmail.com">
     <img src="https://img.shields.io/badge/ProtonMail-8B89CC?&logo=protonmail&logoColor=white"></a>  
