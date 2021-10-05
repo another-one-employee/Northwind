@@ -8,7 +8,7 @@ The application was created using the framework ASP.NET Core 5.0. For the fronte
 
 ## How to run :cyclone:
 <details>
-<summary><b>Instruction</b></summary>  
+<summary><b>Instruction</b> (Click to expand!)</summary>  
 
 **The following developer tools are recommended for running the project:**
 
