@@ -2,11 +2,11 @@
 
 ![AppVeyor branch](https://img.shields.io/appveyor/build/Srul1k/Northwind/master?logo=appveyor) ![AppVeyor tests (branch)](https://img.shields.io/appveyor/tests/Srul1k/Northwind/master?logo=appveyor)
 
-## General description 📃
+## 📜 General description
 
 Northwind is a simple MVC application with CRUD operations for working with Products and Categories designed on a Clean Architecture.
 
-## Starting the project ▶️
+## ▶️ Starting the project
 <details>
 <summary><b>Instruction</b></summary>  
 
@@ -72,7 +72,7 @@ Northwind is a simple MVC application with CRUD operations for working with Prod
 
 </details>
 
-## Common Information ℹ️
+## ℹ️ Common Information
 <details>
 <summary><b>Info</b></summary>  
 
@@ -101,7 +101,7 @@ Northwind is a simple MVC application with CRUD operations for working with Prod
 
 </details>  
 
-## Contact me :unicorn:
+## :unicorn: Contact me
 
 <a href="https://t.me/Srul1k">
     <img src="https://img.shields.io/badge/Telegram-2CA5E0?&logo=telegram&logoColor=white"></a>
