@@ -1,14 +1,14 @@
-# <img src="res/logo.png" height="28">
+# <img src="res/logo.png" height="31">
 
 ![AppVeyor branch](https://img.shields.io/appveyor/build/Srul1k/Northwind/master?logo=appveyor) ![AppVeyor tests (branch)](https://img.shields.io/appveyor/tests/Srul1k/Northwind/master?logo=appveyor)
 
+## General description 📃
+
 Northwind is a simple MVC application with CRUD operations for working with Products and Categories designed on a Clean Architecture.
 
-The application was created using the framework ASP.NET Core 5.0. For the frontend part, Razor with Bootstrap are used. To work with databases, MS SQL is used in conjunction with EF Core.
-
-## How to run ▶️
+## Starting the project ▶️
 <details>
-<summary><b>Instruction</b> <i>(Click to expand!)</i></summary>  
+<summary><b>Instruction</b></summary>  
 
 **The following developer tools are recommended for running the project:**
 
@@ -19,9 +19,7 @@ The application was created using the framework ASP.NET Core 5.0. For the fronte
 
 ### Steps for running project:
 
-```diff
-- ⚠️ If you have some problems with project, please write to me.
-```
+⚠️ ***If you have some problems with project, please write to me.***
 
 #### Installation:  
 
@@ -74,6 +72,35 @@ The application was created using the framework ASP.NET Core 5.0. For the fronte
 
 </details>
 
+## Common Information ℹ️
+<details>
+<summary><b>Info</b></summary>  
+
+### This project uses next stack of technologies:
+
+  ![C#](https://img.shields.io/badge/C%23-%23239120.svg?logo=c-sharp&logoColor=white)
+  ![ASP.NET Core](https://img.shields.io/badge/ASP.NET%20Core-5C2D91?style=flat&logo=.net&logoColor=white)
+  ![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?logo=swagger&logoColor=white)
+  ![EF Core](https://img.shields.io/badge/EF%20Core-5C2D91?style=flat&logo=.net&logoColor=white)
+  ![MicrosoftSQLServer](https://img.shields.io/badge/Microsoft%20SQL%20Sever-CC2927?logo=microsoft%20sql%20server&logoColor=white)
+  ![Bootstrap](https://img.shields.io/badge/Bootstrap-563D7C?logo=bootstrap&logoColor=white)
+  ![HTML5](https://img.shields.io/badge/HTML5-%23E34F26.svg?logo=html5&logoColor=white)
+  ![CSS](https://img.shields.io/badge/CSS-239120?&logo=css3&logoColor=white)
+  ![JavaScript](https://img.shields.io/badge/JavaScript-%23323330.svg?logo=javascript&logoColor=%23F7DF1E)
+  ![Jquery](https://img.shields.io/badge/jQuery-0769AD?logo=jquery&logoColor=white)
+
+### In the main this project consists of the following four parts:
+
+1. **Northwind.Domain** part contains POCO classes of entities used in the application.
+
+2. **Northwind.Application** part contains business application logic. Almost all of data and process functions are managed with services.
+
+3. **Northwind.Infrastructure** part contains all project repositories and application context as well as working with third-party services. Repositories allow the application to manage database. Application context links all entities with each other. Services help to send mails and initialize database.
+
+4. **Northwind.Web** part contains all program controllers, views, viewModels, viewComponents. Controllers link the business logic and the visual part of the application (Views). Also using ASP.NET Core Identity and controller attributes implemented authentication and authorization.  
+
+</details>  
+
 ## Contact me :unicorn:
 
 <a href="https://t.me/Srul1k">
@@ -84,3 +111,4 @@ The application was created using the framework ASP.NET Core 5.0. For the fronte
     <img src="https://img.shields.io/badge/ProtonMail-8B89CC?&logo=protonmail&logoColor=white"></a>  
 
 If you have any good tips on the code or architecture of the application, please contact me and share it :purple_heart:
+
