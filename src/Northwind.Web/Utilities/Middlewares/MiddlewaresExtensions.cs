@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
 
 namespace Northwind.Web.Utilities.Middlewares
 {
@@ -8,11 +7,6 @@ namespace Northwind.Web.Utilities.Middlewares
         public static IApplicationBuilder UseCustomExceptionHandler(this IApplicationBuilder builder)
         {
             return builder.UseMiddleware<ExceptionHandlerMiddleware>();
-        }
-
-        public static IApplicationBuilder UseImageCaching(this IApplicationBuilder builder, IConfiguration configuration)
-        {
-            return builder.UseMiddleware<ImageCachingMiddleware>(configuration);
         }
     }
 }

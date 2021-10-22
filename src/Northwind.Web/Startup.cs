@@ -94,7 +94,6 @@ namespace Northwind.Web
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseImageCaching(Configuration);
             app.UseCustomExceptionHandler();
 
             app.UseEndpoints(endpoints =>
