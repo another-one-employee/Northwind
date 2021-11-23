@@ -1,14 +1,14 @@
 # <img src="res/logo.png" height="31">
 
-![AppVeyor branch](https://img.shields.io/appveyor/build/Srul1k/Northwind/master?logo=appveyor) ![AppVeyor tests (branch)](https://img.shields.io/appveyor/tests/Srul1k/Northwind/master?logo=appveyor)
+![AppVeyor branch](https://img.shields.io/appveyor/build/Srul1k/Northwind/master?logo=appveyor) ![AppVeyor tests (branch)](https://img.shields.io/appveyor/tests/Srul1k/Northwind/master?logo=appveyor)  
 
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=Srul1k_Northwind&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=Srul1k_Northwind) [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=Srul1k_Northwind&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=Srul1k_Northwind) [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Srul1k_Northwind&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=Srul1k_Northwind) [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=Srul1k_Northwind&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=Srul1k_Northwind) [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Srul1k_Northwind&metric=bugs)](https://sonarcloud.io/summary/new_code?id=Srul1k_Northwind) [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=Srul1k_Northwind&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=Srul1k_Northwind) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Srul1k_Northwind&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Srul1k_Northwind) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Srul1k_Northwind&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Srul1k_Northwind)
 ## 📜 General description
 
 Northwind is a simple MVC application with CRUD operations for working with Products and Categories designed on a Clean Architecture.
 
-## ▶️ Starting the project
 <details>
-<summary><b>Instruction</b></summary>  
+<summary> ▶️ Starting the project</summary>
 
 **The following developer tools are recommended for running the project:**
 
@@ -72,9 +72,8 @@ Northwind is a simple MVC application with CRUD operations for working with Prod
 
 </details>
 
-## ℹ️ Common Information
 <details>
-<summary><b>Info</b></summary>  
+<summary> ℹ️ Common Information</summary>
 
 ### This project uses next stack of technologies:
 
