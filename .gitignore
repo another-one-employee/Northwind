@@ -47,6 +47,10 @@ Generated\ Files/
 # Sonar
 .sonarqube/
 
+# Output files from test analyze
+cover.json
+cover.xml
+
 # NUnit
 *.VisualState.xml
 TestResult.xml
