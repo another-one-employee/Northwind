@@ -3,15 +3,16 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Northwind.Infrastructure.Annotations;
+using System.Threading.Tasks;
 
 namespace Northwind.Infrastructure.Services
 {
     public static class AdminInitializer
     {
-        private static string emailSection = "Email";
-        private static string passwordSection = "Password";
+        private static readonly string emailSection = "Email";
+        private static readonly string passwordSection = "Password";
 
-        public static async void InitializeAdminAsync(this IApplicationBuilder app, IConfiguration configuration)
+        public static async Task InitializeAdminAsync(this IApplicationBuilder app, IConfiguration configuration)
         {
             using var scope = app.ApplicationServices.CreateScope();
             var userManager = scope.ServiceProvider.GetService<UserManager<IdentityUser>>();
