@@ -8,12 +8,12 @@
     <div class="row" style="padding-top: 20px">
         <div class="col-md-auto">
             <div>
-                <img src="@Url.Action("GetImage", new { id=category.CategoryID})" style="width:63px;height:63px;" />
+                <img alt="get image" src="@Url.Action("GetImage", new { id=category.CategoryID})" style="width:63px;height:63px;" />
             </div>
             <div>
                 <image-link id="@category.CategoryID" text="Show"/>
                 <a asp-action="EditImage" asp-route-id="@category.CategoryID">
-                    <img src="/img/edit.png" style="width: 20px; height: 20px;" class="rounded" />
+                    <img alt="edit image" src="/img/edit.png" style="width: 20px; height: 20px;" class="rounded" />
                 </a>
             </div>
         </div>
