@@ -9,6 +9,7 @@
 
 <div style="padding-top: 20px; padding-right: 30px">
     <table>
+        <caption></caption>
         <tr>
             <th id="edit" />
             <th id="name">Name</th>
@@ -37,7 +38,7 @@
                 <td>@product.UnitsInStock</td>
                 <td>@product.UnitsOnOrder</td>
                 <td>@product.ReorderLevel</td>
-                <td class="text-center">@(product.Discontinued? "✓" : "×")</td>
+                <td class="text-center">@(product.Discontinued ? "✓" : "×")</td>
             </tr>
         }
     </table>
