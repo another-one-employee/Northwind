@@ -140,7 +140,7 @@ namespace Northwind.Web.Controllers.Api
         {
             try
             {
-                if (id < 1)
+                if (id >= 1)
                 {
                     var product = await _productService.GetByIdAsync(id);
                     await _productService.DeleteAsync(product);
