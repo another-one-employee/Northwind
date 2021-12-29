@@ -204,10 +204,10 @@ namespace Northwind.Application.UnitTests.Services
                 Enumerable.Range(1, CategoriesCount).Select(i => new CategoryEntity { CategoryID = i }).ToArray();
 
             public static Supplier[] Suppliers { get; } =
-                Enumerable.Range(1, SuppliersCount).Select(i => new Supplier { SupplierId = i }).ToArray();
+                Enumerable.Range(1, SuppliersCount).Select(i => new Supplier { SupplierId = i, CompanyName = $"Company-{i}" }).ToArray();
 
             public static SupplierEntity[] SupplierEntities { get; } =
-                Enumerable.Range(1, SuppliersCount).Select(i => new SupplierEntity() { SupplierID = i }).ToArray();
+                Enumerable.Range(1, SuppliersCount).Select(i => new SupplierEntity() { SupplierID = i, CompanyName = $"Company-{i}" }).ToArray();
         }
 
         private class Mocks

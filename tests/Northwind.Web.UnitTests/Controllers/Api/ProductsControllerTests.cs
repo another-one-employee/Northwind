@@ -281,6 +281,7 @@ namespace Northwind.Web.UnitTests.Controllers.Api
 
             public static UpdateProductModel UpdateProductModel { get; } = new()
             {
+                ProductID = 1,
                 ProductName = "Test"
             };
 
