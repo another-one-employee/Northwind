@@ -130,10 +130,16 @@ namespace Northwind.Application.UnitTests.Services
             public static int CategoriesCount { get; } = 10;
 
             public static Category[] Categories { get; } =
-                Enumerable.Range(1, CategoriesCount).Select(i => new Category { CategoryId = i }).ToArray();
+                Enumerable.Range(1, CategoriesCount)
+                    .Select(i =>
+                        new Category { CategoryId = i, CategoryName = $"test-{i}", Picture = new byte[i], Description = $"test-{i}" })
+                    .ToArray();
 
             public static CategoryEntity[] CategoryEntities { get; } =
-                Enumerable.Range(1, CategoriesCount).Select(i => new CategoryEntity { CategoryID = i }).ToArray();
+                Enumerable.Range(1, CategoriesCount)
+                    .Select(i =>
+                        new CategoryEntity { CategoryID = i, CategoryName = $"test-{i}", Picture = new byte[i], Description = $"test-{i}" })
+                    .ToArray();
         }
 
         private class Mocks

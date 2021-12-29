@@ -73,7 +73,7 @@ namespace Northwind.Web.UnitTests.Controllers
         public async Task EditImage_ReturnsRedirectToActionIfHttpRequestIsPost()
         {
             // Act
-            var result = await _controller.EditImage(Mock.Of<EditImageViewModel>(), Mock.Of<IFormFile>());
+            var result = await _controller.EditImage(Data.EditImageViewModel, Mock.Of<IFormFile>());
 
             // Assert
             Assert.IsInstanceOf<RedirectToActionResult>(result);
@@ -85,6 +85,13 @@ namespace Northwind.Web.UnitTests.Controllers
 
             public static CategoryEntity[] CategoryEntities { get; } =
                 Enumerable.Range(1, 10).Select(i => new CategoryEntity { CategoryID = i }).ToArray();
+
+            public static EditImageViewModel EditImageViewModel { get; } = new()
+            {
+                CategoryID = 1,
+                CategoryName = "test",
+                Picture = new byte[1]
+            };
         }
 
         private class Mocks

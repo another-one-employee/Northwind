@@ -84,7 +84,7 @@ namespace Northwind.Web.UnitTests.Controllers
         public async Task Register_ReturnsRedirectToActionIfHttpRequestIsPost()
         {
             // Act
-            var result = await _controller.Register(Mock.Of<RegisterViewModel>());
+            var result = await _controller.Register(Data.RegisterViewModel);
 
             // Assert
             Assert.IsInstanceOf<RedirectToActionResult>(result);
@@ -97,7 +97,7 @@ namespace Northwind.Web.UnitTests.Controllers
             _controller.ModelState.AddModelError(Data.ModelErrorKey, Data.ModelErrorMessage);
 
             // Act
-            var result = await _controller.Register(Mock.Of<RegisterViewModel>());
+            var result = await _controller.Register(Data.RegisterViewModel);
 
             // Assert
             Assert.IsInstanceOf<ViewResult>(result);
@@ -112,7 +112,7 @@ namespace Northwind.Web.UnitTests.Controllers
                 .ReturnsAsync(IdentityResult.Failed());
 
             // Act
-            var result = await _controller.Register(Mock.Of<RegisterViewModel>());
+            var result = await _controller.Register(Data.RegisterViewModel);
 
             // Assert
             Assert.IsInstanceOf<ViewResult>(result);
@@ -223,7 +223,7 @@ namespace Northwind.Web.UnitTests.Controllers
         public void ResetPassword_ReturnsViewResultIfHttpRequestIsGet()
         {
             // Act
-            var result = _controller.ResetPassword(Data.ResetPasswordCode);
+            var result = _controller.ResetPassword(Data.ResetPasswordViewModel.Code);
 
             // Assert
             Assert.IsInstanceOf<ViewResult>(result);
@@ -238,7 +238,7 @@ namespace Northwind.Web.UnitTests.Controllers
                 .ReturnsAsync(IdentityResult.Success);
 
             // Act
-            var result = await _controller.ResetPassword(Mock.Of<ResetPasswordViewModel>());
+            var result = await _controller.ResetPassword(Data.ResetPasswordViewModel);
 
             // Assert
             Assert.IsInstanceOf<ViewResult>(result);
@@ -252,7 +252,7 @@ namespace Northwind.Web.UnitTests.Controllers
             _controller.ModelState.AddModelError(Data.ModelErrorKey, Data.ModelErrorMessage);
 
             // Act
-            var result = await _controller.ResetPassword(Mock.Of<ResetPasswordViewModel>());
+            var result = await _controller.ResetPassword(Data.ResetPasswordViewModel);
 
             // Assert
             Assert.IsInstanceOf<ViewResult>(result);
@@ -266,7 +266,7 @@ namespace Northwind.Web.UnitTests.Controllers
                 .Setup(um => um.FindByEmailAsync(It.IsAny<string>()));
 
             // Act
-            var result = await _controller.ResetPassword(Mock.Of<ResetPasswordViewModel>());
+            var result = await _controller.ResetPassword(Data.ResetPasswordViewModel);
 
             // Assert
             Assert.IsInstanceOf<ViewResult>(result);
@@ -282,7 +282,7 @@ namespace Northwind.Web.UnitTests.Controllers
                 .ReturnsAsync(IdentityResult.Failed());
 
             // Act
-            var result = await _controller.ResetPassword(Mock.Of<ResetPasswordViewModel>());
+            var result = await _controller.ResetPassword(Data.ResetPasswordViewModel);
 
             // Assert
             Assert.IsInstanceOf<ViewResult>(result);
@@ -368,11 +368,19 @@ namespace Northwind.Web.UnitTests.Controllers
 
             public static string IdentityName { get; } = "test";
 
-            public static string ResetPasswordCode { get; } = "43";
-
             public static LoginViewModel LoginViewModel { get; } = new()
             {
                 Email = "test@mail.net", Password = "!Aa123", PasswordConfirm = "!Aa123", ReturnUrl = "/test"
+            };
+            
+            public static ResetPasswordViewModel ResetPasswordViewModel { get; } = new()
+            {
+                Email = "test@mail.net", Password = "!Aa123", ConfirmPassword = "!Aa123", Code  = "43"
+            };
+            
+            public static RegisterViewModel RegisterViewModel { get; } = new()
+            {
+                Email = "test@mail.net", Password = "!Aa123", PasswordConfirm = "!Aa123"
             };
         }
 
