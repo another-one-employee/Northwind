@@ -2,7 +2,12 @@
 
 ![AppVeyor branch](https://img.shields.io/appveyor/build/Srul1k/Northwind/master?logo=appveyor) ![AppVeyor tests (branch)](https://img.shields.io/appveyor/tests/Srul1k/Northwind/master?logo=appveyor)  [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Srul1k_Northwind&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Srul1k_Northwind)  
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=Srul1k_Northwind&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=Srul1k_Northwind) [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Srul1k_Northwind&metric=bugs)](https://sonarcloud.io/summary/new_code?id=Srul1k_Northwind) [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=Srul1k_Northwind&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=Srul1k_Northwind)  
-[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=Srul1k_Northwind&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=Srul1k_Northwind) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Srul1k_Northwind&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Srul1k_Northwind)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=Srul1k_Northwind&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=Srul1k_Northwind) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Srul1k_Northwind&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Srul1k_Northwind)  
+
+## 🎞️ Presentation
+
+![Presentation](res/presentation.gif)
+
 ## 📜 General description
 
 Northwind is a simple MVC application with CRUD operations for working with Products and Categories designed on a Clean Architecture.
